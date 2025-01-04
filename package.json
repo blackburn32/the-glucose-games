@@ -14,6 +14,7 @@
   "dependencies": {
     "@nuxt/eslint": "^0.7.4",
     "@nuxt/ui": "^2.20.0",
+    "@nuxthub/core": "^0.8.10",
     "@nuxtjs/supabase": "^1.4.5",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "eslint": "^9.17.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@iconify-json/ph": "^1.2.2",
     "daisyui": "^4.12.23",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^3.99.0"
   }
 }
