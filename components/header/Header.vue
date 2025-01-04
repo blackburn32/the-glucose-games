@@ -1,0 +1,28 @@
+<template>
+  <header class="sticky top-0 bg-base-200 border-b border-t border-base-300 z-30">
+    <div class="px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <NuxtLink
+        class="flex items-center start"
+        :to="mainLinkDestination"
+      >
+        <Icon
+          name="ph:syringe"
+          size="32"
+        />
+      </NuxtLink>
+      <div
+        class="flex items-center justify-end space-x-1 md:space-x-3 h-16 -mb-px"
+      >
+        <HeaderGameDropdown />
+        <HeaderHelpDropdown />
+        <hr class="w-px h-6 bg-base-content border-none">
+        <HeaderAccountDropdown />
+      </div>
+    </div>
+  </header>
+</template>
+
+<script setup lang="ts">
+const user = useSupabaseUser()
+const mainLinkDestination = computed(() => user.value ? '/home' : '/')
+</script>
