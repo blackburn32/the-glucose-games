@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full h-full justify-center items-center">
     <div class="text-4xl">
-      Welcome
+      Welcome to The Glucose Games!
     </div>
   </div>
 </template>
