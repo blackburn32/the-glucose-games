@@ -17,7 +17,7 @@
             </NuxtLink>
           </div>
           <div class="grow text-sm">
-            The Glucose Game
+            The Glucose Games
           </div>
         </div>
 

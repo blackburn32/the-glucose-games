@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full items-center space-y-8">
     <div class="text-4xl font-bold mt-10">
-      The Glucose Game
+      The Glucose Games
     </div>
     <div
       class="flex  flex-col max-w-md w-full space-y-4 p-2 bg-base-200 shadow-md rounded-lg select-none"

@@ -1,4 +1,4 @@
-# The Glucose Game
+# The Glucose Games
 
 ## Setup
 
