@@ -36,7 +36,7 @@
       <ul v-if="authenticated">
         <li>
           <NuxtLink
-            class="font-medium text-sm hover:brightness-125 flex items-center py-1 px-3 space-x-4"
+            class="font-medium text-sm hover:brightness-125 flex items-center justify-center py-1 px-3 space-x-4"
             to="/account"
           >
             <Icon
@@ -48,12 +48,13 @@
         </li>
         <li>
           <button
-            class="font-medium text-sm hover:brightness-125 items-center py-1 px-3 space-x-4"
+            class="font-medium text-sm hover:brightness-125 flex flex-row items-center justify-center py-1 px-3 space-x-4"
             @click="triggerSignOut"
           >
             <Icon
               name="ph:door"
               size="16"
+              class="text-center"
             />
             <span> Sign Out </span>
           </button>
