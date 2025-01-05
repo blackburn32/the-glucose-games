@@ -6,7 +6,20 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxthub/core',
   ],
+
+  $production: {
+    runtimeConfig: {
+      public: {
+        authCallbackUrl: 'https://glucose.games/confirm',
+      },
+    },
+  },
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      authCallbackUrl: 'http://localhost:3000/confirm',
+    },
+  },
   compatibilityDate: '2024-11-01',
 
   nitro: {
