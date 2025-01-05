@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      authCallbackUrl: 'https://glucose.games/confirm',
+      authCallbackUrl: 'http://localhost:3000/confirm',
     },
   },
   compatibilityDate: '2024-11-01',
