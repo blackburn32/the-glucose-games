@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full h-full justify-center items-center">
+  <div class="flex flex-col w-full h-full justify-center items-center min-h-[calc(100vh-248px)]">
     <div class="text-4xl">
       Welcome to The Glucose Games!
     </div>

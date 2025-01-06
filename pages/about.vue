@@ -1,11 +1,12 @@
 <template>
-  <div class="flex flex-col w-full items-center space-y-4">
-    <div class="text-4xl font-bold mt-10">
+  <div class="flex flex-col w-full items-center space-y-10">
+    <div class="text-6xl font-bold mt-10">
       About
     </div>
-    <div class="text-2xl">
-      Coming soon
-    </div>
+    <ContentDoc
+      class="prose"
+      path="/about"
+    />
   </div>
 </template>
 

@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/eslint',
     '@nuxthub/core',
+    '@nuxt/content',
   ],
 
   $production: {
@@ -24,9 +25,9 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'cloudflare-pages',
-    experimental: {
-      openAPI: true,
-    },
+    // experimental: {
+    //   openAPI: true,
+    // },
   },
 
   eslint: {
