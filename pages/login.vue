@@ -71,16 +71,20 @@
 
 <script setup lang="ts">
 const email = ref<HTMLInputElement | null>(null)
-const supabase = useSupabaseClient()
-const toast = useToast()
 const otpSent = ref(false)
 const sendingOtp = ref(false)
-const user = useSupabaseUser()
-const authCallbackUrl = useRuntimeConfig().public.authCallbackUrl as string
 
-const cookieName = useRuntimeConfig().public.supabase.cookieName
-const redirectCookie = useCookie(`${cookieName}-redirect-path`)
+const supabase = useSupabaseClient()
+const toast = useToast()
+const user = useSupabaseUser()
 const route = useRoute()
+
+const runtimeConfig = useRuntimeConfig()
+const authCallbackUrl = runtimeConfig.public.authCallbackUrl
+const cookieName = runtimeConfig.public.supabase.cookieName
+
+const redirectCookie = useCookie(`${cookieName}-redirect-path`)
+
 const redirectParam = route.query.redirect as string | undefined
 if (redirectParam) {
   const noDomain = redirectParam.startsWith('/')
