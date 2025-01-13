@@ -13,6 +13,13 @@ export default defineNuxtConfig({
     runtimeConfig: {
       public: {
         authCallbackUrl: 'https://glucose.games/confirm',
+        supabase: {
+          url: 'https://robpsmulkkgavocpifbg.supabase.co',
+          key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvYnBzbXVsa2tnYXZvY3BpZmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU5NDQ5ODYsImV4cCI6MjA1MTUyMDk4Nn0.Vso8-82Hhuo-7wN8zDAt3AJmJMjJMmHLvcrNTvUFRBU',
+        },
+      },
+      supabase: {
+        serviceKey: 'This is overridden by .env',
       },
       dexcomBaseUrl: 'https://sandbox-api.dexcom.com',
       dexcomRedirectUrl: 'http://glucose.games/api/authorize/dexcom',
