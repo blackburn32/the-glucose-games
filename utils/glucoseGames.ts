@@ -4,7 +4,10 @@ import type { GlucoseRecord } from '~/types/types.ts'
 const getLongestStreak = (
   records: GlucoseRecord[],
   filter: (record: GlucoseRecord) => boolean,
-): GlucoseRecord[] => {
+): {
+  longestStreak: GlucoseRecord[]
+  streakString: string
+} => {
   let longestStreak: GlucoseRecord[] = []
   let currentStreak: GlucoseRecord[] = []
   for (const record of records) {

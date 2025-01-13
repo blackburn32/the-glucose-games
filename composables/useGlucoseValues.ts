@@ -7,7 +7,7 @@ export const useGlucoseValues = () => {
     default: () => [],
   })
 
-  const previous24Hours = computed(() => {
+  const previous24Hours: Ref<GlucoseRecord[]> = computed(() => {
     const today = Date.now()
     const dayAgo = new Date(today - 24 * 60 * 60 * 1000)
     return glucoseData.data.value.filter(record => new Date(record.created) > dayAgo)
