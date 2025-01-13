@@ -32,7 +32,7 @@
                 to="/current"
                 @click="errorIfNotSignedIn"
               >
-                Current Streak
+                Current Games
               </NuxtLink>
             </li>
             <li>
@@ -41,7 +41,7 @@
                 to="/history"
                 @click="errorIfNotSignedIn"
               >
-                Past Streaks
+                Past Games
               </NuxtLink>
             </li>
           </ul>

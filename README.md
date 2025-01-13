@@ -27,3 +27,19 @@ Locally preview production build:
 ```bash
 npm run preview
 ```
+
+## Principles
+
+Avoid storing health data if at all possible.
+
+Store the minimum amount of data possible.
+
+## Database
+
+This project uses Supabase.
+
+You can generate types for the Supabase client by running:
+
+```bash
+supabase gen types typescript --local > types/database.types.ts
+```

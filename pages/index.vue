@@ -3,6 +3,10 @@
     <div class="text-4xl font-bold mt-10">
       The Glucose Games
     </div>
+    <img src="">
+    <div class="text-2xl">
+      Coming soon
+    </div>
   </div>
 </template>
 

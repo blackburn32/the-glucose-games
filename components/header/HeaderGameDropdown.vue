@@ -18,7 +18,7 @@
               name="ph:syringe"
               size="16"
             />
-            <span>Current Streak</span>
+            <span>Current Games</span>
           </NuxtLink>
         </li>
         <li v-if="authenticated">
@@ -30,7 +30,7 @@
               name="ph:clock-counter-clockwise-bold"
               size="16"
             />
-            <span>Past Streaks</span>
+            <span>Past Games</span>
           </NuxtLink>
         </li>
         <li v-if="!authenticated">
