@@ -7,7 +7,7 @@ export const deleteToken = async (user_id: string, provider: string, client: Sup
     console.error('Failed to delete token', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to delete token',
+      statusMessage: `Failed to delete token: ${error.message}`,
     })
   }
 }
