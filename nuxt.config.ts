@@ -15,7 +15,7 @@ export default defineNuxtConfig({
         authCallbackUrl: 'https://glucose.games/confirm',
         supabase: {
           url: 'https://robpsmulkkgavocpifbg.supabase.co',
-          key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvYnBzbXVsa2tnYXZvY3BpZmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU5NDQ5ODYsImV4cCI6MjA1MTUyMDk4Nn0.Vso8-82Hhuo-7wN8zDAt3AJmJMjJMmHLvcrNTvUFRBU',
+          key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvYnBzbXVsa2tnYXZvY3BpZmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5NjI2NzcsImV4cCI6MjA1MjUzODY3N30.LkXa_vxlC4hSw_Ra7zQzKCsxpQKumv2NFosLcM77oao',
         },
       },
       supabase: {
