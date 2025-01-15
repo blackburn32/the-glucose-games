@@ -17,7 +17,6 @@ export default defineEventHandler(async (event) => {
 
   const supabaseServiceKey = runtimeConfig.supabase.serviceKey
   const supabaseApiKey = runtimeConfig.public.supabase.key
-  const supabaseUrl = runtimeConfig.public.supabase.url
   console.error('supabaseServiceKey', supabaseServiceKey)
   console.error('supabase api key', supabaseApiKey)
 
