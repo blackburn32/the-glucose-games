@@ -1,0 +1,13 @@
+diff --git a/node_modules/@nuxtjs/supabase/dist/runtime/server/services/serverSupabaseServiceRole.js b/node_modules/@nuxtjs/supabase/dist/runtime/server/services/serverSupabaseServiceRole.js
+index 2c5bc30..cf8db8e 100644
+--- a/node_modules/@nuxtjs/supabase/dist/runtime/server/services/serverSupabaseServiceRole.js
++++ b/node_modules/@nuxtjs/supabase/dist/runtime/server/services/serverSupabaseServiceRole.js
+@@ -6,7 +6,7 @@ export const serverSupabaseServiceRole = (event) => {
+     public: {
+       supabase: { url }
+     }
+-  } = useRuntimeConfig();
++  } = useRuntimeConfig(event);
+   if (!serviceKey) {
+     throw new Error("Missing `SUPABASE_SERVICE_KEY` in `.env`");
+   }
