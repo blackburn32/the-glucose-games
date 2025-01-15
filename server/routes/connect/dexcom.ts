@@ -16,8 +16,8 @@ export default defineEventHandler(async (event) => {
   const redirectUrl = runtimeConfig.dexcomRedirectUrl
 
   const supabaseServiceKey = runtimeConfig.supabase.serviceKey
-  const supabaseApiKey = runtimeConfig.supabase.key
-  const supabaseUrl = runtimeConfig.supabase.url
+  const supabaseApiKey = runtimeConfig.public.supabase.key
+  const supabaseUrl = runtimeConfig.public.supabase.url
   console.error('supabaseServiceKey', supabaseServiceKey)
   console.error('supabase api key', supabaseApiKey)
   console.error('supabase url', supabaseUrl)
