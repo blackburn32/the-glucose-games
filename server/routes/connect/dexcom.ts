@@ -20,7 +20,6 @@ export default defineEventHandler(async (event) => {
   const supabaseUrl = runtimeConfig.public.supabase.url
   console.error('supabaseServiceKey', supabaseServiceKey)
   console.error('supabase api key', supabaseApiKey)
-  console.error('supabase url', supabaseUrl)
 
   const url = `${dexcomBaseUrl}/v2/oauth2/login?client_id=${dexcomClientId}&redirect_uri=${redirectUrl}&response_type=code&scope=offline_access&state=${user.id}`
 
