@@ -1,12 +1,12 @@
 import { serverSupabaseUser } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
+  const runtimeConfig = useRuntimeConfig(event)
   const supabaseServiceKey = runtimeConfig.supabase.serviceKey
   const supabaseApiKey = runtimeConfig.public.supabase.key
   console.error('supabaseServiceKey', supabaseServiceKey)
   console.error('supabase api key', supabaseApiKey)
   const user = await serverSupabaseUser(event)
-  const runtimeConfig = useRuntimeConfig(event)
 
   if (!user) {
     throw createError({
