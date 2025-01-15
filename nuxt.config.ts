@@ -15,13 +15,13 @@ export default defineNuxtConfig({
         authCallbackUrl: 'https://glucose.games/confirm',
         supabase: {
           url: 'https://robpsmulkkgavocpifbg.supabase.co',
-          key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvYnBzbXVsa2tnYXZvY3BpZmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5NjI2NzcsImV4cCI6MjA1MjUzODY3N30.LkXa_vxlC4hSw_Ra7zQzKCsxpQKumv2NFosLcM77oao',
+          key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvYnBzbXVsa2tnYXZvY3BpZmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5Nzg5NjYsImV4cCI6MjA1MjU1NDk2Nn0.EMfcKeCxgwVdTqDDt67BNADc82ZMNKLpaJRVK_uo-mA',
         },
       },
       supabase: {
         serviceKey: 'This is overridden by .env',
       },
-      dexcomBaseUrl: 'https://sandbox-api.dexcom.com',
+      dexcomBaseUrl: 'https://sandbox-api.dexcom.com', // Will update once approved by Dexcom for limited access
       dexcomRedirectUrl: 'http://glucose.games/api/authorize/dexcom',
     },
   },
@@ -31,7 +31,7 @@ export default defineNuxtConfig({
       title: 'The Glucose Games',
       meta: [
         { charset: 'utf-8' },
-        { name: 'description', content: 'The only games you play with your blood glucose' },
+        { name: 'description', content: 'The games you play with your blood glucose' },
       ],
       link: [
         { rel: 'icon', type: 'image/png', href: '/favicon.png' },

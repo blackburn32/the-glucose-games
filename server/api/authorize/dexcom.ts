@@ -19,7 +19,6 @@ export default defineEventHandler(async (event) => {
   }
 
   const supabase = serverSupabaseServiceRole<Database>(event)
-  console.log(supabase)
   const runtimeConfig = useRuntimeConfig(event)
 
   const userId = queryParams.data.state
