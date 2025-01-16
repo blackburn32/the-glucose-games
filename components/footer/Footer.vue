@@ -7,7 +7,7 @@
         >
           <div class="mb-4">
             <NuxtLink
-              class="flex items-center justify-center w-8 h-8 rounded shadow-sm"
+              class="flex items-center justify-center w-8 h-8"
               to="/home"
             >
               <Icon

@@ -7,6 +7,13 @@ export const useGlucoseValues = () => {
     default: () => [],
   })
 
+  const mostRecentResult = computed(() => glucoseData.data.value.at(0))
+
+  const mostRecentHour: Ref<GlucoseRecord[]> = computed(() => {
+    const hourBefore = new Date(mostRecentResult.value.created).getTime() - 60 * 60 * 1000
+    return glucoseData.data.value.filter(record => new Date(record.created).getTime() > hourBefore)
+  })
+
   const previous24Hours: Ref<GlucoseRecord[]> = computed(() => {
     const today = Date.now()
     const dayAgo = new Date(today - 24 * 60 * 60 * 1000)
@@ -30,14 +37,21 @@ export const useGlucoseValues = () => {
     const highThreshold = 180
     const records = previous24Hours.value
     const timeInRange = records.filter(record => record.value >= lowThreshold && record.value <= highThreshold)
-    return (timeInRange.length / records.length) * 100
+    return ((timeInRange.length / records.length) * 100)
+  })
+
+  const cleanPercentTimeInRangeOverPrevious24Hours = computed(() => {
+    return percentTimeInRangeOverPrevious24Hours.value.toFixed(2)
   })
 
   return {
+    cleanPercentTimeInRangeOverPrevious24Hours,
     glucoseData,
     longestStreakWithoutLowsInPrevious24Hours,
     longestStreakWithoutHighsInPrevious24Hours,
     longestStreakWithoutLowsOrHighsInPrevious24Hours,
+    mostRecentHour,
+    mostRecentResult,
     percentTimeInRangeOverPrevious24Hours,
     previous24Hours,
   }

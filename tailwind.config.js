@@ -12,5 +12,6 @@ export default {
 
   daisyui: {
     logs: false,
+    themes: ['business'],
   },
 }
