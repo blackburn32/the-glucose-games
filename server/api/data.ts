@@ -31,7 +31,7 @@ const getDexcomData = async (userId: string, supabase: SupabaseClient<Database>,
   const dexcomClientSecret = runtimeConfig.dexcomClientSecret
   const token = await getToken(userId, DEXCOM_PROVIDER_NAME, supabase)
   if (!token) {
-    console.warn('No token found for Dexcom')
+    console.trace('No token found for Dexcom')
     return []
   }
 

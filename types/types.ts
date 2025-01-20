@@ -1,6 +1,8 @@
 export interface GlucoseRecord {
-  created: string
+  created: Date
   value: number
+  x: number
+  y: number
   provider: string
   trend?: string | undefined
   trendRate?: number | undefined

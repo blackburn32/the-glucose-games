@@ -69,6 +69,14 @@
                 Account
               </NuxtLink>
             </li>
+            <li>
+              <NuxtLink
+                class="hover:brightness-125 transition"
+                to="/connect"
+              >
+                Connections
+              </NuxtLink>
+            </li>
           </ul>
         </div>
 

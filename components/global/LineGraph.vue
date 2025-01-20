@@ -1,42 +1,84 @@
 <template>
-  <ClientOnly>
-    <VisXYContainer
-      :data="data"
-      :y-domain="[0, 300]"
-    >
-      <VisLine
-        :x="x"
-        :y="y"
-      />
-      <VisScatter
-        :x="x"
-        :y="y"
-        :color="color"
-      />
-      <VisAxis
-        type="x"
-        :tick-format="tickFormat"
-      />
-      <VisAxis
-        type="y"
-      />
-    </VisXYContainer>
-  </ClientOnly>
+  <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full ml-8">
+      <div class="text-2xl font-semibold leading-tight">
+        {{ title }}
+      </div>
+      <div v-if="duration">
+        {{ duration }}
+      </div>
+    </div>
+    <ClientOnly>
+      <VisXYContainer
+        :data="data"
+        :y-domain="[0, 300]"
+      >
+        <VisLine
+          v-if="low"
+          :x="x"
+          :y="() => low"
+          color="red"
+        />
+        <VisLine
+          v-if="high"
+          :x="x"
+          :y="() => high"
+          color="orange"
+        />
+        <VisLine
+          :x="x"
+          :y="y"
+          color="rgb(var(--color-primary-DEFAULT))"
+        />
+        <VisArea
+          :x="x"
+          :y="y"
+          color="rgb(var(--color-primary-DEFAULT))"
+          :opacity="0.1"
+        />
+
+        <VisAxis
+          type="x"
+          :x="x"
+          :tick-format="tickFormat"
+        />
+        <VisAxis
+          :y="y"
+          type="y"
+        />
+        <VisTooltip />
+        <VisCrosshair
+          :x="x"
+          :y="y"
+          :template="crosshairTemplate"
+          color="rgb(var(--color-primary-DEFAULT))"
+        />
+      </VisXYContainer>
+    </ClientOnly>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { VisAxis, VisXYContainer, VisLine, VisScatter } from '@unovis/vue'
+import { VisAxis, VisXYContainer, VisLine, VisArea, VisCrosshair, VisTooltip } from '@unovis/vue'
 import type { GlucoseRecord } from '~/types/types'
 
-const props = defineProps<{ data: GlucoseRecord[], low: number, high: number }>()
-const x = (d: GlucoseRecord) => new Date(d.created).getTime()
+defineProps<{ data: GlucoseRecord[], title: string, duration?: string | undefined, low?: number | undefined, high?: number | undefined }>()
+const x = (d: GlucoseRecord) => d.created
 const y = (d: GlucoseRecord) => d.value
-const color = (d: GlucoseRecord) => {
-  const isLow = d.value < props.low
-  const isHigh = d.value > props.high
-  if (isLow) return 'red'
-  if (isHigh) return 'yellow'
-  return 'green'
+
+const getCleanDate = (d: Date) => {
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })
 }
-const tickFormat = (d: number) => new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })
+
+const tickFormat = (d: number) => getCleanDate(new Date(d))
+const crosshairTemplate = (d: GlucoseRecord) => {
+  return `${getCleanDate(d.created)}: ${d.value}mg/dl`
+}
 </script>
+
+<style scoped>
+.unovis-xy-container {
+    --vis-tooltip-background-color: oklch(0.243535 0 0);
+    --vis-tooltip-text-color: #fff;
+}
+</style>

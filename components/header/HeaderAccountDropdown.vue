@@ -34,9 +34,9 @@
     </div>
     <template #dropdown>
       <ul v-if="authenticated">
-        <li>
+        <li class="">
           <NuxtLink
-            class="font-medium text-sm hover:brightness-125 flex items-center justify-center py-1 px-3 space-x-4"
+            class="font-medium text-sm hover:brightness-125 flex items-center py-1 px-3 space-x-4"
             to="/account"
           >
             <Icon
@@ -47,8 +47,20 @@
           </NuxtLink>
         </li>
         <li>
+          <NuxtLink
+            class="font-medium text-sm hover:brightness-125 flex items-center py-1 px-3 space-x-4"
+            to="/connect"
+          >
+            <Icon
+              :name="hasDexcom ? 'ph:plugs-connected' : 'ph:plugs'"
+              size="16"
+            />
+            <span> Connection </span>
+          </NuxtLink>
+        </li>
+        <li>
           <button
-            class="font-medium text-sm hover:brightness-125 flex flex-row items-center justify-center py-1 px-3 space-x-4"
+            class="font-medium text-sm hover:brightness-125 flex flex-row items-center py-1 px-3 space-x-4"
             @click="triggerSignOut"
           >
             <Icon
@@ -70,6 +82,7 @@ const authenticated = computed(() => {
   return !!user.value
 })
 const supabase = useSupabaseClient()
+const { hasDexcom } = useTokenStatus()
 
 const label = computed(() => {
   return authenticated.value ? 'Account' : 'Sign In'

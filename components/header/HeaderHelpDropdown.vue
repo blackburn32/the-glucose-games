@@ -11,7 +11,7 @@
       <ul ref="dropdown">
         <li>
           <NuxtLink
-            class="font-medium text-sm hover:brightness-125 flex flex-row items-center justify-center py-1 px-3 space-x-4"
+            class="font-medium text-sm hover:brightness-125 flex flex-row items-center py-1 px-3 space-x-4"
             to="/about"
           >
             <Icon

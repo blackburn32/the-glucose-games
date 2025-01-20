@@ -1,5 +1,5 @@
 <template>
-  <div class="stats shadow">
+  <div class="stats h-min overflow-hidden">
     <div class="stat">
       <div class="stat-figure text-secondary">
         <Icon

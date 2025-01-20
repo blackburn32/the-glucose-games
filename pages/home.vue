@@ -3,61 +3,91 @@
     <div class="text-4xl font-bold mt-10">
       Home
     </div>
-    <div class="flex flex-col space-y-2 w-full md:max-w-lg">
-      <div class="text-2xl font-bold">
-        Last hour:
-      </div>
+    <div
+      v-if="hasDexcom"
+      class="flex flex-col space-y-2 w-full md:max-w-lg"
+    >
       <LineGraph
+        title="Last hour"
         :data="mostRecentHour"
-        :low="0"
-        :high="300"
+        :high="thresholds.high"
+        :low="thresholds.low"
       />
     </div>
-    <div class="flex flex-row items-center md:max-w-lg">
+    <DexcomConnector v-else />
+    <div
+      v-if="hasDexcom"
+      class="flex flex-row items-center md:max-w-lg"
+    >
       <StatBadge
+        v-if="mostRecentResult"
         title="Current Blood Sugar"
-        :value="mostRecentHour[mostRecentHour.length - 1].value.toString()"
+        :value="mostRecentResult.value.toString()"
         description="mg/dl"
       />
       <StatBadge
         title="Time in Range"
-        :value="cleanPercentTimeInRangeOverPrevious24Hours + '%'"
+        :value="`${previous24Hours.cleanPercentTimeInRange}%`"
         description="over the last 24 hours"
         :icon="timeInRangeIcon"
         :icon-color="timeInRangeIconColor"
       />
     </div>
+    <div class="flex flex-row items-center md:max-w-lg space-x-8">
+      <NuxtLink
+        v-if="hasDexcom"
+        class="btn btn-outline"
+        to="/current"
+      >
+        Current Games
+      </NuxtLink>
+      <NuxtLink
+        v-if="hasDexcom"
+        class="btn btn-outline"
+        to="/history"
+      >
+        History
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const thresholds = useThresholds()
+
 const {
-  cleanPercentTimeInRangeOverPrevious24Hours,
   mostRecentHour,
-  percentTimeInRangeOverPrevious24Hours,
+  mostRecentResult,
+  previous24Hours,
 } = useGlucoseValues()
 
+const {
+  hasDexcom,
+} = useTokenStatus()
+
 const timeInRangeIcon = computed(() => {
-  if (percentTimeInRangeOverPrevious24Hours.value >= 90) {
+  if (previous24Hours.value.percentTimeInRange >= 90) {
     return 'ph:crown'
   }
-  else if (percentTimeInRangeOverPrevious24Hours.value >= 70) {
+  else if (previous24Hours.value.percentTimeInRange >= 70) {
     return 'ph:medal'
   }
-  else if (percentTimeInRangeOverPrevious24Hours.value >= 50) {
+  else if (previous24Hours.value.percentTimeInRange >= 50) {
     return 'ph:trophy'
   }
+  return ''
 })
 
 const timeInRangeIconColor = computed(() => {
-  if (percentTimeInRangeOverPrevious24Hours.value >= 90) {
+  if (previous24Hours.value.percentTimeInRange >= 90) {
     return 'text-accent'
   }
-  else if (percentTimeInRangeOverPrevious24Hours.value >= 70) {
+  else if (previous24Hours.value.percentTimeInRange >= 70) {
     return 'text-primary'
   }
-  else if (percentTimeInRangeOverPrevious24Hours.value >= 50) {
+  else if (previous24Hours.value.percentTimeInRange >= 50) {
     return 'text-secondary'
   }
+  return ''
 })
 </script>

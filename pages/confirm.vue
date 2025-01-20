@@ -19,5 +19,6 @@ useAsyncData(async () => {
     // Redirect to path
     return navigateTo(redirectPath || '/home')
   }
+  return false
 })
 </script>

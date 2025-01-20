@@ -128,6 +128,8 @@ export const dexcomRecordToGlucoseRecord = (
 ) => {
   return {
     created: new Date(record.displayTime),
+    x: new Date(record.displayTime).getTime(),
+    y: record.value,
     value: record.value,
     provider: DEXCOM_PROVIDER_NAME,
     trend: record.trend,
@@ -155,6 +157,10 @@ export const getEstimatedBloodGlucoseValuesFromDexcom = async (
     },
   )
 
+  if (resp.status === 401) {
+    console.error('Failed to get Dexcom EGV data', await resp.text())
+    return []
+  }
   const raw = await resp.json()
   const validatedResponse = dexcomEGVResponseValidator.safeParse(raw)
   if (!validatedResponse.success) {
