@@ -36,6 +36,12 @@ const { hasDexcom } = useTokenStatus()
 const cookieName = useRuntimeConfig().public.supabase.cookieName
 const redirectCookie = useCookie(`${cookieName}-redirect-path`)
 
+if (redirectCookie.value) {
+  const redirectPath = redirectCookie.value
+  redirectCookie.value = null
+  navigateTo(redirectPath)
+}
+
 const redirectTarget = useAsyncData(async () => {
   if (user.value) {
     const redirectPath = redirectCookie.value
