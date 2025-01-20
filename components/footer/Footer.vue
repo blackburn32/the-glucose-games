@@ -10,9 +10,11 @@
               class="flex items-center justify-center w-8 h-8"
               to="/home"
             >
-              <Icon
-                size="24"
-                name="ph:syringe"
+              <NuxtImg
+                class="w-8 h-8"
+                src="/favicon.png"
+                width="128"
+                height="128"
               />
             </NuxtLink>
           </div>

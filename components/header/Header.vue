@@ -5,9 +5,11 @@
         class="flex items-center start"
         :to="mainLinkDestination"
       >
-        <Icon
-          name="ph:syringe"
-          size="32"
+        <NuxtImg
+          class="w-8 h-8"
+          src="/favicon.png"
+          width="128"
+          height="128"
         />
       </NuxtLink>
       <div
