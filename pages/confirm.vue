@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-const user = useSupabaseUser()
 const { hasDexcom } = useTokenStatus()
 
 const cookieName = useRuntimeConfig().public.supabase.cookieName
@@ -41,13 +40,4 @@ if (redirectCookie.value) {
   redirectCookie.value = null
   navigateTo(redirectPath)
 }
-
-const redirectTarget = useAsyncData(async () => {
-  if (user.value) {
-    const redirectPath = redirectCookie.value
-    redirectCookie.value = null
-    return redirectPath || '/home'
-  }
-  return '/'
-})
 </script>
