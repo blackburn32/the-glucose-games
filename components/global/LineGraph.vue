@@ -54,6 +54,9 @@
           color="rgb(var(--color-primary-DEFAULT))"
         />
       </VisXYContainer>
+      <template #fallback>
+        <div class="skeleton min-h-[300px] w-full" />
+      </template>
     </ClientOnly>
   </div>
 </template>

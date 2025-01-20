@@ -5,6 +5,7 @@ export const useGlucoseValues = () => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
     key: 'glucoseData',
     default: () => [],
+    immediate: true,
   })
 
   const glucoseData: Ref<GlucoseRecord[]> = computed(() => {

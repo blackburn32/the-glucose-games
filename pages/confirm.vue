@@ -1,24 +1,47 @@
 <template>
-  <div class="flex flex-col w-full h-full justify-center items-center min-h-[calc(100vh-248px)]">
+  <div class="flex flex-col w-full h-full justify-center items-center min-h-[calc(100vh-248px)] space-y-4">
     <div class="text-4xl">
       Welcome to The Glucose Games!
+    </div>
+    <div class="flex flex-row space-x-4">
+      <NuxtLink
+        v-if="!hasDexcom"
+        class="btn btn-outline"
+        to="/connect"
+      >
+        Get connected
+      </NuxtLink>
+      <NuxtLink
+        v-if="hasDexcom"
+        class="btn btn-outline"
+        to="/current"
+      >
+        Current Games
+      </NuxtLink>
+      <NuxtLink
+        v-if="hasDexcom"
+        class="btn btn-outline"
+        to="/history"
+      >
+        History
+      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const user = useSupabaseUser()
+const { hasDexcom } = useTokenStatus()
 
 const cookieName = useRuntimeConfig().public.supabase.cookieName
-const redirectPath = useCookie(`${cookieName}-redirect-path`).value
+const redirectCookie = useCookie(`${cookieName}-redirect-path`)
 
-useAsyncData(async () => {
+const redirectTarget = useAsyncData(async () => {
   if (user.value) {
-    // Clear cookie
-    useCookie(`${cookieName}-redirect-path`).value = null
-    // Redirect to path
-    return navigateTo(redirectPath || '/home')
+    const redirectPath = redirectCookie.value
+    redirectCookie.value = null
+    return redirectPath || '/home'
   }
-  return false
+  return '/'
 })
 </script>

@@ -6,6 +6,7 @@ export const useTokenStatus = () => {
   const supabaseUser = useSupabaseUser()
 
   const allTokensForUser = useAsyncData<string[]>('tokens', async () => {
+    if (!supabaseUser.value) return []
     const { data } = await supabase.from('oauth_tokens').select('provider').select()
     return data?.map(token => token.provider)
   }, {
