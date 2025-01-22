@@ -45,6 +45,18 @@
             <span>Login</span>
           </NuxtLink>
         </li>
+        <li>
+          <NuxtLink
+            class="font-medium text-sm hover:brightness-125 flex items-center py-1 px-3 space-x-4"
+            to="/demo"
+          >
+            <Icon
+              name="ph:monitor-play"
+              size="16"
+            />
+            <span>Demo</span>
+          </NuxtLink>
+        </li>
       </ul>
     </template>
   </Dropdown>

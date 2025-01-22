@@ -1,7 +1,7 @@
 import type { GlucoseRecord } from '~/types/types.ts'
 import { calculatePercentTimeInRange, currentDailyAverageStreak, currentDailyStreakWithTimePeriodInRange, currentDayStreakWithinRange, longestStreakWithoutHighs, longestStreakWithoutLows, longestStreakWithoutLowsOrHighs } from '~/utils/glucoseGames.ts'
 
-export const useGlucoseValues = () => {
+export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined) => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
     key: 'glucoseData',
     default: () => [],
@@ -9,6 +9,7 @@ export const useGlucoseValues = () => {
   })
 
   const glucoseData: Ref<GlucoseRecord[]> = computed(() => {
+    if (dataOverride?.value.length) return dataOverride.value
     return glucoseDataRaw.data.value.map(record => ({
       ...record,
       created: new Date(record.created),

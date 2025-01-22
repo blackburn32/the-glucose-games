@@ -18,6 +18,8 @@ Compete across a broad array of games and contests, including:
 - **Daily Streaks**: Keep your blood sugar almost perfect for as many days in a row as you can.
 - **Sleeping Sound**: Keep your night time blood sugar in the optimal range as much as possible.
 
+Check out a demo of the games [here](/demo).
+
 ## Track your progress (Coming Soon)
 
 As you compete in the games, you'll be able to track your progress over time.

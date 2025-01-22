@@ -63,6 +63,7 @@ export default defineNuxtConfig({
       exclude: [
         '/about',
         '/confirm',
+        '/demo',
         '/login',
         '/privacy',
         '/tos',

@@ -32,8 +32,8 @@
             <div>
               <NuxtLink
                 class="btn btn-outline w-full shadow-sm"
-                to="/about"
-              >Learn More</NuxtLink>
+                to="/demo"
+              >Check Out a Demo</NuxtLink>
             </div>
           </div>
         </div>
