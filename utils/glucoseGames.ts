@@ -168,7 +168,7 @@ const calculateStreakString = (longestStreak: GlucoseRecord[]): string => {
   const startTime = startDate && startDate.getTime()
   const endTime = endDate && endDate.getTime()
 
-  const streakDuration = startTime && endTime && (startTime - endTime)
+  const streakDuration = startTime && endTime && Math.abs(startTime - endTime)
 
   return streakDuration ? prettyMilliseconds(streakDuration) : 'No streak'
 }
@@ -367,4 +367,14 @@ export const longestDailyStreakWithoutGaps = (
       && (endOfDay - lastRecordOfDay) <= gapThreshold * 60 * 1000
   }
   return getDailyStreak(records, dayFilter)
+}
+
+export const calculatePercentTimeInRange = (records: GlucoseRecord[], thresholds: { low: number, high: number }) => {
+  if (!records) return 0
+  const timeInRange = records.filter(record => record.value > thresholds.low && record.value < thresholds.high)
+  return ((timeInRange.length / records.length) * 100)
+}
+
+export const cleanPercentForDisplay = (percentTimeInRange: number) => {
+  return percentTimeInRange.toFixed(2)
 }

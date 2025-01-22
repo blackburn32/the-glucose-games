@@ -1,5 +1,5 @@
 import type { GlucoseRecord } from '~/types/types.ts'
-import { currentDailyAverageStreak, currentDailyStreakWithTimePeriodInRange, currentDayStreakWithinRange, longestStreakWithoutHighs, longestStreakWithoutLows, longestStreakWithoutLowsOrHighs } from '~/utils/glucoseGames.ts'
+import { calculatePercentTimeInRange, currentDailyAverageStreak, currentDailyStreakWithTimePeriodInRange, currentDayStreakWithinRange, longestStreakWithoutHighs, longestStreakWithoutLows, longestStreakWithoutLowsOrHighs } from '~/utils/glucoseGames.ts'
 
 export const useGlucoseValues = () => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
@@ -14,16 +14,6 @@ export const useGlucoseValues = () => {
       created: new Date(record.created),
     })).sort((a, b) => a.created.getTime() - b.created.getTime())
   })
-
-  const calculatePercentTimeInRange = (records: GlucoseRecord[], thresholds: { low: number, high: number }) => {
-    if (!records) return 0
-    const timeInRange = records.filter(record => record.value > thresholds.low && record.value < thresholds.high)
-    return ((timeInRange.length / records.length) * 100)
-  }
-
-  const cleanPercentForDisplay = (percentTimeInRange: number) => {
-    return percentTimeInRange.toFixed(2)
-  }
 
   const thresholds = useThresholds()
 

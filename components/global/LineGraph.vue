@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full">
     <div class="flex flex-col w-full ml-8">
-      <div class="text-2xl font-semibold leading-tight">
+      <div class="text-2xl font-semibold leading-tight max-w-full">
         {{ title }}
       </div>
       <div v-if="duration">
@@ -11,7 +11,7 @@
     <ClientOnly>
       <VisXYContainer
         :data="data"
-        :y-domain="[0, 300]"
+        :y-domain="[0, 400]"
       >
         <VisLine
           v-if="low"
