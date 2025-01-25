@@ -39,12 +39,14 @@
       :duration="currentStreakWithoutLows.streakString"
       :data="currentStreakWithoutLows.longestStreak"
       :low="thresholds.low"
+      :best="longestStreakWithoutLowsEver.streakString"
     />
     <LineGraph
       title="No Highs Streak"
       :duration="currentStreakWithoutHighs.streakString"
       :data="currentStreakWithoutHighs.longestStreak"
       :high="thresholds.high"
+      :best="longestStreakWithoutHighsEver.streakString"
     />
     <LineGraph
       title="No Highs or Lows Streak"
@@ -52,6 +54,7 @@
       :data="currentStreakWithoutHighsOrLows.longestStreak"
       :low="thresholds.low"
       :high="thresholds.high"
+      :best="longestStreakWithoutLowsOrHighsEver.streakString"
     />
     <LineGraph
       title="Today's Time in Range"
@@ -87,6 +90,9 @@ const {
   currentStreakWithoutLows,
   currentStreakWithoutHighs,
   lastNight,
+  longestStreakWithoutHighsEver,
+  longestStreakWithoutLowsEver,
+  longestStreakWithoutLowsOrHighsEver,
   mostRecentResult,
   today,
 } = useGlucoseValues(props.glucoseValues)

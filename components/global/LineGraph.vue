@@ -4,8 +4,16 @@
       <div class="text-2xl font-semibold leading-tight max-w-full">
         {{ title }}
       </div>
-      <div v-if="duration">
-        {{ duration }}
+      <div class="flex flex-row justify-between">
+        <div v-if="duration">
+          {{ duration }}
+        </div>
+        <div
+          v-if="best"
+          class="text-end mr-14"
+        >
+          Best: {{ best }}
+        </div>
       </div>
     </div>
     <ClientOnly>
@@ -65,7 +73,7 @@
 import { VisAxis, VisXYContainer, VisLine, VisArea, VisCrosshair, VisTooltip } from '@unovis/vue'
 import type { GlucoseRecord } from '~/types/types'
 
-defineProps<{ data: GlucoseRecord[], title: string, duration?: string | undefined, low?: number | undefined, high?: number | undefined }>()
+defineProps<{ data: GlucoseRecord[], title: string, duration?: string | undefined, low?: number | undefined, high?: number | undefined, best?: string | undefined }>()
 const x = (d: GlucoseRecord) => d.created
 const y = (d: GlucoseRecord) => d.value
 

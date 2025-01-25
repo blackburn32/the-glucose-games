@@ -53,12 +53,24 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     }
   })
 
+  const longestStreakWithoutLowsEver = computed(() => {
+    return longestStreakWithoutLows(glucoseData.value, thresholds.value.low)
+  })
+
   const longestStreakWithoutLowsInPrevious24Hours = computed(() => {
     return longestStreakWithoutLows(previous24Hours.value.glucoseValues, thresholds.value.low)
   })
 
+  const longestStreakWithoutHighsEver = computed(() => {
+    return longestStreakWithoutHighs(glucoseData.value, thresholds.value.high)
+  })
+
   const longestStreakWithoutHighsInPrevious24Hours = computed(() => {
     return longestStreakWithoutHighs(previous24Hours.value.glucoseValues, thresholds.value.high)
+  })
+
+  const longestStreakWithoutLowsOrHighsEver = computed(() => {
+    return longestStreakWithoutLowsOrHighs(glucoseData.value, thresholds.value.low, thresholds.value.high)
   })
 
   const longestStreakWithoutLowsOrHighsInPrevious24Hours = computed(() => {
@@ -125,6 +137,9 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     currentStreakOfDailyAveragesWithinRange,
     glucoseData,
     lastNight,
+    longestStreakWithoutLowsEver,
+    longestStreakWithoutHighsEver,
+    longestStreakWithoutLowsOrHighsEver,
     longestStreakWithoutLowsInPrevious24Hours,
     longestStreakWithoutHighsInPrevious24Hours,
     longestStreakWithoutLowsOrHighsInPrevious24Hours,
