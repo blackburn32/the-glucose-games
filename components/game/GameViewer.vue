@@ -62,6 +62,7 @@
       :data="today.glucoseValues"
       :low="thresholds.low"
       :high="thresholds.high"
+      :best="`${bestDay.cleanPercentTimeInRange}%`"
     />
     <LineGraph
       title="Last Night's Time in Range"
@@ -69,6 +70,7 @@
       :data="lastNight.glucoseValues"
       :low="thresholds.low"
       :high="thresholds.high"
+      :best="`${bestNight.cleanPercentTimeInRange}%`"
     />
   </div>
 </template>
@@ -82,6 +84,8 @@ const props = defineProps<{
 }>()
 
 const {
+  bestDay,
+  bestNight,
   currentDailyAverage,
   currentStreakOfDailyAveragesWithinRange,
   currentStreakOfDaysWithinRange,

@@ -173,6 +173,51 @@ const calculateStreakString = (longestStreak: GlucoseRecord[]): string => {
   return streakDuration ? prettyMilliseconds(streakDuration) : 'No streak'
 }
 
+const calculateBestDay = (records: GlucoseRecord[], dayScore: (records: GlucoseRecord[]) => number) => {
+  const recordsByDay = groupRecordsByDay(records)
+  return Object.keys(recordsByDay).reduce((best, day) => {
+    const score = dayScore(recordsByDay[day])
+    return score > best.score
+      ? {
+          day: recordsByDay[day],
+          score,
+        }
+      : best
+  },
+  {
+    day: [] as GlucoseRecord[],
+    score: 0,
+  },
+  )
+}
+
+const calculateBestDayWithTimeRange = (
+  records: GlucoseRecord[],
+  timeStart: number,
+  timeEnd: number,
+  dayScore: (records: GlucoseRecord[]) => number,
+) => {
+  const recordsByDay = groupRecordsByDay(records)
+  return Object.keys(recordsByDay).reduce((best, day) => {
+    const recordsInTimeRange = recordsByDay[day].filter((record) => {
+      const recordTime = record.created.getHours()
+      return recordTime >= timeStart && recordTime <= timeEnd
+    })
+    const score = dayScore(recordsInTimeRange)
+    return score > best.score
+      ? {
+          day: recordsByDay[day],
+          score,
+        }
+      : best
+  },
+  {
+    day: [] as GlucoseRecord[],
+    score: 0,
+  },
+  )
+}
+
 export const longestStreakWithoutLows = (
   records: GlucoseRecord[],
   lowThreshold: number,
@@ -309,6 +354,30 @@ export const longestDailyStreakWithTimePeriodInRange = (
   return getDailyStreak(records, dayFilter)
 }
 
+const percentTimeInRangeDayFilter = (
+  day: GlucoseRecord[],
+  thresholds: { low: number, high: number },
+) => {
+  const timeInRange = day.filter(record => record.value > thresholds.low && record.value < thresholds.high)
+  return (timeInRange.length / day.length) * 100
+}
+
+export const getBestDayByPercentTimeInRange = (
+  records: GlucoseRecord[],
+  thresholds: { low: number, high: number },
+) => {
+  return calculateBestDay(records, day => percentTimeInRangeDayFilter(day, thresholds))
+}
+
+export const getBestDayByPercentTimeInRangeWithTimeRange = (
+  records: GlucoseRecord[],
+  thresholds: { low: number, high: number },
+  timeStart: number,
+  timeEnd: number,
+) => {
+  return calculateBestDayWithTimeRange(records, timeStart, timeEnd, day => percentTimeInRangeDayFilter(day, thresholds))
+}
+
 export const currentDailyStreakWithTimePeriodInRange = (
   records: GlucoseRecord[],
   timeStart: number,
@@ -376,5 +445,6 @@ export const calculatePercentTimeInRange = (records: GlucoseRecord[], thresholds
 }
 
 export const cleanPercentForDisplay = (percentTimeInRange: number) => {
+  if (!percentTimeInRange) return 0
   return percentTimeInRange.toFixed(2)
 }

@@ -26,7 +26,7 @@
 <script setup lang="ts">
 const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 1000))
 const refreshData = () => {
-  demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 1000)
+  demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 10000)
 }
 const thresholds = ref({
   low: 70,

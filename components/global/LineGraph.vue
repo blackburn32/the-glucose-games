@@ -10,7 +10,7 @@
         </div>
         <div
           v-if="best"
-          class="text-end mr-14"
+          class="text-end mr-10"
         >
           Best: {{ best }}
         </div>

@@ -1,5 +1,5 @@
 import type { GlucoseRecord } from '~/types/types.ts'
-import { calculatePercentTimeInRange, currentDailyAverageStreak, currentDailyStreakWithTimePeriodInRange, currentDayStreakWithinRange, longestStreakWithoutHighs, longestStreakWithoutLows, longestStreakWithoutLowsOrHighs } from '~/utils/glucoseGames.ts'
+import { calculatePercentTimeInRange, currentDailyAverageStreak, currentDailyStreakWithTimePeriodInRange, currentDayStreakWithinRange, getBestDayByPercentTimeInRange, getBestDayByPercentTimeInRangeWithTimeRange, longestStreakWithoutHighs, longestStreakWithoutLows, longestStreakWithoutLowsOrHighs } from '~/utils/glucoseGames.ts'
 
 export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined) => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
@@ -120,6 +120,7 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     const glucoseValues = glucoseData.value.filter(record => record.created > start && record.created < end)
     const percentTimeInRange = calculatePercentTimeInRange(glucoseValues ?? [], thresholds.value)
     const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
+
     return {
       glucoseValues,
       percentTimeInRange,
@@ -127,7 +128,27 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     }
   })
 
+  const bestNight = computed(() => {
+    const { day, score } = getBestDayByPercentTimeInRangeWithTimeRange(glucoseData.value, thresholds.value, 0, 6)
+    return {
+      glucoseValues: day,
+      percentTimeInRange: score,
+      cleanPercentTimeInRange: cleanPercentForDisplay(score),
+    }
+  })
+
+  const bestDay = computed(() => {
+    const { day, score } = getBestDayByPercentTimeInRange(glucoseData.value, thresholds.value)
+    return {
+      glucoseValues: day,
+      percentTimeInRange: score,
+      cleanPercentTimeInRange: cleanPercentForDisplay(score),
+    }
+  })
+
   return {
+    bestDay,
+    bestNight,
     currentStreakWithoutHighs,
     currentStreakWithoutHighsOrLows,
     currentStreakWithoutLows,
