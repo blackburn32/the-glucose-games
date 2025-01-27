@@ -101,7 +101,8 @@
 </template>
 
 <script setup lang="ts">
-import { calculatePercentTimeInRange, cleanPercentForDisplay } from '~/utils/glucoseGames'
+import { cleanPercentForDisplay } from '~/utils/glucoseGames'
+import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 
 const category = ref('1')
 const glucoseValues = useState('demoValues', () => generateGlucoseValues(RealisticGeneratorConfig, 1000))
@@ -134,7 +135,7 @@ const lastNight = computed(() => {
     : [todayMidnight, todayMorning]
 
   const values = glucoseValues.value.filter(record => record.created > start && record.created < end)
-  const percentTimeInRange = calculatePercentTimeInRange(values ?? [], { low: 70, high: 180 })
+  const percentTimeInRange = scoreRecordsByPercentTimeInRange(values ?? [], { low: 70, high: 180 })
   const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
   return {
     title: 'Time in Range Last Night',

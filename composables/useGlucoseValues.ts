@@ -1,5 +1,8 @@
-import type { GlucoseRecord } from '~/types/types.ts'
-import { calculatePercentTimeInRange, currentDailyAverageStreak, currentDailyStreakWithTimePeriodInRange, currentDayStreakWithinRange, getBestDayByPercentTimeInRange, getBestDayByPercentTimeInRangeWithTimeRange, longestStreakWithoutHighs, longestStreakWithoutLows, longestStreakWithoutLowsOrHighs } from '~/utils/glucoseGames.ts'
+import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
+import { longestStreakWithoutHighs, longestStreakWithoutLows, longestStreakWithoutLowsOrHighs } from '~/utils/glucoseGames'
+import { percentTimeInRangeForFullDayStreak, percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
+import { averageInRangeForFullDayStreak } from '~/utils/games/averageInRange/averangeInRangeGames'
+import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 
 export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined) => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
@@ -18,6 +21,18 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
 
   const thresholds = useThresholds()
 
+  const percentTimeInRangeForFullDay = computed(() => {
+    return percentTimeInRangeForFullDayStreak(glucoseData.value, thresholds.value, 80)
+  })
+
+  const percentTimeInRangeForNights = computed(() => {
+    return percentTimeInRangeForNightsStreak(glucoseData.value, thresholds.value, 80)
+  })
+
+  const averageInRangeForFullDay = computed(() => {
+    return averageInRangeForFullDayStreak(glucoseData.value, thresholds.value)
+  })
+
   const mostRecentResult = computed(() => glucoseData.value.at(-1))
 
   const mostRecentHour: Ref<GlucoseRecord[]> = computed(() => {
@@ -30,21 +45,7 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     const today = Date.now()
     const dayAgo = new Date(today - 24 * 60 * 60 * 1000)
     const glucoseValues = glucoseData.value.filter(record => record.created > dayAgo)
-    const percentTimeInRange = calculatePercentTimeInRange(glucoseValues, thresholds.value)
-    const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
-    return {
-      glucoseValues,
-      percentTimeInRange,
-      cleanPercentTimeInRange,
-    }
-  })
-
-  const today = computed(() => {
-    const now = new Date()
-    const todayMidnight = new Date().setHours(0, 0, 0, 0)
-
-    const glucoseValues = glucoseData.value.filter(record => record.created >= todayMidnight && record.created <= now)
-    const percentTimeInRange = calculatePercentTimeInRange(glucoseValues ?? [], thresholds.value)
+    const percentTimeInRange = scoreRecordsByPercentTimeInRange(glucoseValues, thresholds.value)
     const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
     return {
       glucoseValues,
@@ -91,73 +92,12 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
   const currentStreakWithoutHighs = createCurrentStreak(longestStreakWithoutHighs, thresholds.value.high)
   const currentStreakWithoutHighsOrLows = createCurrentStreak(longestStreakWithoutLowsOrHighs, thresholds.value.low, thresholds.value.high)
 
-  const currentStreakOfDaysWithinRange = computed(() => {
-    return currentDayStreakWithinRange(glucoseData.value, 80, thresholds.value.low, thresholds.value.high)
-  })
-
-  const currentStreakOfNightsWithinRange = computed(() => {
-    return currentDailyStreakWithTimePeriodInRange(glucoseData.value, 0, 6, thresholds.value.low, thresholds.value.high, 80)
-  })
-
-  const currentDailyAverage = computed(() => {
-    if (!glucoseData.value.length) return 100
-    return glucoseData.value.reduce((acc, record) => acc + record.value, 0) / glucoseData.value.length
-  })
-
-  const currentStreakOfDailyAveragesWithinRange = computed(() => {
-    return currentDailyAverageStreak(glucoseData.value, thresholds.value.low, thresholds.value.high)
-  })
-
-  const lastNight = computed(() => {
-    const now = new Date()
-    const todayMidnight = new Date().setHours(0, 0, 0, 0)
-    const todayMorning = new Date().setHours(6, 0, 0, 0)
-
-    const [start, end] = now < todayMorning
-      ? [new Date(todayMidnight).setDate(new Date(todayMidnight).getDate() - 1), new Date(todayMorning).setDate(new Date(todayMorning).getDate() - 1)]
-      : [todayMidnight, todayMorning]
-
-    const glucoseValues = glucoseData.value.filter(record => record.created > start && record.created < end)
-    const percentTimeInRange = calculatePercentTimeInRange(glucoseValues ?? [], thresholds.value)
-    const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
-
-    return {
-      glucoseValues,
-      percentTimeInRange,
-      cleanPercentTimeInRange,
-    }
-  })
-
-  const bestNight = computed(() => {
-    const { day, score } = getBestDayByPercentTimeInRangeWithTimeRange(glucoseData.value, thresholds.value, 0, 6)
-    return {
-      glucoseValues: day,
-      percentTimeInRange: score,
-      cleanPercentTimeInRange: cleanPercentForDisplay(score),
-    }
-  })
-
-  const bestDay = computed(() => {
-    const { day, score } = getBestDayByPercentTimeInRange(glucoseData.value, thresholds.value)
-    return {
-      glucoseValues: day,
-      percentTimeInRange: score,
-      cleanPercentTimeInRange: cleanPercentForDisplay(score),
-    }
-  })
-
   return {
-    bestDay,
-    bestNight,
+    averageInRangeForFullDay,
     currentStreakWithoutHighs,
     currentStreakWithoutHighsOrLows,
     currentStreakWithoutLows,
-    currentStreakOfDaysWithinRange,
-    currentStreakOfNightsWithinRange,
-    currentDailyAverage,
-    currentStreakOfDailyAveragesWithinRange,
     glucoseData,
-    lastNight,
     longestStreakWithoutLowsEver,
     longestStreakWithoutHighsEver,
     longestStreakWithoutLowsOrHighsEver,
@@ -166,7 +106,8 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     longestStreakWithoutLowsOrHighsInPrevious24Hours,
     mostRecentHour,
     mostRecentResult,
+    percentTimeInRangeForFullDay,
+    percentTimeInRangeForNights,
     previous24Hours,
-    today,
   }
 }

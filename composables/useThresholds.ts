@@ -1,7 +1,4 @@
-export type Thresholds = {
-  high: number
-  low: number
-}
+import type { Thresholds } from '~/types/thresholds.ts'
 
 export const useThresholds = () => {
   const thresholds = useState<Thresholds>('thresholds', () => {

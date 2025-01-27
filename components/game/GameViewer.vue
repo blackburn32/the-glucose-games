@@ -10,27 +10,27 @@
       />
       <StatBadge
         title="In Range Streak"
-        :value="`${currentStreakOfDaysWithinRange.streak.length.toString()} days`"
+        :value="`${percentTimeInRangeForFullDay.currentStreak.scoredDays.length} days`"
         description="at least 80% in range"
       />
       <StatBadge
         title="Current Daily Average"
-        :value="currentDailyAverage?.toFixed(2) ?? 'N/A'"
+        :value="averageInRangeForFullDay.todaysScoredDay.scoreForDisplay"
         description="mg/dl"
       />
       <StatBadge
         title="Daily Average Streak"
-        :value="`${currentStreakOfDailyAveragesWithinRange.streak.length.toString()} days`"
+        :value="`${averageInRangeForFullDay.currentStreak.scoredDays.length} days`"
         description="average within range"
       />
       <StatBadge
         title="Last Night"
-        :value="`${lastNight.cleanPercentTimeInRange}%`"
+        :value="`${percentTimeInRangeForNights.todaysScoredDay.glucoseRecords.length > 0 ? percentTimeInRangeForNights.todaysScoredDay.scoreForDisplay : percentTimeInRangeForNights.mostRecentScoredDay?.scoreForDisplay || 0}%`"
         description="time in range"
       />
       <StatBadge
         title="Nighttime Streak"
-        :value="`${currentStreakOfNightsWithinRange.streak.length.toString()} nights`"
+        :value="`${percentTimeInRangeForNights.currentStreak.scoredDays.length} nights`"
         description="at least 80% in range"
       />
     </div>
@@ -58,25 +58,26 @@
     />
     <LineGraph
       title="Today's Time in Range"
-      :duration="`${today.cleanPercentTimeInRange}%`"
-      :data="today.glucoseValues"
+      :duration="`${percentTimeInRangeForFullDay.todaysScoredDay.scoreForDisplay}%`"
+      :data="percentTimeInRangeForFullDay.todaysScoredDay.glucoseRecords"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${bestDay.cleanPercentTimeInRange}%`"
+      :best="`${percentTimeInRangeForFullDay.bestDay.scoreForDisplay}%`"
     />
     <LineGraph
       title="Last Night's Time in Range"
-      :duration="`${lastNight.cleanPercentTimeInRange}%`"
-      :data="lastNight.glucoseValues"
+      :duration="`${percentTimeInRangeForNights.todaysScoredDay.glucoseRecords.length > 0 ? percentTimeInRangeForNights.todaysScoredDay.scoreForDisplay : percentTimeInRangeForNights.mostRecentScoredDay?.scoreForDisplay || 0}%`"
+      :data="percentTimeInRangeForNights.todaysScoredDay.glucoseRecords.length > 0 ? percentTimeInRangeForNights.todaysScoredDay.glucoseRecords : percentTimeInRangeForNights.mostRecentScoredDay?.glucoseRecords || []"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${bestNight.cleanPercentTimeInRange}%`"
+      :best="`${percentTimeInRangeForNights.bestDay.scoreForDisplay}%`"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { GlucoseRecord } from '~/types/types'
+import type { GlucoseRecord } from '~/types/glucoseRecord'
+import type { Thresholds } from '~/types/thresholds'
 
 const props = defineProps<{
   thresholds: Thresholds
@@ -84,20 +85,15 @@ const props = defineProps<{
 }>()
 
 const {
-  bestDay,
-  bestNight,
-  currentDailyAverage,
-  currentStreakOfDailyAveragesWithinRange,
-  currentStreakOfDaysWithinRange,
-  currentStreakOfNightsWithinRange,
+  averageInRangeForFullDay,
   currentStreakWithoutHighsOrLows,
   currentStreakWithoutLows,
   currentStreakWithoutHighs,
-  lastNight,
   longestStreakWithoutHighsEver,
   longestStreakWithoutLowsEver,
   longestStreakWithoutLowsOrHighsEver,
   mostRecentResult,
-  today,
+  percentTimeInRangeForFullDay,
+  percentTimeInRangeForNights,
 } = useGlucoseValues(props.glucoseValues)
 </script>

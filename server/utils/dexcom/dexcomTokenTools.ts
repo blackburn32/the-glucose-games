@@ -3,7 +3,7 @@ import { z } from 'zod'
 import type { Database } from '~/types/database.types.ts'
 import { DEXCOM_PROVIDER_NAME } from '~/types/constants.ts'
 import { safeStoreToken } from '~/server/utils/database/storeToken.ts'
-import type { GlucoseRecord } from '~/types/types.ts'
+import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
 
 const dexcomTokenValidator = z.object({
   access_token: z.string(),

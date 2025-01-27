@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
-  modules: ['@nuxtjs/supabase', '@nuxt/ui', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@pinia/nuxt', '@nuxt/image', 'nuxt-aos'],
+  modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@pinia/nuxt', '@nuxt/image', 'nuxt-aos'],
 
   $production: {
     runtimeConfig: {
