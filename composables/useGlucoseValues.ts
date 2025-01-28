@@ -1,8 +1,8 @@
 import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
-import { longestStreakWithoutHighs, longestStreakWithoutLows, longestStreakWithoutLowsOrHighs } from '~/utils/glucoseGames'
 import { percentTimeInRangeForFullDayStreak, percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
 import { averageInRangeForFullDayStreak } from '~/utils/games/averageInRange/averangeInRangeGames'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
+import { contiguousStreakWithNoHighs, contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
 
 export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined) => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
@@ -54,58 +54,26 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     }
   })
 
-  const longestStreakWithoutLowsEver = computed(() => {
-    return longestStreakWithoutLows(glucoseData.value, thresholds.value.low)
+  const noLowsStreaks = computed(() => {
+    return contiguousStreakWithNoLows(glucoseData.value, thresholds.value)
   })
 
-  const longestStreakWithoutLowsInPrevious24Hours = computed(() => {
-    return longestStreakWithoutLows(previous24Hours.value.glucoseValues, thresholds.value.low)
+  const noHighsStreaks = computed(() => {
+    return contiguousStreakWithNoHighs(glucoseData.value, thresholds.value)
   })
 
-  const longestStreakWithoutHighsEver = computed(() => {
-    return longestStreakWithoutHighs(glucoseData.value, thresholds.value.high)
+  const noHighsOrLowsStreaks = computed(() => {
+    return contiguousStreakWithNoLowsOrHighs(glucoseData.value, thresholds.value)
   })
-
-  const longestStreakWithoutHighsInPrevious24Hours = computed(() => {
-    return longestStreakWithoutHighs(previous24Hours.value.glucoseValues, thresholds.value.high)
-  })
-
-  const longestStreakWithoutLowsOrHighsEver = computed(() => {
-    return longestStreakWithoutLowsOrHighs(glucoseData.value, thresholds.value.low, thresholds.value.high)
-  })
-
-  const longestStreakWithoutLowsOrHighsInPrevious24Hours = computed(() => {
-    return longestStreakWithoutLowsOrHighs(previous24Hours.value.glucoseValues, thresholds.value.low, thresholds.value.high)
-  })
-
-  const createCurrentStreak = (streakFunction, ...args) => {
-    return computed(() => {
-      const streak = streakFunction(glucoseData.value, ...args, true)
-      return {
-        longestStreak: streak.longestStreak.length ? streak.longestStreak : mostRecentHour.value,
-        streakString: streak.longestStreak.length ? streak.streakString : 'Out of range',
-      }
-    })
-  }
-
-  const currentStreakWithoutLows = createCurrentStreak(longestStreakWithoutLows, thresholds.value.low)
-  const currentStreakWithoutHighs = createCurrentStreak(longestStreakWithoutHighs, thresholds.value.high)
-  const currentStreakWithoutHighsOrLows = createCurrentStreak(longestStreakWithoutLowsOrHighs, thresholds.value.low, thresholds.value.high)
 
   return {
     averageInRangeForFullDay,
-    currentStreakWithoutHighs,
-    currentStreakWithoutHighsOrLows,
-    currentStreakWithoutLows,
     glucoseData,
-    longestStreakWithoutLowsEver,
-    longestStreakWithoutHighsEver,
-    longestStreakWithoutLowsOrHighsEver,
-    longestStreakWithoutLowsInPrevious24Hours,
-    longestStreakWithoutHighsInPrevious24Hours,
-    longestStreakWithoutLowsOrHighsInPrevious24Hours,
     mostRecentHour,
     mostRecentResult,
+    noHighsStreaks,
+    noHighsOrLowsStreaks,
+    noLowsStreaks,
     percentTimeInRangeForFullDay,
     percentTimeInRangeForNights,
     previous24Hours,

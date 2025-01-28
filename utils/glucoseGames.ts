@@ -65,28 +65,6 @@ const getLongestStreak = (
   return { longestStreak, streakString }
 }
 
-export const longestStreakWithoutLows = (
-  records: GlucoseRecord[],
-  lowThreshold: number,
-  current: boolean = false,
-) => {
-  const filter = (record: GlucoseRecord) => record.value > lowThreshold
-  return current
-    ? getCurrentStreak(records, filter)
-    : getLongestStreak(records, filter)
-}
-
-export const longestStreakWithoutHighs = (
-  records: GlucoseRecord[],
-  highThreshold: number,
-  current: boolean = false,
-) => {
-  const filter = (record: GlucoseRecord) => record.value < highThreshold
-  return current
-    ? getCurrentStreak(records, filter)
-    : getLongestStreak(records, filter)
-}
-
 export const longestStreakWithoutLowsOrHighs = (
   records: GlucoseRecord[],
   lowThreshold: number,
@@ -102,6 +80,62 @@ export const longestStreakWithoutLowsOrHighs = (
 export const cleanPercentForDisplay = (percentTimeInRange: number) => {
   if (!percentTimeInRange) return '0.00'
   return percentTimeInRange.toFixed(2)
+}
+
+const splitRecordsIntoContiguousStreaks = (
+  records: GlucoseRecord[],
+  recordIncludedInStreak: (record: GlucoseRecord) => boolean,
+) => {
+  const streaks: GlucoseRecord[][] = []
+  let currentStreak: GlucoseRecord[] = []
+
+  for (const record of records) {
+    if (recordIncludedInStreak(record)) {
+      currentStreak.push(record)
+    }
+    else {
+      if (currentStreak.length) {
+        streaks.push(currentStreak)
+        currentStreak = []
+      }
+    }
+  }
+
+  if (currentStreak.length) {
+    streaks.push(currentStreak)
+  }
+
+  return streaks
+}
+
+export const calculateContiguousStreakStats = (
+  records: GlucoseRecord[],
+  recordIncludedInStreak: (record: GlucoseRecord) => boolean,
+) => {
+  const streaks = splitRecordsIntoContiguousStreaks(records, recordIncludedInStreak)
+
+  const longestStreak = streaks.reduce((longest, streak) => {
+    return streak.length > longest.length ? streak : longest
+  }, [] as GlucoseRecord[])
+  const longestStreakString = getStreakDurationString(longestStreak)
+
+  const currentStreak = streaks.at(-1) || []
+  const currentStreakString = getStreakDurationString(currentStreak)
+
+  const lastRecord = records.at(-1)
+  const currentlyInStreak = lastRecord && recordIncludedInStreak(lastRecord)
+
+  const streakStringToDisplay = currentlyInStreak ? currentStreakString : 'Not in range'
+
+  return {
+    longestStreak,
+    longestStreakString,
+    currentStreak,
+    currentStreakString,
+    currentlyInStreak,
+    streaks,
+    streakStringToDisplay,
+  }
 }
 
 export const calculateDailyStreakStats = (

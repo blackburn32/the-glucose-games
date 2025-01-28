@@ -36,25 +36,25 @@
     </div>
     <LineGraph
       title="No Lows Streak"
-      :duration="currentStreakWithoutLows.streakString"
-      :data="currentStreakWithoutLows.longestStreak"
+      :duration="noLowsStreaks.streakStringToDisplay"
+      :data="noLowsStreaks.currentStreak"
       :low="thresholds.low"
-      :best="longestStreakWithoutLowsEver.streakString"
+      :best="noLowsStreaks.longestStreakString"
     />
     <LineGraph
       title="No Highs Streak"
-      :duration="currentStreakWithoutHighs.streakString"
-      :data="currentStreakWithoutHighs.longestStreak"
+      :duration="noHighsStreaks.streakStringToDisplay"
+      :data="noHighsStreaks.currentStreak"
       :high="thresholds.high"
-      :best="longestStreakWithoutHighsEver.streakString"
+      :best="noHighsStreaks.longestStreakString"
     />
     <LineGraph
       title="No Highs or Lows Streak"
-      :duration="currentStreakWithoutHighsOrLows.streakString"
-      :data="currentStreakWithoutHighsOrLows.longestStreak"
+      :duration="noHighsOrLowsStreaks.streakStringToDisplay"
+      :data="noHighsOrLowsStreaks.currentStreak"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="longestStreakWithoutLowsOrHighsEver.streakString"
+      :best="noHighsOrLowsStreaks.longestStreakString"
     />
     <LineGraph
       title="Today's Time in Range"
@@ -86,13 +86,10 @@ const props = defineProps<{
 
 const {
   averageInRangeForFullDay,
-  currentStreakWithoutHighsOrLows,
-  currentStreakWithoutLows,
-  currentStreakWithoutHighs,
-  longestStreakWithoutHighsEver,
-  longestStreakWithoutLowsEver,
-  longestStreakWithoutLowsOrHighsEver,
   mostRecentResult,
+  noHighsStreaks,
+  noHighsOrLowsStreaks,
+  noLowsStreaks,
   percentTimeInRangeForFullDay,
   percentTimeInRangeForNights,
 } = useGlucoseValues(props.glucoseValues)
