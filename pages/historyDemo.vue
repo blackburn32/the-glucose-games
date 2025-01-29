@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col w-full items-center space-y-4 px-2">
+  <div class="flex flex-col w-full items-center space-y-4">
     <div class="flex flex-row w-full items-end justify-center space-x-4">
       <NuxtLink
         class="btn btn-outline"
-        to="/historyDemo"
+        to="/demo"
       >
-        Gaming Records
+        Current games
       </NuxtLink>
       <div class="text-4xl text-center font-bold mt-10">
-        Current Games (Demo)
+        Gaming Records (Demo)
       </div>
       <div
         class="btn btn-outline space-x-2"
@@ -24,20 +24,13 @@
         </div>
       </div>
     </div>
-    <GameViewer
-      :thresholds="thresholds"
-      :glucose-values="computed(() => demoGlucoseData)"
-    />
+    <HistoryViewer :glucose-values="computed(() => demoGlucoseData)" />
   </div>
 </template>
 
 <script setup lang="ts">
-const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 4000))
+const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 6000))
 const refreshData = () => {
-  demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 4000)
+  demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 6000)
 }
-const thresholds = ref({
-  low: 70,
-  high: 180,
-})
 </script>

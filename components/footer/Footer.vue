@@ -43,7 +43,7 @@
                 to="/history"
                 @click="errorIfNotSignedIn"
               >
-                Past Games
+                Gaming Records
               </NuxtLink>
             </li>
             <li>

@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
-  modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@pinia/nuxt', '@nuxt/image', 'nuxt-aos'],
+  modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@pinia/nuxt', '@nuxt/image', 'nuxt-aos', '@samk-dev/nuxt-vcalendar'],
 
   $production: {
     runtimeConfig: {
@@ -64,6 +64,7 @@ export default defineNuxtConfig({
         '/about',
         '/confirm',
         '/demo',
+        '/historyDemo',
         '/login',
         '/privacy',
         '/tos',

@@ -79,18 +79,24 @@
               <LineGraph
                 class="w-full"
                 :title="dataForLineGraph.title"
-                :data="dataForLineGraph.longestStreak"
+                :data="dataForLineGraph.streak"
                 :duration="dataForLineGraph.streakString"
                 :low="70"
                 :high="category != '2' ? 180 : undefined"
               />
-              <div class="flex flex-row pt-2">
+              <div
+                class="flex flex-row pt-2 cursor-pointer"
+                @click="refreshData"
+              >
                 <Icon
                   name="ph:arrow-counter-clockwise"
                   :size="24"
-                  class="cursor-pointer"
-                  @click="refreshData"
                 />
+                <span
+                  class="text-sm ml-2 cursor-pointer"
+                >
+                  Randomize Data
+                </span>
               </div>
             </div>
           </div>
@@ -103,6 +109,8 @@
 <script setup lang="ts">
 import { cleanPercentForDisplay } from '~/utils/glucoseGames'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
+import { contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
+import { getLastNight } from '~/utils/timing/timeSlicers'
 
 const category = ref('1')
 const glucoseValues = useState('demoValues', () => generateGlucoseValues(RealisticGeneratorConfig, 1000))
@@ -111,35 +119,36 @@ const refreshData = () => {
   glucoseValues.value = generateGlucoseValues(RealisticGeneratorConfig, 1000)
 }
 
+const noLowsStreak = computed(() => {
+  return contiguousStreakWithNoLows(glucoseValues.value, { low: 70, high: 180 })
+})
+
+const noLowsOrHighsStreak = computed(() => {
+  return contiguousStreakWithNoLowsOrHighs(glucoseValues.value, { low: 70, high: 180 })
+})
+
 const bestStreak = computed(() => {
   return {
-    title: 'Best Streak of the Week',
-    ...longestStreakWithoutLowsOrHighs(glucoseValues.value, 70, 180),
+    title: 'Best streak this week',
+    streak: noLowsOrHighsStreak.value.longestStreak,
+    streakString: noLowsOrHighsStreak.value.longestStreakString,
   }
 })
+
 const currentStreak = computed(() => {
   return {
-    title: 'Current Streak Without Lows',
-    ...longestStreakWithoutLows(glucoseValues.value, 70, true),
+    title: 'Current No Lows Streak',
+    streak: noLowsStreak.value.currentStreak,
+    streakString: noLowsStreak.value.currentStreakString,
   }
 })
 const lastNight = computed(() => {
-  const now = new Date()
-  const todayMidnight = new Date()
-  todayMidnight.setHours(0, 0, 0, 0)
-  const todayMorning = new Date()
-  todayMorning.setHours(6, 0, 0, 0)
-
-  const [start, end] = now < todayMorning
-    ? [new Date(todayMidnight).setDate(new Date(todayMidnight).getDate() - 1), new Date(todayMorning).setDate(new Date(todayMorning).getDate() - 1)]
-    : [todayMidnight, todayMorning]
-
-  const values = glucoseValues.value.filter(record => record.created > start && record.created < end)
+  const values = getLastNight(glucoseValues.value)
   const percentTimeInRange = scoreRecordsByPercentTimeInRange(values ?? [], { low: 70, high: 180 })
   const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
   return {
     title: 'Time in Range Last Night',
-    longestStreak: values,
+    streak: values,
     streakString: cleanPercentTimeInRange + '%',
   }
 })

@@ -30,7 +30,7 @@
               name="ph:clock-counter-clockwise-bold"
               size="16"
             />
-            <span>Past Games</span>
+            <span>Gaming Records</span>
           </NuxtLink>
         </li>
         <li v-if="!authenticated">

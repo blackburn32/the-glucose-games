@@ -2,6 +2,8 @@ import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { CurrentDayStatus } from '~/types/constants'
 import { getStreakDurationString } from '~/utils/formatting/getStreakDurationString'
 import type { ScoredDay } from '~/types/scoredDay'
+import type { ContiguousStreakStats } from '~/types/contiguousStreakStats'
+import type { DailyStreakStats } from '~/types/dailyStreakStats'
 
 const groupRecordsByDay = (records: GlucoseRecord[]): { [day: string]: GlucoseRecord[] } => {
   return records.reduce((acc, record) => {
@@ -10,71 +12,6 @@ const groupRecordsByDay = (records: GlucoseRecord[]): { [day: string]: GlucoseRe
     acc[day].push(record)
     return acc
   }, {} as { [day: string]: GlucoseRecord[] })
-}
-
-const getCurrentStreak = (
-  records: GlucoseRecord[],
-  filter: (record: GlucoseRecord) => boolean,
-) => {
-  const streak: GlucoseRecord[] = []
-
-  for (let i = records.length - 1; i >= 0; i--) {
-    const record = records[i]
-    if (filter(record)) {
-      streak.push(record)
-    }
-    else {
-      break
-    }
-  }
-
-  const streakString = getStreakDurationString(streak)
-
-  return {
-    longestStreak: streak.reverse(),
-    streakString,
-  }
-}
-
-const getLongestStreak = (
-  records: GlucoseRecord[],
-  filter: (record: GlucoseRecord) => boolean,
-): {
-  longestStreak: GlucoseRecord[]
-  streakString: string
-} => {
-  let longestStreak: GlucoseRecord[] = []
-  let currentStreak: GlucoseRecord[] = []
-  for (const record of records) {
-    if (filter(record)) {
-      currentStreak.push(record)
-    }
-    else {
-      if (currentStreak.length > longestStreak.length) {
-        longestStreak = currentStreak
-      }
-      currentStreak = []
-    }
-  }
-  if (currentStreak.length > longestStreak.length) {
-    longestStreak = currentStreak
-  }
-
-  const streakString = getStreakDurationString(longestStreak)
-
-  return { longestStreak, streakString }
-}
-
-export const longestStreakWithoutLowsOrHighs = (
-  records: GlucoseRecord[],
-  lowThreshold: number,
-  highThreshold: number,
-  current: boolean = false,
-) => {
-  const filter = (record: GlucoseRecord) => record.value > lowThreshold && record.value < highThreshold
-  return current
-    ? getCurrentStreak(records, filter)
-    : getLongestStreak(records, filter)
 }
 
 export const cleanPercentForDisplay = (percentTimeInRange: number) => {
@@ -108,7 +45,10 @@ const splitRecordsIntoContiguousStreaks = (
   return streaks
 }
 
-export const calculateContiguousStreakStats = (
+export const calculateContiguousStreakStats: (
+  records: GlucoseRecord[],
+  recordIncludedInStreak: (record: GlucoseRecord) => boolean
+) => ContiguousStreakStats = (
   records: GlucoseRecord[],
   recordIncludedInStreak: (record: GlucoseRecord) => boolean,
 ) => {
@@ -132,13 +72,51 @@ export const calculateContiguousStreakStats = (
     longestStreakString,
     currentStreak,
     currentStreakString,
-    currentlyInStreak,
+    currentlyInStreak: !!currentStreak,
     streaks,
     streakStringToDisplay,
   }
 }
 
-export const calculateDailyStreakStats = (
+const getStreakDates = (
+  scoredDays: ScoredDay[],
+) => {
+  const sortedDays = scoredDays.slice().sort((a, b) => a.date.getTime() - b.date.getTime())
+  const streaks: ScoredDay[][] = []
+  let currentStreak: ScoredDay[] = []
+
+  for (const day of sortedDays) {
+    if (day.passesThreshold) {
+      currentStreak.push(day)
+    }
+    else {
+      if (currentStreak.length) {
+        streaks.push(currentStreak)
+        currentStreak = []
+      }
+    }
+  }
+
+  if (currentStreak.length) {
+    streaks.push(currentStreak)
+  }
+
+  return streaks.map((streak) => {
+    return {
+      start: streak[0].date,
+      end: streak.at(-1)?.date,
+    }
+  })
+}
+
+export const calculateDailyStreakStats: (
+  records: GlucoseRecord[],
+  filterFunction: (records: GlucoseRecord[]) => GlucoseRecord[],
+  dailyScoringFunction: (records: GlucoseRecord[]) => number,
+  scorePassesStreakCheck: (score: number) => boolean,
+  includeCurrentDay: (scoredDays: ScoredDay) => CurrentDayStatus,
+  scoreDisplayFunction?: (score: number) => string
+) => DailyStreakStats = (
   records: GlucoseRecord[],
   filterFunction: (records: GlucoseRecord[]) => GlucoseRecord[],
   dailyScoringFunction: (records: GlucoseRecord[]) => number,
@@ -162,7 +140,7 @@ export const calculateDailyStreakStats = (
       scoreForDisplay: scoreDisplayFunction ? scoreDisplayFunction(score) : score.toString(),
       passesThreshold: scorePassesStreakCheck(score),
     }
-  })
+  }).sort((a, b) => a.date.getTime() - b.date.getTime())
 
   const bestDay = scoredDays.reduce((best, day) => {
     return day.score > best.score ? day : best
@@ -184,6 +162,8 @@ export const calculateDailyStreakStats = (
   const bestStreak = getBestDailyStreak(scoredDays)
   const bestStreakIncludesToday = todaysScoredDay ? bestStreak.includes(todaysScoredDay) : false
 
+  const streakDates = getStreakDates(scoredDays)
+
   return {
     bestDay,
     bestStreak,
@@ -192,6 +172,7 @@ export const calculateDailyStreakStats = (
     scoredDays,
     todaysScoredDay,
     mostRecentScoredDay,
+    streakDates,
   }
 }
 

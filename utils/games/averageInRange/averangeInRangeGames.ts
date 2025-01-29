@@ -4,6 +4,7 @@ import { scoreRecordsByAverageGlucose } from '~/utils/scoring/averageGlucoseValu
 import { filterRecordsByTimePeriod } from '~/utils/filters/timePeriod/filterByTimePeriod'
 import type { ScoredDay } from '~/types/scoredDay'
 import { CurrentDayStatus } from '~/types/constants'
+import { calculateDailyStreakStats } from '~/utils/glucoseGames'
 
 export const averageInRangeGame = (
   records: GlucoseRecord[],

@@ -20,7 +20,7 @@ Compete across a broad array of games and contests, including:
 
 Check out a demo of the games [here](/demo).
 
-## Track your progress (Coming Soon)
+## Track your progress
 
 As you compete in the games, you'll be able to track your progress over time.
 See how your control has improved, and where you might need to focus more attention.

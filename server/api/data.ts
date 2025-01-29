@@ -38,7 +38,7 @@ const getDexcomData = async (userId: string, supabase: SupabaseClient<Database>,
   await refreshDexcomTokenIfNecessary(userId, token, supabase, dexcomBaseUrl, dexcomClientId, dexcomClientSecret)
 
   const today = new Date()
-  const weekAgo = new Date(today - 7 * 24 * 60 * 60 * 1000)
+  const monthAgo = new Date(today - 28 * 24 * 60 * 60 * 1000)
 
-  return getEstimatedBloodGlucoseValuesFromDexcom(weekAgo, today, token, dexcomBaseUrl)
+  return getEstimatedBloodGlucoseValuesFromDexcom(monthAgo, today, token, dexcomBaseUrl)
 }
