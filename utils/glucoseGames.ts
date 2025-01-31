@@ -142,18 +142,14 @@ export const calculateDailyStreakStats: (
     }
   }).sort((a, b) => a.date.getTime() - b.date.getTime())
 
-  const bestDay = scoredDays.reduce((best, day) => {
-    return day.score > best.score ? day : best
-  })
+  const bestDay = scoredDays.length > 0
+    ? scoredDays.reduce((best, day) => {
+        return day.score > best.score ? day : best
+      })
+    : undefined
 
   const today = new Date().toLocaleString().split(',')[0]
-  const todaysScoredDay = scoredDays.find(day => day.date.toLocaleString().split(',')[0] === today) || {
-    date: new Date(),
-    glucoseRecords: [],
-    score: 0,
-    scoreForDisplay: '0',
-    passesThreshold: false,
-  }
+  const todaysScoredDay = scoredDays.find(day => day.date.toLocaleString().split(',')[0] === today)
 
   const mostRecentScoredDay = scoredDays.at(-1)
 
@@ -164,10 +160,13 @@ export const calculateDailyStreakStats: (
 
   const streakDates = getStreakDates(scoredDays)
 
+  const currentScoredDayWithFallback = todaysScoredDay
+
   return {
     bestDay,
     bestStreak,
     bestStreakIncludesToday,
+    currentScoredDayWithFallback,
     currentStreak,
     scoredDays,
     todaysScoredDay,
@@ -177,12 +176,12 @@ export const calculateDailyStreakStats: (
 }
 
 const getCurrentDailyStreak = (
-  today: ScoredDay,
+  today: ScoredDay | undefined,
   sortedScoredDays: ScoredDay[],
   getCurrentDayStatus: (currentDay: ScoredDay) => CurrentDayStatus,
 ) => {
   const currentStreak: ScoredDay[] = []
-  const currentDayStatus = getCurrentDayStatus(today)
+  const currentDayStatus = today ? getCurrentDayStatus(today) : CurrentDayStatus.Pending
 
   if (currentDayStatus === CurrentDayStatus.Fail) {
     return {
@@ -191,7 +190,7 @@ const getCurrentDailyStreak = (
     }
   }
 
-  if (currentDayStatus === CurrentDayStatus.Pass) {
+  if (currentDayStatus === CurrentDayStatus.Pass && today) {
     currentStreak.push(today)
   }
 

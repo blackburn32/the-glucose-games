@@ -17,7 +17,16 @@
       </div>
     </div>
     <ClientOnly>
+      <div
+        v-if="data.length == 0"
+        class="skeleton flex items-center justify-center min-h-[268px] w-full mt-2"
+      >
+        <div class="text-2xl">
+          No data available
+        </div>
+      </div>
       <VisXYContainer
+        v-if="data.length > 0"
         :data="data"
         :y-domain="[0, 400]"
       >
@@ -63,7 +72,7 @@
         />
       </VisXYContainer>
       <template #fallback>
-        <div class="skeleton min-h-[300px] w-full" />
+        <div class="skeleton min-h-[268px] w-full mt-2" />
       </template>
     </ClientOnly>
   </div>

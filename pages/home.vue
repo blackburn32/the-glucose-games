@@ -8,8 +8,8 @@
       class="flex flex-col space-y-2 w-full md:max-w-lg"
     >
       <LineGraph
-        title="Last hour"
-        :data="mostRecentHour"
+        title="Last Day"
+        :data="previous24Hours.glucoseValues"
         :high="thresholds.high"
         :low="thresholds.low"
       />
@@ -20,9 +20,9 @@
       class="flex flex-row items-center md:max-w-lg"
     >
       <StatBadge
-        v-if="mostRecentResult"
+        v-if="mostRecentRecordWithinLastHour"
         title="Current Blood Sugar"
-        :value="mostRecentResult.value.toString()"
+        :value="mostRecentRecordWithinLastHour.value.toString()"
         description="mg/dl"
       />
       <StatBadge
@@ -56,8 +56,7 @@
 const thresholds = useThresholds()
 
 const {
-  mostRecentHour,
-  mostRecentResult,
+  mostRecentRecordWithinLastHour,
   previous24Hours,
 } = useGlucoseValues()
 

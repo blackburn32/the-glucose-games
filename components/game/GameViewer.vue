@@ -5,7 +5,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <StatBadge
         title="Current Blood Sugar"
-        :value="mostRecentResult?.value.toString() ?? 'N/A'"
+        :value="mostRecentRecordWithinLastHour?.value.toString() ?? 'Unknown'"
         description="mg/dl"
       />
       <StatBadge
@@ -15,7 +15,7 @@
       />
       <StatBadge
         title="Current Daily Average"
-        :value="averageInRangeForFullDay.todaysScoredDay.scoreForDisplay"
+        :value="averageInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'"
         description="mg/dl"
       />
       <StatBadge
@@ -25,7 +25,7 @@
       />
       <StatBadge
         title="Last Night"
-        :value="`${percentTimeInRangeForNights.todaysScoredDay.glucoseRecords.length > 0 ? percentTimeInRangeForNights.todaysScoredDay.scoreForDisplay : percentTimeInRangeForNights.mostRecentScoredDay?.scoreForDisplay || 0}%`"
+        :value="`${percentTimeInRangeForNights.currentScoredDayWithFallback?.glucoseRecords.length || 'Unknown'}%`"
         description="time in range"
       />
       <StatBadge
@@ -58,19 +58,19 @@
     />
     <LineGraph
       title="Today's Time in Range"
-      :duration="`${percentTimeInRangeForFullDay.todaysScoredDay.scoreForDisplay}%`"
-      :data="percentTimeInRangeForFullDay.todaysScoredDay.glucoseRecords"
+      :duration="`${percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'}%`"
+      :data="percentTimeInRangeForFullDay.currentScoredDayWithFallback?.glucoseRecords || []"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${percentTimeInRangeForFullDay.bestDay.scoreForDisplay}%`"
+      :best="`${percentTimeInRangeForFullDay.bestDay ? percentTimeInRangeForFullDay.bestDay.scoreForDisplay : 'Unknown'}%`"
     />
     <LineGraph
       title="Last Night's Time in Range"
-      :duration="`${percentTimeInRangeForNights.todaysScoredDay.glucoseRecords.length > 0 ? percentTimeInRangeForNights.todaysScoredDay.scoreForDisplay : percentTimeInRangeForNights.mostRecentScoredDay?.scoreForDisplay || 0}%`"
-      :data="percentTimeInRangeForNights.todaysScoredDay.glucoseRecords.length > 0 ? percentTimeInRangeForNights.todaysScoredDay.glucoseRecords : percentTimeInRangeForNights.mostRecentScoredDay?.glucoseRecords || []"
+      :duration="`${percentTimeInRangeForNights.currentScoredDayWithFallback ? percentTimeInRangeForNights.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
+      :data="percentTimeInRangeForNights.currentScoredDayWithFallback ? percentTimeInRangeForNights.currentScoredDayWithFallback.glucoseRecords : []"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${percentTimeInRangeForNights.bestDay.scoreForDisplay}%`"
+      :best="`${percentTimeInRangeForNights.bestDay ? percentTimeInRangeForNights.bestDay.scoreForDisplay : 'Unknown'}%`"
     />
   </div>
 </template>
@@ -87,6 +87,7 @@ const props = defineProps<{
 const {
   averageInRangeForFullDay,
   mostRecentResult,
+  mostRecentRecordWithinLastHour,
   noHighsStreaks,
   noHighsOrLowsStreaks,
   noLowsStreaks,

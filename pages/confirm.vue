@@ -38,6 +38,12 @@ const redirectCookie = useCookie(`${cookieName}-redirect-path`)
 if (redirectCookie.value) {
   const redirectPath = redirectCookie.value
   redirectCookie.value = null
-  navigateTo(redirectPath)
+  await navigateTo(redirectPath)
 }
+
+const {
+  refreshGlucoseData,
+} = useGlucoseValues()
+
+await refreshGlucoseData()
 </script>

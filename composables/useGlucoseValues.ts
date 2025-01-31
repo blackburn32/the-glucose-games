@@ -45,8 +45,8 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     const today = Date.now()
     const dayAgo = new Date(today - 24 * 60 * 60 * 1000)
     const glucoseValues = glucoseData.value.filter(record => record.created > dayAgo)
-    const percentTimeInRange = scoreRecordsByPercentTimeInRange(glucoseValues, thresholds.value)
-    const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
+    const percentTimeInRange = glucoseValues.length > 0 ? scoreRecordsByPercentTimeInRange(glucoseValues, thresholds.value) : undefined
+    const cleanPercentTimeInRange = percentTimeInRange ? cleanPercentForDisplay(percentTimeInRange) : 'Unknown'
     return {
       glucoseValues,
       percentTimeInRange,
@@ -66,10 +66,22 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     return contiguousStreakWithNoLowsOrHighs(glucoseData.value, thresholds.value)
   })
 
+  const refreshGlucoseData = () => {
+    return glucoseDataRaw.refresh()
+  }
+
+  const mostRecentRecordWithinLastHour = computed(() => {
+    const now = Date.now()
+    const hourAgo = now - 60 * 60 * 1000
+    const hourOfRecords = glucoseData.value.filter(record => record.created.getTime() > hourAgo)
+    return hourOfRecords.at(-1)
+  })
+
   return {
     averageInRangeForFullDay,
     glucoseData,
     mostRecentHour,
+    mostRecentRecordWithinLastHour,
     mostRecentResult,
     noHighsStreaks,
     noHighsOrLowsStreaks,
@@ -77,5 +89,6 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     percentTimeInRangeForFullDay,
     percentTimeInRangeForNights,
     previous24Hours,
+    refreshGlucoseData,
   }
 }

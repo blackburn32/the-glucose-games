@@ -2,10 +2,9 @@
   <div class="w-full md:max-w-6xl grid grid-cols-1 md:grid-cols-2">
     <div class="flex flex-col p-2">
       <LineGraph
-        v-if="streakToDisplay"
         class="w-full"
         :title="title"
-        :data="streakToDisplay.glucoseRecords"
+        :data="streakToDisplay ? streakToDisplay.glucoseRecords : []"
         :low="lowLine"
         :high="highLine"
       />
@@ -49,6 +48,7 @@
 <script setup lang="ts">
 import { isSameDay } from 'date-fns'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
+import type { ScoredDay } from '~/types/scoredDay'
 
 const selectedDate = ref(new Date())
 const cleanSelectedDate = computed(() => {
