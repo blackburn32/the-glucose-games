@@ -24,9 +24,7 @@
         </div>
       </div>
     </div>
-    <NuxtClientFallback @ssr-error="logSsrError">
-      <HistoryViewer :glucose-values="computed(() => demoGlucoseData)" />
-    </NuxtClientFallback>
+    <HistoryViewer :glucose-values="computed(() => demoGlucoseData)" />
   </div>
 </template>
 
@@ -34,8 +32,5 @@
 const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 2000))
 const refreshData = () => {
   demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 2000)
-}
-const logSsrError = (error: Error) => {
-  console.error('An error occurred during ssr:', error.message, error.stack)
 }
 </script>

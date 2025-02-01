@@ -41,8 +41,13 @@ export default defineNuxtConfig({
     dexcomClientSecret: 'This is overridden by .env',
     dexcomRedirectUrl: 'http://localhost:3000/api/authorize/dexcom',
   },
-  experimental: {
-    clientFallback: true,
+  routeRules: {
+    '/historyDemo': {
+      ssr: false,
+    },
+    '/history': {
+      ssr: false,
+    },
   },
   compatibilityDate: '2024-11-01',
 
