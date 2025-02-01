@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 4000))
+const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 2000))
 const refreshData = () => {
   demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 4000)
 }

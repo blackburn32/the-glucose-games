@@ -41,6 +41,9 @@ export default defineNuxtConfig({
     dexcomClientSecret: 'This is overridden by .env',
     dexcomRedirectUrl: 'http://localhost:3000/api/authorize/dexcom',
   },
+  experimental: {
+    clientFallback: true,
+  },
   compatibilityDate: '2024-11-01',
 
   nitro: {
