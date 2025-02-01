@@ -65,6 +65,9 @@ const {
 } = useTokenStatus()
 
 const timeInRangeIcon = computed(() => {
+  if (!previous24Hours.value.percentTimeInRange) {
+    return ''
+  }
   if (previous24Hours.value.percentTimeInRange >= 90) {
     return 'ph:crown'
   }
@@ -78,6 +81,9 @@ const timeInRangeIcon = computed(() => {
 })
 
 const timeInRangeIconColor = computed(() => {
+  if (!previous24Hours.value.percentTimeInRange) {
+    return ''
+  }
   if (previous24Hours.value.percentTimeInRange >= 90) {
     return 'text-accent'
   }

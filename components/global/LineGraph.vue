@@ -1,22 +1,22 @@
 <template>
   <div class="flex flex-col w-full">
-    <div class="flex flex-col w-full ml-8">
-      <div class="text-2xl font-semibold leading-tight max-w-full">
-        {{ title }}
-      </div>
-      <div class="flex flex-row justify-between">
-        <div v-if="duration">
-          {{ duration }}
-        </div>
-        <div
-          v-if="best"
-          class="text-end mr-10"
-        >
-          Best: {{ best }}
-        </div>
-      </div>
-    </div>
     <ClientOnly>
+      <div class="flex flex-col w-full ml-8">
+        <div class="text-2xl font-semibold leading-tight max-w-full">
+          {{ title }}
+        </div>
+        <div class="flex flex-row justify-between">
+          <div v-if="duration">
+            {{ duration }}
+          </div>
+          <div
+            v-if="best"
+            class="text-end mr-10"
+          >
+            Best: {{ best }}
+          </div>
+        </div>
+      </div>
       <div
         v-if="data.length == 0"
         class="skeleton flex items-center justify-center min-h-[268px] w-full mt-2"
@@ -72,7 +72,23 @@
         />
       </VisXYContainer>
       <template #fallback>
-        <div class="skeleton min-h-[268px] w-full mt-2" />
+        <div class="flex flex-col w-full ml-8">
+          <div class="text-2xl font-semibold leading-tight max-w-full">
+            {{ title }}
+          </div>
+          <div class="flex flex-row justify-between">
+            <div v-if="duration">
+              Loading...
+            </div>
+            <div
+              v-if="best"
+              class="text-end mr-10"
+            >
+              Best: Loading...
+            </div>
+          </div>
+        </div>
+        <div class="skeleton min-h-[292px] w-full mt-2" />
       </template>
     </ClientOnly>
   </div>
