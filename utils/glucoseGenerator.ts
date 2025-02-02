@@ -47,7 +47,7 @@ const generateTrend = (config: GlucoseGeneratorConfig, startValue: number, endVa
   return values.map(value => value + (isIncreasing ? 1 : -1) * Math.random() * config.maxChange)
 }
 
-export const generateGlucoseValues = (config: GlucoseGeneratorConfig, count: number) => {
+export const generateGlucoseValues = (config: GlucoseGeneratorConfig, count: number, minutesBetweenRecords: number = 15) => {
   const values = []
   let previousValue = config.average
   let trend = Math.random() > 0.5
@@ -62,7 +62,7 @@ export const generateGlucoseValues = (config: GlucoseGeneratorConfig, count: num
     values.push(newValue)
     previousValue = newValue
   }
-  return generateTimestamps(values, new Date(), 5 * 60 * 1000).reverse()
+  return generateTimestamps(values, new Date(), minutesBetweenRecords * 60 * 1000).reverse()
 }
 
 export const toGlucoseRecord = (value: number, created: Date) => {

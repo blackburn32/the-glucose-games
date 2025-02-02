@@ -32,6 +32,7 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   runtimeConfig: {
     public: {
       authCallbackUrl: 'http://localhost:3000/confirm',

@@ -85,7 +85,7 @@ const timeInRangeIconColor = computed(() => {
     return ''
   }
   if (previous24Hours.value.percentTimeInRange >= 90) {
-    return 'text-accent'
+    return 'text-success'
   }
   else if (previous24Hours.value.percentTimeInRange >= 70) {
     return 'text-primary'
