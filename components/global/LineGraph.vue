@@ -109,7 +109,7 @@ const getCleanDate = (d: Date) => {
 
 const tickFormat = (d: number) => getCleanDate(new Date(d))
 const crosshairTemplate = (d: GlucoseRecord) => {
-  return `${getCleanDate(d.created)}: ${d.value}mg/dl`
+  return `${getCleanDate(d.created)}: ${d.value}mg/dL`
 }
 </script>
 

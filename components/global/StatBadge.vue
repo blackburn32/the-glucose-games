@@ -1,35 +1,36 @@
 <template>
-  <div class="stats h-min overflow-hidden">
-    <div class="stat">
-      <div class="stat-figure text-secondary">
+  <div class="indicator w-full">
+    <ClientOnly>
+      <Icon
+        v-if="icon"
+        class="indicator-item z-10"
+        :name="icon"
+        size="24"
+        :class="iconColor"
+      />
+    </ClientOnly>
+    <div class="stats w-full h-min overflow-hidden bg-base-300">
+      <div class="stat min-w-fit">
+        <div class="stat-title">
+          {{ title }}
+        </div>
         <ClientOnly>
-          <Icon
-            v-if="icon"
-            :name="icon"
-            size="24"
-            :class="iconColor"
-          />
-        </ClientOnly>
-      </div>
-      <div class="stat-title">
-        {{ title }}
-      </div>
-      <ClientOnly>
-        <div class="stat-value">
-          {{ value }}
-        </div>
-        <div class="stat-desc">
-          {{ description }}
-        </div>
-        <template #fallback>
           <div class="stat-value">
-            Loading...
+            {{ value }}
           </div>
           <div class="stat-desc">
-            Loading...
+            {{ description }}
           </div>
-        </template>
-      </ClientOnly>
+          <template #fallback>
+            <div class="stat-value">
+              Loading...
+            </div>
+            <div class="stat-desc">
+              Loading...
+            </div>
+          </template>
+        </ClientOnly>
+      </div>
     </div>
   </div>
 </template>

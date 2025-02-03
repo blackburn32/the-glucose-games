@@ -23,7 +23,7 @@
         v-if="mostRecentRecordWithinLastHour"
         title="Current Blood Sugar"
         :value="mostRecentRecordWithinLastHour.value.toString()"
-        description="mg/dl"
+        description="mg/dL"
       />
       <StatBadge
         title="Time in Range"

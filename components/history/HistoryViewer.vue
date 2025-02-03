@@ -68,7 +68,7 @@
       title="Average in Range"
       description="Average glucose within range"
       score-label="Average Blood Glucose"
-      score-units="mg/dl"
+      score-units="mg/dL"
       :streak-stats="averageInRangeForFullDay"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
