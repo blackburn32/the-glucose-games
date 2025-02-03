@@ -28,16 +28,16 @@
       :thresholds="thresholds"
       :glucose-values="computed(() => demoGlucoseData)"
     />
+    <DemoThresholdSlider class="max-w-full md:max-w-md" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { useDemoThresholds } from '~/composables/useDemoThresholds'
+
 const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 1000, 30))
 const refreshData = () => {
   demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 1000, 30)
 }
-const thresholds = ref({
-  low: 70,
-  high: 180,
-})
+const { thresholds } = useDemoThresholds()
 </script>

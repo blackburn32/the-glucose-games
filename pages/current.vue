@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-const thresholds = useThresholds()
+const { thresholds } = useThresholds()
 const {
   hasDexcom,
 } = useTokenStatus()

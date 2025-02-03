@@ -31,7 +31,7 @@
 const {
   previous24Hours,
 } = useGlucoseValues()
-const thresholds = useThresholds()
+const { thresholds } = useThresholds()
 
 const { hasDexcom } = useTokenStatus()
 

@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-const thresholds = useThresholds()
+const { thresholds } = useThresholds()
 
 const {
   mostRecentRecordWithinLastHour,
@@ -85,13 +85,13 @@ const timeInRangeIconColor = computed(() => {
     return ''
   }
   if (previous24Hours.value.percentTimeInRange >= 90) {
-    return 'text-success'
-  }
-  else if (previous24Hours.value.percentTimeInRange >= 70) {
     return 'text-primary'
   }
-  else if (previous24Hours.value.percentTimeInRange >= 50) {
+  else if (previous24Hours.value.percentTimeInRange >= 70) {
     return 'text-secondary'
+  }
+  else if (previous24Hours.value.percentTimeInRange >= 50) {
+    return 'text-accent'
   }
   return ''
 })

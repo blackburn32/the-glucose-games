@@ -24,7 +24,11 @@
         </div>
       </div>
     </div>
-    <HistoryViewer :glucose-values="computed(() => demoGlucoseData)" />
+    <HistoryViewer
+      :glucose-values="computed(() => demoGlucoseData)"
+      :thresholds="thresholds"
+    />
+    <DemoThresholdSlider class="max-w-full md:max-w-md" />
   </div>
 </template>
 
@@ -33,4 +37,5 @@ const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(
 const refreshData = () => {
   demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 2000, 30)
 }
+const { thresholds } = useDemoThresholds()
 </script>

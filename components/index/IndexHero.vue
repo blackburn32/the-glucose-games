@@ -45,7 +45,7 @@
         >
           <NuxtImg
             class="mx-auto md:max-w-xl"
-            src="https://robpsmulkkgavocpifbg.supabase.co/storage/v1/object/public/images/glucoseGamesLogoLarge2.png?t=2025-01-20T18%3A33%3A22.087Z"
+            src="https://robpsmulkkgavocpifbg.supabase.co/storage/v1/object/public/images//logo.png"
             height="2856"
             width="2869"
             alt="The Glucose Games Logo"

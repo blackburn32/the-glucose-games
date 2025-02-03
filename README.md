@@ -41,5 +41,5 @@ This project uses Supabase.
 You can generate types for the Supabase client by running:
 
 ```bash
-supabase gen types typescript --local > types/database.glucoseRecord.ts
+supabase gen types typescript --local > types/database.types.ts
 ```

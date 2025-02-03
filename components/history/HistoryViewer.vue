@@ -4,20 +4,20 @@
       title="No Highs or Lows Streaks"
       description="Longest streaks with no highs or lows"
       :streak-stats="noHighsOrLowsStreaks"
-      :high-line="thresholds.high"
-      :low-line="thresholds.low"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
     />
     <HistoryContiguousStreak
       title="No Highs Streaks"
       description="Longest streaks with no highs"
       :streak-stats="noHighsStreaks"
-      :high-line="thresholds.high"
+      :high-line="thresholdsToUse.high"
     />
     <HistoryContiguousStreak
       title="No Lows Streaks"
       description="Longest streaks with no lows"
       :streak-stats="noLowsStreaks"
-      :low-line="thresholds.low"
+      :low-line="thresholdsToUse.low"
     />
     <HistoryDailyStreak
       title="In Range Streak"
@@ -25,8 +25,8 @@
       score-label="Time in range"
       score-units="%"
       :streak-stats="percentTimeInRangeForFullDay"
-      :high-line="thresholds.high"
-      :low-line="thresholds.low"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
     />
     <HistoryDailyStreak
       title="Nighttime Streak"
@@ -34,8 +34,8 @@
       score-label="Time in range"
       score-units="%"
       :streak-stats="percentTimeInRangeForNights"
-      :high-line="thresholds.high"
-      :low-line="thresholds.low"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
     />
     <HistoryDailyStreak
       title="Average in Range"
@@ -43,18 +43,19 @@
       score-label="Average Blood Glucose"
       score-units="mg/dl"
       :streak-stats="averageInRangeForFullDay"
-      :high-line="thresholds.high"
-      :low-line="thresholds.low"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useGlucoseValues } from '~/composables/useGlucoseValues'
-import { useThresholds } from '~/composables/useThresholds'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
+import type { Thresholds } from '~/types/thresholds'
 
 const props = defineProps<{
+  thresholds?: Thresholds | undefined
   glucoseValues?: Ref<GlucoseRecord[]> | undefined
 }>()
 
@@ -65,7 +66,13 @@ const {
   noLowsStreaks,
   percentTimeInRangeForFullDay,
   percentTimeInRangeForNights,
-} = useGlucoseValues(props.glucoseValues)
+} = useGlucoseValues(props.glucoseValues, props.thresholds)
 
-const thresholds = useThresholds()
+const thresholdsToUse = computed(() => {
+  if (props.thresholds) return props.thresholds
+  return {
+    low: 70,
+    high: 180,
+  }
+})
 </script>

@@ -83,6 +83,7 @@
                 :duration="dataForLineGraph.streakString"
                 :low="70"
                 :high="category != '2' ? 180 : undefined"
+                :best="dataForLineGraph.best"
               />
               <div
                 class="flex flex-row pt-2 cursor-pointer"
@@ -111,6 +112,7 @@ import { cleanPercentForDisplay } from '~/utils/glucoseGames'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import { contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
 import { getLastNight } from '~/utils/timing/timeSlicers'
+import { percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
 
 const category = ref('1')
 const glucoseValues = useState('demoValues', () => generateGlucoseValues(RealisticGeneratorConfig, 1000))
@@ -127,11 +129,16 @@ const noLowsOrHighsStreak = computed(() => {
   return contiguousStreakWithNoLowsOrHighs(glucoseValues.value, { low: 70, high: 180 })
 })
 
+const timeInRange = computed(() => {
+  return percentTimeInRangeForNightsStreak(glucoseValues.value, { low: 70, high: 180 }, 1)
+})
+
 const bestStreak = computed(() => {
   return {
-    title: 'Best streak this week',
+    title: 'Best Streak',
     streak: noLowsOrHighsStreak.value.longestStreak,
     streakString: noLowsOrHighsStreak.value.longestStreakString,
+    best: noLowsOrHighsStreak.value.longestStreakString,
   }
 })
 
@@ -140,6 +147,7 @@ const currentStreak = computed(() => {
     title: 'Current No Lows Streak',
     streak: noLowsStreak.value.currentStreak,
     streakString: noLowsStreak.value.currentStreakString,
+    best: noLowsStreak.value.longestStreakString,
   }
 })
 const lastNight = computed(() => {
@@ -148,8 +156,9 @@ const lastNight = computed(() => {
   const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
   return {
     title: 'Time in Range Last Night',
-    streak: values,
-    streakString: cleanPercentTimeInRange + '%',
+    streak: timeInRange.value.mostRecentScoredDay?.glucoseRecords ?? [],
+    streakString: timeInRange.value.mostRecentScoredDay?.scoreForDisplay + '%',
+    best: timeInRange.value.bestDay?.scoreForDisplay + '%',
   }
 })
 

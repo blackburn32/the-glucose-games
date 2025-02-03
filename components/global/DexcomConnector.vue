@@ -1,21 +1,25 @@
 <template>
   <div class="flex flex-row space-x-4">
-    <UButton
-      icon="i-arcticons-dexcom-g6"
-      size="lg"
-      :disabled="hasDexcom"
+    <div
+      class="btn btn-primary"
       @click="connectDexcom"
     >
+      <Icon
+        name="arcticons:dexcom-g6"
+        size="24"
+      />
       {{ dexcomText }}
-    </UButton>
-    <UButton
+    </div>
+    <div
       v-if="hasDexcom"
-      icon="i-heroicons-trash"
-      :loading="deleting"
-      size="lg"
-      color="red"
+      class="btn btn-error"
       @click="deleteDexcom"
-    />
+    >
+      <Icon
+        name="ph:trash"
+        size="24"
+      />
+    </div>
   </div>
 </template>
 
@@ -23,14 +27,22 @@
 import { useTokenStatus } from '~/composables/useTokenStatus'
 import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
 
+const toast = useToast()
+
 const connectDexcom = async () => {
+  if (hasDexcom.value) {
+    toast.add({
+      title: 'Already connected',
+      description: 'Dexcom already connected',
+      color: 'green',
+    })
+    return
+  }
   navigateTo('/connect/dexcom', { external: true })
 }
 
 const { hasDexcom, deleteToken } = useTokenStatus()
 const dexcomText = computed(() => hasDexcom.value ? 'Connected to Dexcom' : 'Connect to Dexcom')
-
-const toast = useToast()
 
 const deleting = ref(false)
 const deleteDexcom = async () => {

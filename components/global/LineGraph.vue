@@ -45,12 +45,13 @@
         <VisLine
           :x="x"
           :y="y"
-          color="oklch(var(--su))"
+          :line-width="2.5"
+          color="oklch(var(--p))"
         />
         <VisArea
           :x="x"
           :y="y"
-          color="oklch(var(--su))"
+          color="oklch(var(--p))"
           :opacity="0.1"
         />
 
@@ -68,7 +69,7 @@
           :x="x"
           :y="y"
           :template="crosshairTemplate"
-          color="oklch(var(--su))"
+          color="oklch(var(--p))"
         />
       </VisXYContainer>
       <template #fallback>
@@ -116,5 +117,7 @@ const crosshairTemplate = (d: GlucoseRecord) => {
 .unovis-xy-container {
     --vis-tooltip-background-color: oklch(0.243535 0 0);
     --vis-tooltip-text-color: #fff;
+    --vis-axis-grid-line-width: 0.5px;
+    --vis-axis-grid-color: #fff;
 }
 </style>

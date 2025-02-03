@@ -3,12 +3,14 @@ import { percentTimeInRangeForFullDayStreak, percentTimeInRangeForNightsStreak }
 import { averageInRangeForFullDayStreak } from '~/utils/games/averageInRange/averangeInRangeGames'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import { contiguousStreakWithNoHighs, contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
+import type { Thresholds } from '~/types/thresholds'
 
-export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined) => {
+export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined, thresholdsOverride?: Thresholds | undefined) => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
     key: 'glucoseData',
     default: () => [],
     immediate: true,
+    retry: 3,
   })
 
   const glucoseData: Ref<GlucoseRecord[]> = computed(() => {
@@ -19,18 +21,19 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     })).sort((a, b) => a.created.getTime() - b.created.getTime())
   })
 
-  const thresholds = useThresholds()
+  const { thresholds } = useThresholds()
+  const thresholdsToUse = computed(() => thresholdsOverride || thresholds.value)
 
   const percentTimeInRangeForFullDay = computed(() => {
-    return percentTimeInRangeForFullDayStreak(glucoseData.value, thresholds.value, 80)
+    return percentTimeInRangeForFullDayStreak(glucoseData.value, thresholdsToUse.value, 80)
   })
 
   const percentTimeInRangeForNights = computed(() => {
-    return percentTimeInRangeForNightsStreak(glucoseData.value, thresholds.value, 80)
+    return percentTimeInRangeForNightsStreak(glucoseData.value, thresholdsToUse.value, 80)
   })
 
   const averageInRangeForFullDay = computed(() => {
-    return averageInRangeForFullDayStreak(glucoseData.value, thresholds.value)
+    return averageInRangeForFullDayStreak(glucoseData.value, thresholdsToUse.value)
   })
 
   const mostRecentResult = computed(() => glucoseData.value.at(-1))
@@ -45,7 +48,7 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     const today = Date.now()
     const dayAgo = new Date(today - 24 * 60 * 60 * 1000)
     const glucoseValues = glucoseData.value.filter(record => record.created > dayAgo)
-    const percentTimeInRange = glucoseValues.length > 0 ? scoreRecordsByPercentTimeInRange(glucoseValues, thresholds.value) : undefined
+    const percentTimeInRange = glucoseValues.length > 0 ? scoreRecordsByPercentTimeInRange(glucoseValues, thresholdsToUse.value) : undefined
     const cleanPercentTimeInRange = percentTimeInRange ? cleanPercentForDisplay(percentTimeInRange) : 'Unknown'
     return {
       glucoseValues,
@@ -55,15 +58,15 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
   })
 
   const noLowsStreaks = computed(() => {
-    return contiguousStreakWithNoLows(glucoseData.value, thresholds.value)
+    return contiguousStreakWithNoLows(glucoseData.value, thresholdsToUse.value)
   })
 
   const noHighsStreaks = computed(() => {
-    return contiguousStreakWithNoHighs(glucoseData.value, thresholds.value)
+    return contiguousStreakWithNoHighs(glucoseData.value, thresholdsToUse.value)
   })
 
   const noHighsOrLowsStreaks = computed(() => {
-    return contiguousStreakWithNoLowsOrHighs(glucoseData.value, thresholds.value)
+    return contiguousStreakWithNoLowsOrHighs(glucoseData.value, thresholdsToUse.value)
   })
 
   const refreshGlucoseData = () => {

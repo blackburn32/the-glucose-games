@@ -86,12 +86,11 @@ const props = defineProps<{
 
 const {
   averageInRangeForFullDay,
-  mostRecentResult,
   mostRecentRecordWithinLastHour,
   noHighsStreaks,
   noHighsOrLowsStreaks,
   noLowsStreaks,
   percentTimeInRangeForFullDay,
   percentTimeInRangeForNights,
-} = useGlucoseValues(props.glucoseValues)
+} = useGlucoseValues(props.glucoseValues, props.thresholds)
 </script>
