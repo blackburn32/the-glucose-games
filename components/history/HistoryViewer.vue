@@ -38,6 +38,33 @@
       :low-line="thresholdsToUse.low"
     />
     <HistoryDailyStreak
+      title="Morning Streak"
+      description="Consecutive mornings with at least 80% time in range"
+      score-label="Time in range"
+      score-units="%"
+      :streak-stats="percentTimeInRangeForMornings"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
+    />
+    <HistoryDailyStreak
+      title="Afternoon Streak"
+      description="Consecutive afternoons with at least 80% time in range"
+      score-label="Time in range"
+      score-units="%"
+      :streak-stats="percentTimeInRangeForAfternoons"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
+    />
+    <HistoryDailyStreak
+      title="Evening Streak"
+      description="Consecutive evenings with at least 80% time in range"
+      score-label="Time in range"
+      score-units="%"
+      :streak-stats="percentTimeInRangeForEvenings"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
+    />
+    <HistoryDailyStreak
       title="Average in Range"
       description="Average glucose within range"
       score-label="Average Blood Glucose"
@@ -64,7 +91,10 @@ const {
   noHighsOrLowsStreaks,
   noHighsStreaks,
   noLowsStreaks,
+  percentTimeInRangeForAfternoons,
+  percentTimeInRangeForEvenings,
   percentTimeInRangeForFullDay,
+  percentTimeInRangeForMornings,
   percentTimeInRangeForNights,
 } = useGlucoseValues(props.glucoseValues, props.thresholds)
 

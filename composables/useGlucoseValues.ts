@@ -1,5 +1,5 @@
 import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
-import { percentTimeInRangeForFullDayStreak, percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
+import { percentTimeInRangeForAfternoonsStreak, percentTimeInRangeForEveningsStreak, percentTimeInRangeForFullDayStreak, percentTimeInRangeForMorningsStreak, percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
 import { averageInRangeForFullDayStreak } from '~/utils/games/averageInRange/averangeInRangeGames'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import { contiguousStreakWithNoHighs, contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
@@ -26,6 +26,18 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
 
   const percentTimeInRangeForFullDay = computed(() => {
     return percentTimeInRangeForFullDayStreak(glucoseData.value, thresholdsToUse.value, 80)
+  })
+
+  const percentTimeInRangeForMornings = computed(() => {
+    return percentTimeInRangeForMorningsStreak(glucoseData.value, thresholdsToUse.value, 80)
+  })
+
+  const percentTimeInRangeForAfternoons = computed(() => {
+    return percentTimeInRangeForAfternoonsStreak(glucoseData.value, thresholdsToUse.value, 80)
+  })
+
+  const percentTimeInRangeForEvenings = computed(() => {
+    return percentTimeInRangeForEveningsStreak(glucoseData.value, thresholdsToUse.value, 80)
   })
 
   const percentTimeInRangeForNights = computed(() => {
@@ -89,7 +101,10 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     noHighsStreaks,
     noHighsOrLowsStreaks,
     noLowsStreaks,
+    percentTimeInRangeForAfternoons,
+    percentTimeInRangeForEvenings,
     percentTimeInRangeForFullDay,
+    percentTimeInRangeForMornings,
     percentTimeInRangeForNights,
     previous24Hours,
     refreshGlucoseData,

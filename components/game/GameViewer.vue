@@ -2,26 +2,16 @@
   <div
     class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4"
   >
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <StatBadge
-        title="Current Blood Sugar"
-        :value="mostRecentRecordWithinLastHour?.value.toString() ?? 'Unknown'"
-        description="mg/dl"
-      />
-      <StatBadge
-        title="In Range Streak"
-        :value="`${percentTimeInRangeForFullDay.currentStreak.scoredDays.length} days`"
-        description="at least 80% in range"
-      />
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
       <StatBadge
         title="Current Daily Average"
         :value="averageInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'"
         description="mg/dl"
       />
       <StatBadge
-        title="Daily Average Streak"
-        :value="`${averageInRangeForFullDay.currentStreak.scoredDays.length} days`"
-        description="average within range"
+        title="Today"
+        :value="`${percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay}%` || 'Unknown'"
+        description="time in range"
       />
       <StatBadge
         title="Last Night"
@@ -29,8 +19,33 @@
         description="time in range"
       />
       <StatBadge
+        title="Daily Average Streak"
+        :value="`${averageInRangeForFullDay.currentStreak.scoredDays.length} days`"
+        description="average within range"
+      />
+      <StatBadge
+        title="In Range Streak"
+        :value="`${percentTimeInRangeForFullDay.currentStreak.scoredDays.length} days`"
+        description="at least 80% in range"
+      />
+      <StatBadge
         title="Nighttime Streak"
-        :value="`${percentTimeInRangeForNights.currentStreak.scoredDays.length} nights`"
+        :value="`${percentTimeInRangeForNights.currentStreak.scoredDays.length} days`"
+        description="at least 80% in range"
+      />
+      <StatBadge
+        title="Morning Streak"
+        :value="`${percentTimeInRangeForMornings.currentStreak.scoredDays.length} days`"
+        description="at least 80% in range"
+      />
+      <StatBadge
+        title="Afternoon Streak"
+        :value="`${percentTimeInRangeForAfternoons.currentStreak.scoredDays.length} days`"
+        description="at least 80% in range"
+      />
+      <StatBadge
+        title="Evening Streak"
+        :value="`${percentTimeInRangeForEvenings.currentStreak.scoredDays.length} days`"
         description="at least 80% in range"
       />
     </div>
@@ -72,6 +87,30 @@
       :high="thresholds.high"
       :best="`${percentTimeInRangeForNights.bestDay ? percentTimeInRangeForNights.bestDay.scoreForDisplay : 'Unknown'}%`"
     />
+    <LineGraph
+      title="This Morning's Time in Range"
+      :duration="`${percentTimeInRangeForMornings.currentScoredDayWithFallback ? percentTimeInRangeForMornings.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
+      :data="percentTimeInRangeForMornings.currentScoredDayWithFallback ? percentTimeInRangeForMornings.currentScoredDayWithFallback.glucoseRecords : []"
+      :low="thresholds.low"
+      :high="thresholds.high"
+      :best="`${percentTimeInRangeForMornings.bestDay ? percentTimeInRangeForMornings.bestDay.scoreForDisplay : 'Unknown'}%`"
+    />
+    <LineGraph
+      title="This Afternoon's Time in Range"
+      :duration="`${percentTimeInRangeForAfternoons.currentScoredDayWithFallback ? percentTimeInRangeForAfternoons.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
+      :data="percentTimeInRangeForAfternoons.currentScoredDayWithFallback ? percentTimeInRangeForAfternoons.currentScoredDayWithFallback.glucoseRecords : []"
+      :low="thresholds.low"
+      :high="thresholds.high"
+      :best="`${percentTimeInRangeForAfternoons.bestDay ? percentTimeInRangeForAfternoons.bestDay.scoreForDisplay : 'Unknown'}%`"
+    />
+    <LineGraph
+      title="This Evening's Time in Range"
+      :duration="`${percentTimeInRangeForEvenings.currentScoredDayWithFallback ? percentTimeInRangeForEvenings.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
+      :data="percentTimeInRangeForEvenings.currentScoredDayWithFallback ? percentTimeInRangeForEvenings.currentScoredDayWithFallback.glucoseRecords : []"
+      :low="thresholds.low"
+      :high="thresholds.high"
+      :best="`${percentTimeInRangeForEvenings.bestDay ? percentTimeInRangeForEvenings.bestDay.scoreForDisplay : 'Unknown'}%`"
+    />
   </div>
 </template>
 
@@ -86,11 +125,13 @@ const props = defineProps<{
 
 const {
   averageInRangeForFullDay,
-  mostRecentRecordWithinLastHour,
   noHighsStreaks,
   noHighsOrLowsStreaks,
   noLowsStreaks,
+  percentTimeInRangeForAfternoons,
+  percentTimeInRangeForEvenings,
   percentTimeInRangeForFullDay,
+  percentTimeInRangeForMornings,
   percentTimeInRangeForNights,
 } = useGlucoseValues(props.glucoseValues, props.thresholds)
 </script>
