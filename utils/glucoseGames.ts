@@ -78,7 +78,7 @@ export const calculateContiguousStreakStats: (
   }
 }
 
-const getStreakDates = (
+const getStreaks = (
   scoredDays: ScoredDay[],
 ) => {
   const sortedDays = scoredDays.slice().sort((a, b) => a.date.getTime() - b.date.getTime())
@@ -105,6 +105,7 @@ const getStreakDates = (
     return {
       start: streak[0].date,
       end: streak.at(-1)?.date,
+      streak,
     }
   })
 }
@@ -158,7 +159,7 @@ export const calculateDailyStreakStats: (
   const bestStreak = getBestDailyStreak(scoredDays)
   const bestStreakIncludesToday = todaysScoredDay ? bestStreak.includes(todaysScoredDay) : false
 
-  const streakDates = getStreakDates(scoredDays)
+  const streaks = getStreaks(scoredDays)
 
   const currentScoredDayWithFallback = todaysScoredDay
 
@@ -171,7 +172,7 @@ export const calculateDailyStreakStats: (
     scoredDays,
     todaysScoredDay,
     mostRecentScoredDay,
-    streakDates,
+    streaks,
   }
 }
 

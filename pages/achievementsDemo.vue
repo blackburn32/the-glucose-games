@@ -1,20 +1,20 @@
 <template>
-  <div class="flex flex-col w-full items-center space-y-4">
+  <div class="flex flex-col w-full items-center space-y-4 px-2">
     <div class="text-4xl text-center font-bold mt-10">
-      Gaming Records (Demo)
+      Achievements (Demo)
     </div>
     <div class="flex flex-row w-full items-end justify-center space-x-4">
       <NuxtLink
         class="btn btn-outline"
         to="/demo"
       >
-        Current games
+        Current Games
       </NuxtLink>
       <NuxtLink
         class="btn btn-outline"
-        to="/achievementsDemo"
+        to="/historyDemo"
       >
-        Achievements
+        Gaming Records
       </NuxtLink>
       <div
         class="btn btn-outline space-x-2"
@@ -30,11 +30,10 @@
         </div>
       </div>
     </div>
-    <HistoryViewer
+    <AchievementsViewer
       :glucose-values="computed(() => demoGlucoseData)"
       :thresholds="thresholds"
     />
-    <DemoThresholdSlider class="max-w-full md:max-w-md" />
   </div>
 </template>
 

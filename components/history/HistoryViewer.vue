@@ -3,20 +3,20 @@
     <HistoryContiguousStreak
       title="No Highs or Lows Streaks"
       description="Longest streaks with no highs or lows"
-      :streak-stats="noHighsOrLowsStreaks"
+      :streak-stats="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
     />
     <HistoryContiguousStreak
       title="No Highs Streaks"
       description="Longest streaks with no highs"
-      :streak-stats="noHighsStreaks"
+      :streak-stats="scoredGames.contiguousStreakStats.noHighsStreaks"
       :high-line="thresholdsToUse.high"
     />
     <HistoryContiguousStreak
       title="No Lows Streaks"
       description="Longest streaks with no lows"
-      :streak-stats="noLowsStreaks"
+      :streak-stats="scoredGames.contiguousStreakStats.noLowsStreaks"
       :low-line="thresholdsToUse.low"
     />
     <HistoryDailyStreak
@@ -24,7 +24,7 @@
       description="Consecutive full days with at least 80% time in range"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="percentTimeInRangeForFullDay"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
     />
@@ -33,7 +33,7 @@
       description="Consecutive nights with at least 80% time in range"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="percentTimeInRangeForNights"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForNights"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
     />
@@ -42,7 +42,7 @@
       description="Consecutive mornings with at least 80% time in range"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="percentTimeInRangeForMornings"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForMornings"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
     />
@@ -51,7 +51,7 @@
       description="Consecutive afternoons with at least 80% time in range"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="percentTimeInRangeForAfternoons"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
     />
@@ -60,7 +60,7 @@
       description="Consecutive evenings with at least 80% time in range"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="percentTimeInRangeForEvenings"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
     />
@@ -69,7 +69,7 @@
       description="Average glucose within range"
       score-label="Average Blood Glucose"
       score-units="mg/dL"
-      :streak-stats="averageInRangeForFullDay"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
     />
@@ -87,15 +87,7 @@ const props = defineProps<{
 }>()
 
 const {
-  averageInRangeForFullDay,
-  noHighsOrLowsStreaks,
-  noHighsStreaks,
-  noLowsStreaks,
-  percentTimeInRangeForAfternoons,
-  percentTimeInRangeForEvenings,
-  percentTimeInRangeForFullDay,
-  percentTimeInRangeForMornings,
-  percentTimeInRangeForNights,
+  scoredGames,
 } = useGlucoseValues(props.glucoseValues, props.thresholds)
 
 const thresholdsToUse = computed(() => {

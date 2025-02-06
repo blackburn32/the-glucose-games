@@ -5,137 +5,137 @@
     <div class="grid grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-6">
       <StatBadge
         title="Daily Average"
-        :value="averageInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'"
-        :icon="getIconForStatus(averageInRangeForFullDay.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(averageInRangeForFullDay.currentStreak.currentDayStatus)"
+        :value="scoredGames.dailyStreakStats.averageInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'"
+        :icon="getIconForStatus(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.currentDayStatus)"
+        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.currentDayStatus)"
         description="mg/dL"
       />
       <StatBadge
         title="Today"
-        :value="`${percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay}%` || 'Unknown'"
-        :icon="getIconForStatus(percentTimeInRangeForFullDay.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(percentTimeInRangeForFullDay.currentStreak.currentDayStatus)"
-        :best="percentTimeInRangeForFullDay.bestDay && (percentTimeInRangeForFullDay.currentScoredDayWithFallback?.score ?? 0) >= percentTimeInRangeForFullDay.bestDay.score"
+        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay}%` || 'Unknown'"
+        :icon="getIconForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.currentDayStatus)"
+        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.currentDayStatus)"
+        :best="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay && (scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.score ?? 0) >= scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay.score"
         description="time in range"
       />
       <StatBadge
         title="Last Night"
-        :value="`${percentTimeInRangeForNights.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'}%`"
-        :icon="getIconForStatus(percentTimeInRangeForNights.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(percentTimeInRangeForNights.currentStreak.currentDayStatus)"
-        :best="percentTimeInRangeForNights.bestDay && (percentTimeInRangeForNights.currentScoredDayWithFallback?.score ?? 0) >= percentTimeInRangeForNights.bestDay.score"
+        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'}%`"
+        :icon="getIconForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.currentDayStatus)"
+        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.currentDayStatus)"
+        :best="scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay && (scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback?.score ?? 0) >= scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay.score"
         description="time in range"
       />
       <StatBadge
         title="Daily Average Streak"
-        :value="`${averageInRangeForFullDay.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(averageInRangeForFullDay.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(averageInRangeForFullDay.currentStreak.scoredDays.length)"
-        :best="averageInRangeForFullDay.bestStreak.length === averageInRangeForFullDay.currentStreak.scoredDays.length"
+        :value="`${scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length} days`"
+        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length)"
+        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length)"
+        :best="scoredGames.dailyStreakStats.averageInRangeForFullDay.bestStreak.length === scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length"
         description="average within range"
       />
       <StatBadge
         title="In Range Streak"
-        :value="`${percentTimeInRangeForFullDay.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
-        :best="percentTimeInRangeForFullDay.bestStreak.length === percentTimeInRangeForFullDay.currentStreak.scoredDays.length"
+        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length} days`"
+        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
+        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
+        :best="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length"
         description="at least 80% in range"
       />
       <StatBadge
         title="Nighttime Streak"
-        :value="`${percentTimeInRangeForNights.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(percentTimeInRangeForNights.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(percentTimeInRangeForNights.currentStreak.scoredDays.length)"
-        :best="percentTimeInRangeForNights.bestStreak.length === percentTimeInRangeForNights.currentStreak.scoredDays.length"
+        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length} days`"
+        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length)"
+        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length)"
+        :best="scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length"
         description="at least 80% in range"
       />
       <StatBadge
         title="Morning Streak"
-        :value="`${percentTimeInRangeForMornings.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
-        :best="percentTimeInRangeForMornings.bestStreak.length === percentTimeInRangeForMornings.currentStreak.scoredDays.length"
+        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length} days`"
+        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
+        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
+        :best="scoredGames.dailyStreakStats.percentTimeInRangeForMornings.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length"
         description="at least 80% in range"
       />
       <StatBadge
         title="Afternoon Streak"
-        :value="`${percentTimeInRangeForAfternoons.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
-        :best="percentTimeInRangeForAfternoons.bestStreak.length === percentTimeInRangeForAfternoons.currentStreak.scoredDays.length"
+        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length} days`"
+        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
+        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
+        :best="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length"
         description="at least 80% in range"
       />
       <StatBadge
         title="Evening Streak"
-        :value="`${percentTimeInRangeForEvenings.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
-        :best="percentTimeInRangeForEvenings.bestStreak.length === percentTimeInRangeForEvenings.currentStreak.scoredDays.length"
+        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length} days`"
+        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
+        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
+        :best="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length"
         description="at least 80% in range"
       />
     </div>
     <LineGraph
       title="No Lows Streak"
-      :duration="noLowsStreaks.streakStringToDisplay"
-      :data="noLowsStreaks.currentStreak"
+      :duration="scoredGames.contiguousStreakStats.noLowsStreaks.streakStringToDisplay"
+      :data="scoredGames.contiguousStreakStats.noLowsStreaks.currentStreak"
       :low="thresholds.low"
-      :best="noLowsStreaks.longestStreakString"
+      :best="scoredGames.contiguousStreakStats.noLowsStreaks.longestStreakString"
     />
     <LineGraph
       title="No Highs Streak"
-      :duration="noHighsStreaks.streakStringToDisplay"
-      :data="noHighsStreaks.currentStreak"
+      :duration="scoredGames.contiguousStreakStats.noHighsStreaks.streakStringToDisplay"
+      :data="scoredGames.contiguousStreakStats.noHighsStreaks.currentStreak"
       :high="thresholds.high"
-      :best="noHighsStreaks.longestStreakString"
+      :best="scoredGames.contiguousStreakStats.noHighsStreaks.longestStreakString"
     />
     <LineGraph
       title="No Highs or Lows Streak"
-      :duration="noHighsOrLowsStreaks.streakStringToDisplay"
-      :data="noHighsOrLowsStreaks.currentStreak"
+      :duration="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks.streakStringToDisplay"
+      :data="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks.currentStreak"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="noHighsOrLowsStreaks.longestStreakString"
+      :best="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks.longestStreakString"
     />
     <LineGraph
       title="Today's Time in Range"
-      :duration="`${percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'}%`"
-      :data="percentTimeInRangeForFullDay.currentScoredDayWithFallback?.glucoseRecords || []"
+      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'}%`"
+      :data="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.glucoseRecords || []"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${percentTimeInRangeForFullDay.bestDay ? percentTimeInRangeForFullDay.bestDay.scoreForDisplay : 'Unknown'}%`"
+      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay.scoreForDisplay : 'Unknown'}%`"
     />
     <LineGraph
       title="Last Night's Time in Range"
-      :duration="`${percentTimeInRangeForNights.currentScoredDayWithFallback ? percentTimeInRangeForNights.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
-      :data="percentTimeInRangeForNights.currentScoredDayWithFallback ? percentTimeInRangeForNights.currentScoredDayWithFallback.glucoseRecords : []"
+      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
+      :data="scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback.glucoseRecords : []"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${percentTimeInRangeForNights.bestDay ? percentTimeInRangeForNights.bestDay.scoreForDisplay : 'Unknown'}%`"
+      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay.scoreForDisplay : 'Unknown'}%`"
     />
     <LineGraph
       title="This Morning's Time in Range"
-      :duration="`${percentTimeInRangeForMornings.currentScoredDayWithFallback ? percentTimeInRangeForMornings.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
-      :data="percentTimeInRangeForMornings.currentScoredDayWithFallback ? percentTimeInRangeForMornings.currentScoredDayWithFallback.glucoseRecords : []"
+      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
+      :data="scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentScoredDayWithFallback.glucoseRecords : []"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${percentTimeInRangeForMornings.bestDay ? percentTimeInRangeForMornings.bestDay.scoreForDisplay : 'Unknown'}%`"
+      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForMornings.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForMornings.bestDay.scoreForDisplay : 'Unknown'}%`"
     />
     <LineGraph
       title="This Afternoon's Time in Range"
-      :duration="`${percentTimeInRangeForAfternoons.currentScoredDayWithFallback ? percentTimeInRangeForAfternoons.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
-      :data="percentTimeInRangeForAfternoons.currentScoredDayWithFallback ? percentTimeInRangeForAfternoons.currentScoredDayWithFallback.glucoseRecords : []"
+      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
+      :data="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentScoredDayWithFallback.glucoseRecords : []"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${percentTimeInRangeForAfternoons.bestDay ? percentTimeInRangeForAfternoons.bestDay.scoreForDisplay : 'Unknown'}%`"
+      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.bestDay.scoreForDisplay : 'Unknown'}%`"
     />
     <LineGraph
       title="This Evening's Time in Range"
-      :duration="`${percentTimeInRangeForEvenings.currentScoredDayWithFallback ? percentTimeInRangeForEvenings.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
-      :data="percentTimeInRangeForEvenings.currentScoredDayWithFallback ? percentTimeInRangeForEvenings.currentScoredDayWithFallback.glucoseRecords : []"
+      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
+      :data="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentScoredDayWithFallback.glucoseRecords : []"
       :low="thresholds.low"
       :high="thresholds.high"
-      :best="`${percentTimeInRangeForEvenings.bestDay ? percentTimeInRangeForEvenings.bestDay.scoreForDisplay : 'Unknown'}%`"
+      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.bestDay.scoreForDisplay : 'Unknown'}%`"
     />
   </div>
 </template>
@@ -149,15 +149,5 @@ const props = defineProps<{
   glucoseValues?: Ref<GlucoseRecord[]> | undefined
 }>()
 
-const {
-  averageInRangeForFullDay,
-  noHighsStreaks,
-  noHighsOrLowsStreaks,
-  noLowsStreaks,
-  percentTimeInRangeForAfternoons,
-  percentTimeInRangeForEvenings,
-  percentTimeInRangeForFullDay,
-  percentTimeInRangeForMornings,
-  percentTimeInRangeForNights,
-} = useGlucoseValues(props.glucoseValues, props.thresholds)
+const { scoredGames } = useGlucoseValues(props.glucoseValues, props.thresholds)
 </script>

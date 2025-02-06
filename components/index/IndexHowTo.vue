@@ -108,10 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import { cleanPercentForDisplay } from '~/utils/glucoseGames'
-import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import { contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
-import { getLastNight } from '~/utils/timing/timeSlicers'
 import { percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
 
 const category = ref('1')
@@ -151,9 +148,6 @@ const currentStreak = computed(() => {
   }
 })
 const lastNight = computed(() => {
-  const values = getLastNight(glucoseValues.value)
-  const percentTimeInRange = scoreRecordsByPercentTimeInRange(values ?? [], { low: 70, high: 180 })
-  const cleanPercentTimeInRange = cleanPercentForDisplay(percentTimeInRange)
   return {
     title: 'Time in Range Last Night',
     streak: timeInRange.value.mostRecentScoredDay?.glucoseRecords ?? [],

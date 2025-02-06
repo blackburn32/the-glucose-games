@@ -3,6 +3,33 @@
     <div class="text-4xl font-bold mt-10">
       Current Games
     </div>
+    <div class="flex flex-row w-full items-end justify-center space-x-4">
+      <NuxtLink
+        class="btn btn-outline"
+        to="/history"
+      >
+        Gaming Records
+      </NuxtLink>
+      <NuxtLink
+        class="btn btn-outline"
+        to="/achievements"
+      >
+        Achievements
+      </NuxtLink>
+      <NuxtLink
+        class="btn btn-outline space-x-2"
+        to="/account"
+      >
+        <Icon
+          name="ph:gear"
+          :size="24"
+          class="cursor-pointer hover:scale-105"
+        />
+        <div class="text-sm">
+          Account
+        </div>
+      </NuxtLink>
+    </div>
     <div v-if="!hasDexcom">
       <NuxtLink
         class="btn btn-outline"

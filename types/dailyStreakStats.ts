@@ -13,5 +13,5 @@ export type DailyStreakStats = {
   scoredDays: ScoredDay[]
   todaysScoredDay: ScoredDay | undefined
   mostRecentScoredDay: ScoredDay | undefined
-  streakDates: { start: Date | undefined, end: Date | undefined }[]
+  streaks: { start: Date | undefined, end: Date | undefined, streak: ScoredDay[] }[]
 }

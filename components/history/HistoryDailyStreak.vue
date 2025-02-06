@@ -87,7 +87,7 @@ const maxDate = computed(() => {
 })
 
 const attrs = computed(() => {
-  return props.streakStats.streakDates.map((streak) => {
+  return props.streakStats.streaks.map((streak) => {
     return {
       key: 'passing',
       highlight: {
