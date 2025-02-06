@@ -15,16 +15,18 @@
         />
       </label>
     </div>
-    <AchievementRow
-      v-for="achievement in scoredAchievements"
-      :key="achievement.name"
-      :name="achievement.name"
-      :description="achievement.description"
-      :icon="achievement.icon"
-      :completed-date="achievement.completed"
-      :progress="achievement.progress"
-      :goal="achievement.goal"
-    />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <AchievementRow
+        v-for="achievement in scoredAchievements"
+        :key="achievement.name"
+        :name="achievement.name"
+        :description="achievement.description"
+        :icon="achievement.icon"
+        :completed-date="achievement.completed"
+        :progress="achievement.progress"
+        :goal="achievement.goal"
+      />
+    </div>
   </div>
 </template>
 
