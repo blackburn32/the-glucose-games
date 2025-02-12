@@ -7,8 +7,17 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
     key: 'glucoseData',
     default: () => [],
-    immediate: true,
+    lazy: true,
     retry: 3,
+  })
+  const user = useSupabaseUser()
+  watch(user, () => {
+    glucoseDataRaw.refresh()
+  })
+
+  const glucoseDataLoading = computed(() => {
+    if (dataOverride?.value.length) return false
+    return glucoseDataRaw.status.value === 'pending'
   })
 
   const glucoseData: Ref<GlucoseRecord[]> = computed(() => {
@@ -58,6 +67,7 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
 
   return {
     glucoseData,
+    glucoseDataLoading,
     mostRecentHour,
     mostRecentRecordWithinLastHour,
     mostRecentResult,

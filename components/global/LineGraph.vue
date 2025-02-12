@@ -99,7 +99,14 @@
 import { VisAxis, VisXYContainer, VisLine, VisArea, VisCrosshair, VisTooltip } from '@unovis/vue'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 
-defineProps<{ data: GlucoseRecord[], title: string, duration?: string | undefined, low?: number | undefined, high?: number | undefined, best?: string | undefined }>()
+defineProps<{
+  data: GlucoseRecord[]
+  title: string
+  duration?: string | undefined
+  low?: number | undefined
+  high?: number | undefined
+  best?: string | undefined
+}>()
 const x = (d: GlucoseRecord) => d.created
 const y = (d: GlucoseRecord) => d.value
 
