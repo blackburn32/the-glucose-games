@@ -16,7 +16,7 @@ export default defineNuxtConfig({
         serviceKey: 'This is overridden by .env',
       },
       dexcomBaseUrl: 'https://sandbox-api.dexcom.com', // Will update once approved by Dexcom for limited access
-      dexcomRedirectUrl: 'http://glucose.games/api/authorize/dexcom',
+      dexcomRedirectUrl: 'https://glucose.games/api/authorize/dexcom',
     },
   },
   devtools: { enabled: true },
