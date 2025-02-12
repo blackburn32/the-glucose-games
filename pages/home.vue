@@ -21,7 +21,7 @@
     >
       <StatBadge
         v-if="mostRecentRecordWithinLastHour"
-        title="Current Blood Sugar"
+        title="Current Blood Glucose"
         :value="mostRecentRecordWithinLastHour.value.toString()"
         description="mg/dL"
       />
