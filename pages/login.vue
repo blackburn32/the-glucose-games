@@ -4,7 +4,7 @@
       The Glucose Games
     </div>
     <div
-      class="flex  flex-col max-w-md w-full space-y-4 p-2 bg-base-200 shadow-md rounded-lg select-none"
+      class="flex  flex-col max-w-md w-full space-y-4 py-4 px-2 bg-base-300 shadow-md rounded-lg select-none"
     >
       <div class="flex flex-col w-full h-full px-2 pb-2">
         <div class="text-4xl font-bold text-center">
@@ -14,6 +14,23 @@
           v-if="!user"
           class="flex flex-col space-y-4"
         >
+          <div class="form-control mt-4">
+            <label class="label cursor-pointer">
+              <span class="label-text">I accept The Glucose Game's
+                <NuxtLink
+                  class="text-primary underline"
+                  to="/privacy"
+                >Privacy Policy
+                </NuxtLink>
+              </span>
+
+              <input
+                v-model="acceptedPrivacyPolicy"
+                type="checkbox"
+                class="checkbox checkbox-primary"
+              >
+            </label>
+          </div>
           <div class="text-xl font-semibold">
             Email
           </div>
@@ -21,48 +38,51 @@
             id="email"
             ref="email"
             type="email"
-            class="input bg-base-300"
+            class="input input-bordered focus:outline-0"
           >
-          <UButton
-            :loading="sendingOtp"
+          <button
+            class="btn btn-sm btn-primary"
+            :class="{
+              'btn-disabled': otpSent,
+            }"
             :disabled="otpSent"
-            icon="i-heroicons-envelope"
-            size="md"
-            color="purple"
             @click="getOneTimePasscode"
           >
+            <Icon
+              name="ph:envelope"
+              size="24"
+            />
             {{ buttonLabel }}
-          </UButton>
-          <UButton
-            icon="i-ph-google-logo-bold"
-            size="md"
-            color="blue"
-            @click="
-              supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: { redirectTo: authCallbackUrl },
-              })
-            "
+          </button>
+          <button
+            class="btn btn-sm btn-secondary"
+            @click=" signUpWithGoogle "
           >
+            <Icon
+              name="ph:google-logo"
+              size="24"
+            />
             Sign in with Google
-          </UButton>
+          </button>
         </div>
         <div
           v-else
-          class="flex flex-col space-y-4"
+          class="flex flex-col space-y-4 mt-4"
         >
           <div class="text-xl font-semibold">
             Logged in as {{ user.email }}
           </div>
-          <UButton
-            block
-            icon="i-heroicons-user"
+          <button
             size="md"
-            color="red"
+            class="btn btn-sm btn-outline"
             @click="supabase.auth.signOut()"
           >
+            <Icon
+              name="ph:user"
+              size="24"
+            />
             Sign out
-          </UButton>
+          </button>
         </div>
       </div>
     </div>
@@ -73,6 +93,8 @@
 const email = ref<HTMLInputElement | null>(null)
 const otpSent = ref(false)
 const sendingOtp = ref(false)
+
+const acceptedPrivacyPolicy = ref(false)
 
 const supabase = useSupabaseClient()
 const toast = useToast()
@@ -104,6 +126,11 @@ const buttonLabel = computed(() => {
 })
 
 const getOneTimePasscode = async () => {
+  if (!acceptedPrivacyPolicy.value) {
+    toast.add({ title: 'Accept the privacy policy to sign in', color: 'red' })
+    return
+  }
+
   const emailValue = email.value?.value
   if (!emailValue) {
     toast.add({ title: 'Please enter an email address', color: 'red' })
@@ -127,6 +154,22 @@ const getOneTimePasscode = async () => {
   }
   else {
     toast.add({ title: 'Check your email!' })
+  }
+}
+
+const signUpWithGoogle = async () => {
+  if (!acceptedPrivacyPolicy.value) {
+    toast.add({ title: 'Accept the privacy policy to sign in', color: 'red' })
+    return
+  }
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: authCallbackUrl },
+  })
+
+  if (error) {
+    toast.add({ title: error.message, color: 'red' })
   }
 }
 </script>
