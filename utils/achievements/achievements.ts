@@ -1,12 +1,12 @@
-import type { AchievementDefinition } from '~/types/achievementDefinition'
-import { daysInRangeAchievements, nightsInRangeAchievements } from '~/utils/achievements/achievements/daysInRangeAchievements'
-import { afternoonInRangeAchievements, averageInRangeAchievements, eveningInRangeAchievements, morningInRangeAchievements } from '~/utils/achievements/achievements/averageInRangeAchievements'
+import type { AchievementGroup } from '~/types/achievementDefinition'
+import { daysInRangeAchievementGroup, nightsInRangeAchievementGroup } from '~/utils/achievements/achievements/daysInRangeAchievements'
+import { afternoonsInRangeAchievementGroup, averageInRangeAchievementGroup, eveningsInRangeAchievementGroup, morningsInRangeAchievementGroup } from '~/utils/achievements/achievements/averageInRangeAchievements'
 
-export const allAchievements: AchievementDefinition[] = [
-  ...daysInRangeAchievements,
-  ...nightsInRangeAchievements,
-  ...morningInRangeAchievements,
-  ...afternoonInRangeAchievements,
-  ...eveningInRangeAchievements,
-  ...averageInRangeAchievements,
+export const achievementGroups: AchievementGroup[] = [
+  daysInRangeAchievementGroup,
+  nightsInRangeAchievementGroup,
+  morningsInRangeAchievementGroup,
+  afternoonsInRangeAchievementGroup,
+  eveningsInRangeAchievementGroup,
+  averageInRangeAchievementGroup,
 ]

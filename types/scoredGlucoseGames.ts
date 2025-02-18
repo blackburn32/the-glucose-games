@@ -9,6 +9,7 @@ export type ScoredGlucoseGames = {
     percentTimeInRangeForFullDay: DailyStreakStats
     percentTimeInRangeForMornings: DailyStreakStats
     percentTimeInRangeForNights: DailyStreakStats
+    // trendControl: AllTimingsAndTiersDailyStreakGame
   }
   contiguousStreakStats: {
     noHighsStreaks: ContiguousStreakStats

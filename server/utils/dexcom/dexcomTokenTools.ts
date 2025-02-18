@@ -1,9 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import type { Database } from '~/types/database.types.ts'
-import { DEXCOM_PROVIDER_NAME } from '~/types/constants.ts'
-import { safeStoreToken } from '~/server/utils/database/storeToken.ts'
-import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
+import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
+import { safeStoreToken } from '~/server/utils/database/storeToken'
 
 const dexcomTokenValidator = z.object({
   access_token: z.string(),
@@ -113,8 +112,8 @@ export const handleTokenResponse = async (
   const tokenData = {
     access_token: data.access_token,
     refresh_token: data.refresh_token,
-    expires_at: new Date(Date.now() + data.expires_in * 1000),
-    created_at: new Date(),
+    expires_at: new Date(Date.now() + data.expires_in * 1000).toISOString(),
+    created_at: new Date().toISOString(),
     user_id: userId,
     scopes: ['offline_access'],
     provider: DEXCOM_PROVIDER_NAME,

@@ -4,6 +4,7 @@ import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { averageInRangeForFullDayStreak } from '~/utils/games/averageInRange/averangeInRangeGames'
 import { percentTimeInRangeForAfternoonsStreak, percentTimeInRangeForEveningsStreak, percentTimeInRangeForFullDayStreak, percentTimeInRangeForMorningsStreak, percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
 import { contiguousStreakWithNoHighs, contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
+import { trendControlGames } from '~/utils/games/trendControl/trendControlGames'
 
 export const getScoredGames = (allRecords: GlucoseRecord[], thresholds: Thresholds): ScoredGlucoseGames => {
   const dailyStreakStats = {
@@ -13,6 +14,7 @@ export const getScoredGames = (allRecords: GlucoseRecord[], thresholds: Threshol
     percentTimeInRangeForFullDay: percentTimeInRangeForFullDayStreak(allRecords, thresholds, 80),
     percentTimeInRangeForMornings: percentTimeInRangeForMorningsStreak(allRecords, thresholds, 80),
     percentTimeInRangeForNights: percentTimeInRangeForNightsStreak(allRecords, thresholds, 80),
+    // trendControl: trendControlGames(allRecords),
   }
   const contiguousStreakStats = {
     noHighsStreaks: contiguousStreakWithNoHighs(allRecords, thresholds),

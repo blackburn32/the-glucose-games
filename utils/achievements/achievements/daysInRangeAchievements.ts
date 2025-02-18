@@ -1,4 +1,4 @@
-import type { AchievementDefinition } from '~/types/achievementDefinition'
+import type { AchievementDefinition, AchievementGroup } from '~/types/achievementDefinition'
 
 export const oneDayInRangeAchievement: AchievementDefinition = {
   id: 'oneDayInRange',
@@ -165,6 +165,11 @@ export const daysInRangeAchievements = [
   thirtyDayStreakInRangeAchievement,
 ]
 
+export const daysInRangeAchievementGroup: AchievementGroup = {
+  name: 'Days in range',
+  achievements: daysInRangeAchievements,
+}
+
 export const oneNightInRangeAchievement: AchievementDefinition = {
   id: 'oneNightInRange',
   name: 'A strong night',
@@ -329,3 +334,8 @@ export const nightsInRangeAchievements = [
   tenNightStreakInRangeAchievement,
   thirtyNightStreakInRangeAchievement,
 ]
+
+export const nightsInRangeAchievementGroup: AchievementGroup = {
+  name: 'Nights in range',
+  achievements: nightsInRangeAchievements,
+}

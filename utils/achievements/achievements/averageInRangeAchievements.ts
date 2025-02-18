@@ -1,4 +1,4 @@
-import type { AchievementDefinition } from '~/types/achievementDefinition'
+import type { AchievementDefinition, AchievementGroup } from '~/types/achievementDefinition'
 
 export const oneDayAverageInRangeAchievement: AchievementDefinition = {
   id: 'oneDayAverageInRange',
@@ -165,6 +165,11 @@ export const averageInRangeAchievements = [
   thirtyDayAverageInRangeStreakAchievement,
 ]
 
+export const averageInRangeAchievementGroup: AchievementGroup = {
+  name: 'Average in range',
+  achievements: averageInRangeAchievements,
+}
+
 export const oneMorningInRangeAchievement: AchievementDefinition = {
   id: 'oneMorningInRange',
   name: 'Your first morning in range',
@@ -330,6 +335,11 @@ export const morningInRangeAchievements = [
   thirtyMorningStreakInRangeAchievement,
 ]
 
+export const morningsInRangeAchievementGroup: AchievementGroup = {
+  name: 'Mornings in range',
+  achievements: morningInRangeAchievements,
+}
+
 export const oneAfternoonInRangeAchievement: AchievementDefinition = {
   id: 'oneAfternoonInRange',
   name: 'Your first afternoon in range',
@@ -494,6 +504,12 @@ export const afternoonInRangeAchievements = [
   tenAfternoonStreakInRangeAchievement,
   thirtyAfternoonStreakInRangeAchievement,
 ]
+
+export const afternoonsInRangeAchievementGroup: AchievementGroup = {
+  name: 'Afternoons in range',
+  achievements: afternoonInRangeAchievements,
+}
+
 export const oneEveningInRangeAchievement: AchievementDefinition = {
   id: 'oneEveningInRange',
   name: 'Your first evening in range',
@@ -658,3 +674,8 @@ export const eveningInRangeAchievements = [
   tenEveningStreakInRangeAchievement,
   thirtyEveningStreakInRangeAchievement,
 ]
+
+export const eveningsInRangeAchievementGroup: AchievementGroup = {
+  name: 'Evenings in range',
+  achievements: eveningInRangeAchievements,
+}

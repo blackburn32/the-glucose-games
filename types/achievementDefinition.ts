@@ -14,3 +14,8 @@ export type AchievementDefinition = {
   icon: string
   condition: (scoredGames: ScoredGlucoseGames, allRecords: GlucoseRecord[]) => AchievementCompletion
 }
+
+export type AchievementGroup = {
+  name: string
+  achievements: AchievementDefinition[]
+}
