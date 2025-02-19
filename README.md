@@ -38,8 +38,32 @@ Store the minimum amount of data possible.
 
 This project uses Supabase.
 
+### Generating Types
+
 You can generate types for the Supabase client by running:
 
 ```bash
 supabase gen types typescript --local > types/database.types.ts
+```
+
+### Pushing Local Database to Supabase
+
+Do whatever you want in the local database.
+
+Create a migration:
+
+```bash
+supabase migration create new name_of_migration
+```
+
+Diff the local database against the Supabase one and paste its contents into the migration file:
+
+```bash
+supabase db diff
+```
+
+Push changes to Supabase:
+
+```bash
+supabase db push
 ```

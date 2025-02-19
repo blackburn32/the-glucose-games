@@ -1,24 +1,40 @@
 <template>
-  <div class="flex flex-row space-x-4">
-    <div
-      class="btn btn-primary"
-      @click="connectDexcom"
-    >
-      <Icon
-        name="arcticons:dexcom-g6"
-        size="24"
-      />
-      {{ dexcomText }}
+  <div class="flex flex-col w-full space-y-4 items-center max-w-lg">
+    <div class="flex flex-col w-full space-y-1">
+      <div class="text-2xl w-full underline">
+        Dexcom
+      </div>
+      <div
+        v-if="!isAdmin"
+        class="text-lg w-full leading-tight"
+      >
+        Coming Soon, stay tuned! Waiting for Dexcom's approval.
+      </div>
     </div>
-    <div
-      v-if="hasDexcom"
-      class="btn btn-error"
-      @click="deleteDexcom"
-    >
-      <Icon
-        name="ph:trash"
-        size="24"
-      />
+    <div class="flex flex-row space-x-4">
+      <div
+        class="btn btn-primary"
+        :class="{
+          'btn-disabled': !isAdmin,
+        }"
+        @click="connectDexcom"
+      >
+        <Icon
+          name="arcticons:dexcom-g6"
+          size="24"
+        />
+        {{ dexcomText }}
+      </div>
+      <div
+        v-if="hasDexcom"
+        class="btn btn-error"
+        @click="deleteDexcom"
+      >
+        <Icon
+          name="ph:trash"
+          size="24"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -26,8 +42,10 @@
 <script setup lang="ts">
 import { useTokenStatus } from '~/composables/useTokenStatus'
 import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
+import { useUserRole } from '~/composables/useUserRole'
 
 const toast = useToast()
+const { isAdmin } = useUserRole()
 
 const connectDexcom = async () => {
   if (hasDexcom.value) {
