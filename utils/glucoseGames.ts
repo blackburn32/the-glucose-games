@@ -116,7 +116,8 @@ export const calculateDailyStreakStats: (
   dailyScoringFunction: (records: GlucoseRecord[]) => number,
   scorePassesStreakCheck: (score: number) => boolean,
   includeCurrentDay: (scoredDays: ScoredDay) => CurrentDayStatus,
-  scoreDisplayFunction?: (score: number) => string
+  scoreDisplayFunction?: (score: number) => string,
+  bestDayComparisonFunction?: (a: ScoredDay, b: ScoredDay) => ScoredDay
 ) => DailyStreakStats = (
   records: GlucoseRecord[],
   filterFunction: (records: GlucoseRecord[]) => GlucoseRecord[],
@@ -124,6 +125,7 @@ export const calculateDailyStreakStats: (
   scorePassesStreakCheck: (score: number) => boolean,
   includeCurrentDay: (scoredDays: ScoredDay) => CurrentDayStatus,
   scoreDisplayFunction?: (score: number) => string,
+  bestDayComparisonFunction?: (a: ScoredDay, b: ScoredDay) => ScoredDay,
 ) => {
   const filteredRecords = filterFunction(records)
 
@@ -145,6 +147,9 @@ export const calculateDailyStreakStats: (
 
   const bestDay = scoredDays.length > 0
     ? scoredDays.reduce((best, day) => {
+        if (bestDayComparisonFunction) {
+          return bestDayComparisonFunction(day, best)
+        }
         return day.score > best.score ? day : best
       })
     : undefined

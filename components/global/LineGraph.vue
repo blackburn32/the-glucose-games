@@ -19,7 +19,7 @@
       </div>
       <div
         v-if="data.length == 0"
-        class="skeleton flex items-center justify-center min-h-[268px] w-full mt-2"
+        class="skeleton flex items-center justify-center min-h-[292px] w-full mt-2"
       >
         <div class="text-2xl">
           No data available

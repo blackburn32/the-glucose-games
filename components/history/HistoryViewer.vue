@@ -65,11 +65,47 @@
       :low-line="thresholdsToUse.low"
     />
     <HistoryDailyStreak
-      title="Average in Range"
+      title="Full Day Average in Range"
       description="Average glucose within range"
       score-label="Average Blood Glucose"
       score-units="mg/dL"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
+    />
+    <HistoryDailyStreak
+      title="Night Average in Range"
+      description="Night time average glucose within range"
+      score-label="Average Blood Glucose"
+      score-units="mg/dL"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForNights"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
+    />
+    <HistoryDailyStreak
+      title="Morning Average in Range"
+      description="Morning average glucose within range"
+      score-label="Average Blood Glucose"
+      score-units="mg/dL"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForMornings"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
+    />
+    <HistoryDailyStreak
+      title="Afternoon Average in Range"
+      description="Afternoon average glucose within range"
+      score-label="Average Blood Glucose"
+      score-units="mg/dL"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForAfternoons"
+      :high-line="thresholdsToUse.high"
+      :low-line="thresholdsToUse.low"
+    />
+    <HistoryDailyStreak
+      title="Evening Average in Range"
+      description="Evening average glucose within range"
+      score-label="Average Blood Glucose"
+      score-units="mg/dL"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForEvenings"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
     />

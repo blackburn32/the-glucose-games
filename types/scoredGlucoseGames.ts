@@ -3,7 +3,11 @@ import type { DailyStreakStats } from '~/types/dailyStreakStats'
 
 export type ScoredGlucoseGames = {
   dailyStreakStats: {
+    averageInRangeForAfternoons: DailyStreakStats
+    averageInRangeForEvenings: DailyStreakStats
     averageInRangeForFullDay: DailyStreakStats
+    averageInRangeForMornings: DailyStreakStats
+    averageInRangeForNights: DailyStreakStats
     percentTimeInRangeForAfternoons: DailyStreakStats
     percentTimeInRangeForEvenings: DailyStreakStats
     percentTimeInRangeForFullDay: DailyStreakStats

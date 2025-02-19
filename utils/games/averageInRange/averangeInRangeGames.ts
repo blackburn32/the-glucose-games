@@ -33,6 +33,13 @@ export const averageInRangeGame = (
   }
   const scorePassesStreakCheck = (score: number) => score >= thresholds.low && score <= thresholds.high
 
+  // Returns the day with a value closest to 100
+  const bestDayComparisonFunction = (a: ScoredDay, b: ScoredDay) => {
+    const aDiff = Math.abs(a.score - 100)
+    const bDiff = Math.abs(b.score - 100)
+    return aDiff < bDiff ? a : b
+  }
+
   return calculateDailyStreakStats(
     records,
     filterFunction,
@@ -40,6 +47,7 @@ export const averageInRangeGame = (
     scorePassesStreakCheck,
     getCurrentDayStatus,
     cleanPercentForDisplay,
+    bestDayComparisonFunction,
   )
 }
 

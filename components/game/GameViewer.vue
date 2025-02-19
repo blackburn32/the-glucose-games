@@ -97,45 +97,13 @@
       :high="thresholds.high"
       :best="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks.longestStreakString"
     />
-    <LineGraph
-      title="Today's Time in Range"
-      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'}%`"
-      :data="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.glucoseRecords || []"
-      :low="thresholds.low"
-      :high="thresholds.high"
-      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay.scoreForDisplay : 'Unknown'}%`"
+    <GameTimeInRangeViewer
+      :games="scoredGames"
+      :thresholds="thresholds"
     />
-    <LineGraph
-      title="Last Night's Time in Range"
-      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
-      :data="scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback.glucoseRecords : []"
-      :low="thresholds.low"
-      :high="thresholds.high"
-      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay.scoreForDisplay : 'Unknown'}%`"
-    />
-    <LineGraph
-      title="This Morning's Time in Range"
-      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
-      :data="scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentScoredDayWithFallback.glucoseRecords : []"
-      :low="thresholds.low"
-      :high="thresholds.high"
-      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForMornings.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForMornings.bestDay.scoreForDisplay : 'Unknown'}%`"
-    />
-    <LineGraph
-      title="This Afternoon's Time in Range"
-      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
-      :data="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentScoredDayWithFallback.glucoseRecords : []"
-      :low="thresholds.low"
-      :high="thresholds.high"
-      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.bestDay.scoreForDisplay : 'Unknown'}%`"
-    />
-    <LineGraph
-      title="This Evening's Time in Range"
-      :duration="`${scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentScoredDayWithFallback.scoreForDisplay : 'Unknown'}%`"
-      :data="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentScoredDayWithFallback ? scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentScoredDayWithFallback.glucoseRecords : []"
-      :low="thresholds.low"
-      :high="thresholds.high"
-      :best="`${scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.bestDay ? scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.bestDay.scoreForDisplay : 'Unknown'}%`"
+    <GameAverageInRangeViewer
+      :games="scoredGames"
+      :thresholds="thresholds"
     />
   </div>
 </template>
