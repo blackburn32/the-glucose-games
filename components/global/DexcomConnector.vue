@@ -11,7 +11,7 @@
         Coming Soon, stay tuned! Waiting for Dexcom's approval.
       </div>
     </div>
-    <div class="flex flex-row space-x-4">
+    <div class="flex flex-row space-x-4 w-full">
       <div
         class="btn btn-primary"
         :class="{
