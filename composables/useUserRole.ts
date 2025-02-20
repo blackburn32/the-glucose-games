@@ -7,7 +7,6 @@ export const useUserRole = () => {
   const role = computed(() => {
     if (!token.value) return undefined
     const decoded = jwtDecode(token.value)
-    console.log(decoded)
     return decoded['user_role'] as string | null
   })
 
