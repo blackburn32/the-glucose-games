@@ -1,8 +1,46 @@
 <template>
   <div class="flex flex-col w-full space-y-2 items-center">
     <div class="flex flex-col w-full space-y-1">
-      <div class="text-xl w-full underline">
-        Nightscout
+      <div class="flex flex-row w-full justify-between">
+        <div class="text-xl w-full underline">
+          Nightscout
+        </div>
+        <div
+          v-if="hasNightscoutData && !glucoseDataLoading"
+          class="flex flex-row items-center space-x-2"
+        >
+          <div>
+            Connected
+          </div>
+          <Icon
+            v-if="hasNightscoutData"
+            name="ph:check-circle"
+            size="24"
+            class="text-primary"
+          />
+        </div>
+        <div
+          v-if="hasNightscout && !hasNightscoutData && !glucoseDataLoading"
+          class="flex flex-row items-center space-x-2"
+        >
+          <div>
+            Error
+          </div>
+          <Icon
+            name="ph:warning-circle"
+            size="24"
+            class="text-secondary"
+          />
+        </div>
+        <div
+          v-if="hasNightscout && glucoseDataLoading"
+          class="flex flex-row items-center space-x-2"
+        >
+          <div>
+            Loading
+          </div>
+          <div class="loading loading-spinner" />
+        </div>
       </div>
     </div>
     <div class="flex flex-col w-full">
@@ -55,13 +93,22 @@
             @click="showToken = !showToken"
           />
         </div>
-
+        <div class="flex flex-col w-full px-1 mt-2">
+          <span class="label-text text-xs">Follow
+            <NuxtLink
+              to="/aboutNightscout#getting-your-nightscout-access-token"
+              target="_blank"
+              class="underline"
+            >these</NuxtLink>
+            directions to create a valid token
+          </span>
+        </div>
       </label>
       <div class="flex flex-row w-full items-center space-x-2 mt-4">
         <button
           class="btn btn-outline grow"
           :class="{
-            'btn-disabled': !baseUrlTemp || !tokenTemp,
+            'btn-disabled': !baseUrlTemp && !tokenTemp,
           }"
           @click="cancelSettings"
         >
@@ -70,7 +117,7 @@
         <button
           class="btn btn-primary grow"
           :class="{
-            'btn-disabled': !baseUrlTemp || !tokenTemp,
+            'btn-disabled': !baseUrlTemp && !tokenTemp,
           }"
           @click="saveSettings"
         >
@@ -99,6 +146,11 @@ const {
   nightscoutSettings,
   setNightscoutSettings,
 } = useNightscout()
+
+const {
+  hasNightscoutData,
+  glucoseDataLoading,
+} = useGlucoseValues()
 
 const baseUrlTemp = ref<string | undefined>(undefined)
 const baseUrl = computed({
@@ -140,7 +192,7 @@ const token = computed({
 })
 
 const saveSettings = async () => {
-  if (!baseUrlTemp.value || !tokenTemp.value || baseUrlHasTrailingSlash.value || baseUrlHasApi.value || baseUrlHasToken.value) {
+  if (!baseUrl.value || !token.value || baseUrlHasTrailingSlash.value || baseUrlHasApi.value || baseUrlHasToken.value) {
     toast.add({
       title: 'Error',
       description: 'Please enter a valid URL and token',
@@ -150,8 +202,8 @@ const saveSettings = async () => {
   }
 
   await setNightscoutSettings(
-    baseUrlTemp.value,
-    tokenTemp.value,
+    baseUrl.value,
+    token.value,
   )
   baseUrlTemp.value = undefined
   tokenTemp.value = undefined

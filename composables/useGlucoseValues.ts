@@ -2,6 +2,7 @@ import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import type { Thresholds } from '~/types/thresholds'
 import { getScoredGames } from '~/utils/games/scoredGames'
+import { NIGHTSCOUT_PROVIDER_NAME } from '~/types/constants'
 
 export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined, thresholdsOverride?: Thresholds | undefined) => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
@@ -12,17 +13,16 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
   })
 
   const { hasDexcom } = useTokenStatus()
-  watch(hasDexcom, (value) => {
-    if (value) {
-      glucoseDataRaw.refresh()
-    }
+  watch(hasDexcom, () => {
+    glucoseDataRaw.refresh()
   })
 
-  const { hasNightscout } = useNightscout()
-  watch(hasNightscout, (value) => {
-    if (value) {
-      glucoseDataRaw.refresh()
-    }
+  const { hasNightscout, nightscoutSettings } = useNightscout()
+  watch(hasNightscout, () => {
+    glucoseDataRaw.refresh()
+  })
+  watch(nightscoutSettings, () => {
+    glucoseDataRaw.refresh()
   })
 
   const user = useSupabaseUser()
@@ -45,6 +45,10 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
 
   const hasGlucoseData = computed(() => {
     return glucoseData.value.length > 0
+  })
+
+  const hasNightscoutData = computed(() => {
+    return glucoseData.value.some(record => record.provider === NIGHTSCOUT_PROVIDER_NAME)
   })
 
   const { thresholds } = useThresholds()
@@ -88,6 +92,7 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     glucoseData,
     glucoseDataLoading,
     hasGlucoseData,
+    hasNightscoutData,
     mostRecentHour,
     mostRecentRecordWithinLastHour,
     mostRecentResult,

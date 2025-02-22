@@ -9,6 +9,7 @@ Compete with yourself to improve your control over time, or (in the future) comp
 The first step is getting your blood glucose levels hooked up to the games. 
 In order to play the game you will need to have a continuous glucose monitor (CGM), and you will need to be connected to a [Nightscout](https://nightscout.github.io/) instance.
 The games will pull your blood glucose data from the Nightscout API.
+You can learn more about connecting to Nightscout [here](/aboutNightscout).
 
 ## The games
 
