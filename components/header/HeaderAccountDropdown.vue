@@ -52,10 +52,10 @@
             to="/connect"
           >
             <Icon
-              :name="hasDexcom ? 'ph:plugs-connected' : 'ph:plugs'"
+              :name="hasGlucoseData ? 'ph:plugs-connected' : 'ph:plugs'"
               size="16"
             />
-            <span> Connection </span>
+            <span> Connections </span>
           </NuxtLink>
         </li>
         <li>
@@ -82,7 +82,7 @@ const authenticated = computed(() => {
   return !!user.value
 })
 const supabase = useSupabaseClient()
-const { hasDexcom } = useTokenStatus()
+const { hasGlucoseData } = useGlucoseValues()
 
 const label = computed(() => {
   return authenticated.value ? 'Account' : 'Sign In'

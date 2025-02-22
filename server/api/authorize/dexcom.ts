@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { serverSupabaseServiceRole } from '#supabase/server'
 import type { Database } from '~/types/database.types.ts'
-import { requestDexcomToken } from '~/server/utils/dexcom/dexcomTokenTools.ts'
-import { DEXCOM_PROVIDER_NAME } from '~/types/constants.ts'
+import { requestDexcomToken } from '~/server/utils/dexcom/dexcomTokenTools'
+import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
 
 const validQuery = z.object({
   code: z.string(),

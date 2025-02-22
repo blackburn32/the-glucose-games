@@ -3,7 +3,8 @@
     <div class="text-4xl font-bold mt-10">
       Connect to your data
     </div>
-    <DexcomConnector />
+    <NightscoutConnector class="max-w-xl" />
+    <DexcomConnector class="max-w-xl" />
   </div>
 </template>
 

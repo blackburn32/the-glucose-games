@@ -2,9 +2,11 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import type { RuntimeConfig } from '@nuxt/schema'
 import { serverSupabaseServiceRole, serverSupabaseUser } from '#supabase/server'
 import type { Database } from '~/types/database.types.ts'
-import { DEXCOM_PROVIDER_NAME } from '~/types/constants.ts'
-import { getToken } from '~/server/utils/database/getToken.ts'
-import { getEstimatedBloodGlucoseValuesFromDexcom, refreshDexcomTokenIfNecessary } from '~/server/utils/dexcom/dexcomTokenTools.ts'
+import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
+import { getToken } from '~/server/utils/database/getToken'
+import { getEstimatedBloodGlucoseValuesFromDexcom, refreshDexcomTokenIfNecessary } from '~/server/utils/dexcom/dexcomTokenTools'
+import { getNightscoutEGVs } from '~/server/utils/nightscout/nightscoutTools'
+import { getNightscoutSettings } from '~/server/utils/database/getNightscoutSettings'
 
 export default defineEventHandler(async (event) => {
   const user = await serverSupabaseUser(event)
@@ -20,10 +22,21 @@ export default defineEventHandler(async (event) => {
 
   const egvsFromAllProviders = await Promise.all([
     getDexcomData(user.id, supabase, runtimeConfig),
+    getNightscoutData(user.id, supabase),
   ])
 
   return egvsFromAllProviders.flat()
 })
+
+const getNightscoutData = async (userId: string, supabase: SupabaseClient<Database>) => {
+  const nightscoutSettings = await getNightscoutSettings(userId, supabase)
+  if (!nightscoutSettings) {
+    console.trace('No Nightscout settings found')
+    return []
+  }
+  const count = 100000
+  return getNightscoutEGVs(nightscoutSettings.base_url, nightscoutSettings.token, count)
+}
 
 const getDexcomData = async (userId: string, supabase: SupabaseClient<Database>, runtimeConfig: RuntimeConfig) => {
   const dexcomBaseUrl = runtimeConfig.dexcomBaseUrl

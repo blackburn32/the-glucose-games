@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full space-y-4 items-center max-w-lg">
     <div class="flex flex-col w-full space-y-1">
-      <div class="text-2xl w-full underline">
+      <div class="text-xl w-full underline">
         Dexcom
       </div>
       <div

@@ -4,7 +4,7 @@
       Home
     </div>
     <div
-      v-if="hasDexcom"
+      v-if="hasGlucoseData"
       class="flex flex-col space-y-2 w-full md:max-w-lg"
     >
       <LineGraph
@@ -14,10 +14,9 @@
         :low="thresholds.low"
       />
     </div>
-    <DexcomConnector v-else />
     <div
-      v-if="hasDexcom"
-      class="flex flex-row items-center md:max-w-lg"
+      v-if="hasGlucoseData"
+      class="flex flex-row items-center md:max-w-lg md:space-x-4"
     >
       <StatBadge
         v-if="mostRecentRecordWithinLastHour"
@@ -33,16 +32,16 @@
         :icon-color="timeInRangeIconColor"
       />
     </div>
-    <div class="flex flex-row items-center md:max-w-lg space-x-8">
+    <div class="flex flex-row items-center md:max-w-lg space-x-4">
       <NuxtLink
-        v-if="hasDexcom"
+        v-if="hasGlucoseData"
         class="btn btn-outline"
         to="/current"
       >
         Current Games
       </NuxtLink>
       <NuxtLink
-        v-if="hasDexcom"
+        v-if="hasGlucoseData"
         class="btn btn-outline"
         to="/history"
       >
@@ -62,13 +61,10 @@
 const { thresholds } = useThresholds()
 
 const {
+  hasGlucoseData,
   mostRecentRecordWithinLastHour,
   previous24Hours,
 } = useGlucoseValues()
-
-const {
-  hasDexcom,
-} = useTokenStatus()
 
 const timeInRangeIcon = computed(() => {
   if (!previous24Hours.value.percentTimeInRange) {

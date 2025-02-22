@@ -1,16 +1,16 @@
 import type { Database } from '~/types/database.types.ts'
-import { DEXCOM_PROVIDER_NAME } from '~/types/constants.ts'
+import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
 
 export const useTokenStatus = () => {
   const supabase = useSupabaseClient<Database>()
   const supabaseUser = useSupabaseUser()
 
-  const allTokensForUser = useAsyncData<string[]>('tokens', async () => {
+  const allTokensForUser = useAsyncData('tokens', async () => {
     if (!supabaseUser.value) return []
-    const { data } = await supabase.from('oauth_tokens').select('provider').select()
-    return data?.map(token => token.provider)
+    const { data } = await supabase.from('oauth_tokens').select('provider')
+    return data?.map(token => token.provider) ?? [] as string[]
   }, {
-    default: () => [],
+    default: () => [] as string[],
   })
 
   const deleteToken = async (provider: string) => {
@@ -19,7 +19,7 @@ export const useTokenStatus = () => {
     await allTokensForUser.refresh()
   }
 
-  const hasDexcom = computed(() => allTokensForUser.data.value.includes(DEXCOM_PROVIDER_NAME))
+  const hasDexcom = computed(() => allTokensForUser.data.value?.includes(DEXCOM_PROVIDER_NAME) ?? [])
 
   return {
     allTokensForUser,

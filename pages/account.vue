@@ -57,7 +57,8 @@
     <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">
       Connections
     </div>
-    <div class="flex flex-col w-full max-w-xl mt-4">
+    <div class="flex flex-col w-full max-w-xl mt-4 space-y-4">
+      <NightscoutConnector />
       <DexcomConnector />
     </div>
     <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">

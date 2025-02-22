@@ -30,7 +30,7 @@
         </div>
       </NuxtLink>
     </div>
-    <div v-if="!hasDexcom">
+    <div v-if="!hasGlucoseData">
       <NuxtLink
         class="btn btn-outline"
         to="/connect"
@@ -38,10 +38,10 @@
         Get Connected to Play
       </NuxtLink>
     </div>
-    <HistoryViewer v-if="hasDexcom" />
+    <HistoryViewer v-if="hasGlucoseData" />
   </div>
 </template>
 
 <script setup lang="ts">
-const { hasDexcom } = useTokenStatus()
+const { hasGlucoseData } = useGlucoseValues()
 </script>

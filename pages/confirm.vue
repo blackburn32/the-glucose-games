@@ -5,21 +5,21 @@
     </div>
     <div class="flex flex-row space-x-4">
       <NuxtLink
-        v-if="!hasDexcom"
+        v-if="!hasGlucoseData"
         class="btn btn-outline"
         to="/connect"
       >
         Get connected
       </NuxtLink>
       <NuxtLink
-        v-if="hasDexcom"
+        v-if="hasGlucoseData"
         class="btn btn-outline"
         to="/current"
       >
         Current Games
       </NuxtLink>
       <NuxtLink
-        v-if="hasDexcom"
+        v-if="hasGlucoseData"
         class="btn btn-outline"
         to="/history"
       >
@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts">
-const { hasDexcom } = useTokenStatus()
-
 const cookieName = useRuntimeConfig().public.supabase.cookieName
 const redirectCookie = useCookie(`${cookieName}-redirect-path`)
 
@@ -42,6 +40,7 @@ if (redirectCookie.value) {
 }
 
 const {
+  hasGlucoseData,
   refreshGlucoseData,
 } = useGlucoseValues()
 

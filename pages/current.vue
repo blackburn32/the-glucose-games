@@ -30,7 +30,7 @@
         </div>
       </NuxtLink>
     </div>
-    <div v-if="!hasDexcom">
+    <div v-if="!hasGlucoseData">
       <NuxtLink
         class="btn btn-outline"
         to="/connect"
@@ -39,7 +39,7 @@
       </NuxtLink>
     </div>
     <GameViewer
-      v-if="hasDexcom"
+      v-if="hasGlucoseData"
       :thresholds="thresholds"
     />
   </div>
@@ -47,7 +47,5 @@
 
 <script setup lang="ts">
 const { thresholds } = useThresholds()
-const {
-  hasDexcom,
-} = useTokenStatus()
+const { hasGlucoseData } = useGlucoseValues()
 </script>

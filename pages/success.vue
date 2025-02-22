@@ -10,7 +10,7 @@
     </div>
     <div class="md:max-w-xl w-full">
       <LineGraph
-        v-if="hasDexcom"
+        v-if="hasGlucoseData"
         title="Last 24 Hours Time in Range"
         :duration="`${previous24Hours.cleanPercentTimeInRange}%`"
         :data="previous24Hours.glucoseValues"
@@ -29,21 +29,20 @@
 
 <script setup lang="ts">
 const {
+  hasGlucoseData,
   previous24Hours,
 } = useGlucoseValues()
 const { thresholds } = useThresholds()
 
-const { hasDexcom } = useTokenStatus()
-
 const title = computed(() => {
-  return hasDexcom ? 'Success!' : 'Error'
+  return hasGlucoseData ? 'Success!' : 'Error'
 })
 
 const description = computed(() => {
-  return hasDexcom ? 'You\'re connected' : 'Something went wrong'
+  return hasGlucoseData ? 'You\'re connected' : 'Something went wrong'
 })
 
 const buttonText = computed(() => {
-  return hasDexcom ? 'Start Gaming' : 'Try Again'
+  return hasGlucoseData ? 'Start Gaming' : 'Try Again'
 })
 </script>

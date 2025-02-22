@@ -10,6 +10,21 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     lazy: true,
     retry: 3,
   })
+
+  const { hasDexcom } = useTokenStatus()
+  watch(hasDexcom, (value) => {
+    if (value) {
+      glucoseDataRaw.refresh()
+    }
+  })
+
+  const { hasNightscout } = useNightscout()
+  watch(hasNightscout, (value) => {
+    if (value) {
+      glucoseDataRaw.refresh()
+    }
+  })
+
   const user = useSupabaseUser()
   watch(user, () => {
     glucoseDataRaw.refresh()
@@ -26,6 +41,10 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
       ...record,
       created: new Date(record.created),
     })).sort((a, b) => a.created.getTime() - b.created.getTime())
+  })
+
+  const hasGlucoseData = computed(() => {
+    return glucoseData.value.length > 0
   })
 
   const { thresholds } = useThresholds()
@@ -68,6 +87,7 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
   return {
     glucoseData,
     glucoseDataLoading,
+    hasGlucoseData,
     mostRecentHour,
     mostRecentRecordWithinLastHour,
     mostRecentResult,
