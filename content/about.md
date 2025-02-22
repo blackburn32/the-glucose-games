@@ -7,8 +7,8 @@ Compete with yourself to improve your control over time, or (in the future) comp
 ## How it works
 
 The first step is getting your blood glucose levels hooked up to the games. 
-In order to play the game you will need to have a Dexcom continuous glucose monitor (CGM), and you will need to be connected to Dexcom's Clarity service.
-The games will pull your blood glucose data from the Dexcom API.
+In order to play the game you will need to have a continuous glucose monitor (CGM), and you will need to be connected to a [Nightscout](https://nightscout.github.io/) instance.
+The games will pull your blood glucose data from the Nightscout API.
 
 ## The games
 
@@ -23,13 +23,13 @@ Check out a demo of the games [here](/demo).
 
 As you compete in the games, you'll be able to track your progress over time.
 See how your control has improved, and where you might need to focus more attention.
-You can see a demo of the progress tracking [here](/historyDemo).
+You can see a demo of the progress tracking in action [here](/historyDemo).
 
 ## Earn achievements
 
 As you play the games, you'll earn achievements for reaching milestones and completing challenges. 
 Keep track of your achievements and see how many you can earn! 
-Check out a demo of the achievements [here](/achievementsDemo). 
+Check out a demo of the available achievements [here](/achievementsDemo). 
 
 ## The community (Coming Soon)
 

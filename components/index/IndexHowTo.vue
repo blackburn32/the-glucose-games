@@ -53,7 +53,12 @@
                     Connect to your data
                   </h3>
                   <div class="text-lg">
-                    The Glucose Games are powered by your continuous glucose monitor data. Connect your Dexcom account to get started.
+                    The Glucose Games are powered by your continuous glucose monitor data. Connect to your CGM through
+                    <NuxtLink
+                      :external="true"
+                      to="https://nightscout.github.io/"
+                    >Nightscout</NuxtLink>
+                    to get started.
                   </div>
                 </div>
                 <div v-show="category === '2'">
