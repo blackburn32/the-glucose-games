@@ -37,7 +37,7 @@
                 <span class="label-text">I accept The Glucose Games'
                   <NuxtLink
                     class="text-primary underline"
-                    to="/terms"
+                    to="/tos"
                   >Terms of Service
                   </NuxtLink>
                 </span>
