@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Last revised on 2/12/2025
+Last revised on 2/22/2025
 
 ## Questions
 
