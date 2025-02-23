@@ -14,22 +14,41 @@
           v-if="!user"
           class="flex flex-col space-y-4"
         >
-          <div class="form-control mt-4">
-            <label class="label cursor-pointer">
-              <span class="label-text">I accept The Glucose Game's
-                <NuxtLink
-                  class="text-primary underline"
-                  to="/privacy"
-                >Privacy Policy
-                </NuxtLink>
-              </span>
+          <div class="flex flex-col">
+            <div class="form-control mt-4">
+              <label class="label cursor-pointer">
+                <span class="label-text">I accept The Glucose Games'
+                  <NuxtLink
+                    class="text-primary underline"
+                    to="/privacy"
+                  >Privacy Policy
+                  </NuxtLink>
+                </span>
 
-              <input
-                v-model="acceptedPrivacyPolicy"
-                type="checkbox"
-                class="checkbox checkbox-primary"
-              >
-            </label>
+                <input
+                  v-model="acceptedPrivacyPolicy"
+                  type="checkbox"
+                  class="checkbox checkbox-primary"
+                >
+              </label>
+            </div>
+            <div class="form-control">
+              <label class="label cursor-pointer">
+                <span class="label-text">I accept The Glucose Games'
+                  <NuxtLink
+                    class="text-primary underline"
+                    to="/terms"
+                  >Terms of Service
+                  </NuxtLink>
+                </span>
+
+                <input
+                  v-model="acceptedTermsOfService"
+                  type="checkbox"
+                  class="checkbox checkbox-primary"
+                >
+              </label>
+            </div>
           </div>
           <div class="text-xl font-semibold">
             Email
@@ -95,6 +114,7 @@ const otpSent = ref(false)
 const sendingOtp = ref(false)
 
 const acceptedPrivacyPolicy = ref(false)
+const acceptedTermsOfService = ref(false)
 
 const supabase = useSupabaseClient()
 const toast = useToast()
@@ -131,6 +151,11 @@ const getOneTimePasscode = async () => {
     return
   }
 
+  if (!acceptedTermsOfService.value) {
+    toast.add({ title: 'Accept the terms of service to sign in', color: 'red' })
+    return
+  }
+
   const emailValue = email.value?.value
   if (!emailValue) {
     toast.add({ title: 'Please enter an email address', color: 'red' })
@@ -160,6 +185,11 @@ const getOneTimePasscode = async () => {
 const signUpWithGoogle = async () => {
   if (!acceptedPrivacyPolicy.value) {
     toast.add({ title: 'Accept the privacy policy to sign in', color: 'red' })
+    return
+  }
+
+  if (!acceptedTermsOfService.value) {
+    toast.add({ title: 'Accept the terms of service to sign in', color: 'red' })
     return
   }
 
