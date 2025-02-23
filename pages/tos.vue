@@ -1,10 +1,11 @@
 <template>
-  <div class="flex flex-col w-full items-center space-y-4 min-h-[calc(100vh-248px)]">
-    <div class="text-4xl font-bold mt-10">
-      Terms of Service
-    </div>
-    <div class="text-2xl">
-      Coming soon
-    </div>
+  <div class="flex flex-col w-full items-center py-12 px-4">
+    <ContentDoc
+      class="prose"
+      path="/terms"
+    />
   </div>
 </template>
+
+<script setup lang="ts">
+</script>
