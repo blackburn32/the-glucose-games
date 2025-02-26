@@ -39,6 +39,6 @@
     "daisyui": "^4.12.23",
     "typescript": "^5.7.2",
     "vitest": "^3.0.4",
-    "wrangler": "^3.99.0"
+    "wrangler": "^3.110.0"
   }
 }
