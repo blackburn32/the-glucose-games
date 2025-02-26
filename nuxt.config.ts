@@ -53,6 +53,10 @@ export default defineNuxtConfig({
     },
   },
 
+  sourcemap: {
+    client: 'hidden',
+  },
+
   compatibilityDate: '2024-11-01',
 
   nitro: {
@@ -65,6 +69,14 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       stylistic: true,
+    },
+  },
+
+  sentry: {
+    autoInjectServerSentry: 'top-level-import',
+    sourceMapsUploadOptions: {
+      org: 'the-glucose-games',
+      project: 'the-glucose-games',
     },
   },
 
@@ -85,16 +97,5 @@ export default defineNuxtConfig({
       ],
       cookieRedirect: true,
     },
-  },
-
-  sentry: {
-    sourceMapsUploadOptions: {
-      org: 'the-glucose-games',
-      project: 'the-glucose-games',
-    },
-  },
-
-  sourcemap: {
-    client: 'hidden',
   },
 })
