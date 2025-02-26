@@ -2,19 +2,19 @@ import { z } from 'zod'
 import { NIGHTSCOUT_PROVIDER_NAME } from '~/types/constants'
 
 const nightScoutRecordValidator = z.object({
-  _id: z.string(),
-  device: z.string(),
+  // _id: z.string(),
+  // device: z.string(),
   date: z.number(),
-  dateString: z.string(),
+  // dateString: z.string(),
   sgv: z.number(),
-  direction: z.string(),
+  // direction: z.string(),
   type: z.string(),
-  filtered: z.number(),
-  unfiltered: z.number(),
-  rssi: z.number(),
-  noise: z.number(),
-  sysTime: z.string(),
-  utcOffset: z.number(),
+  // filtered: z.number(),
+  // unfiltered: z.number(),
+  // rssi: z.number(),
+  // noise: z.number(),
+  // sysTime: z.string(),
+  // utcOffset: z.number(),
 })
 
 const nightScoutRecordArrayValidator = z.array(nightScoutRecordValidator)
