@@ -73,7 +73,6 @@ export default defineNuxtConfig({
   },
 
   sentry: {
-    autoInjectServerSentry: 'top-level-import',
     sourceMapsUploadOptions: {
       org: 'the-glucose-games',
       project: 'the-glucose-games',
