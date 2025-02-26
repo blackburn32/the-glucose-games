@@ -30,9 +30,6 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Configure Sentry
-        run: node --import ./.nuxt/dist/server/sentry.server.config.mjs .nuxt/dist/server/server.mjs
-
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
         id: deploy

@@ -90,7 +90,7 @@ export default defineNuxtConfig({
   sentry: {
     sourceMapsUploadOptions: {
       org: 'the-glucose-games',
-      project: 'javascript-nuxt',
+      project: 'the-glucose-games',
     },
   },
 
