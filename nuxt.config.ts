@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
-  modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@pinia/nuxt', '@nuxt/image', 'nuxt-aos', '@samk-dev/nuxt-vcalendar'],
+  modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@pinia/nuxt', '@nuxt/image', 'nuxt-aos', '@samk-dev/nuxt-vcalendar', '@sentry/nuxt/module'],
 
   $production: {
     runtimeConfig: {
@@ -19,7 +18,9 @@ export default defineNuxtConfig({
       dexcomRedirectUrl: 'https://glucose.games/api/authorize/dexcom',
     },
   },
+
   devtools: { enabled: true },
+
   app: {
     head: {
       title: 'The Glucose Games',
@@ -42,6 +43,7 @@ export default defineNuxtConfig({
     dexcomClientSecret: 'This is overridden by .env',
     dexcomRedirectUrl: 'http://localhost:3000/api/authorize/dexcom',
   },
+
   routeRules: {
     '/historyDemo': {
       ssr: false,
@@ -50,6 +52,7 @@ export default defineNuxtConfig({
       ssr: false,
     },
   },
+
   compatibilityDate: '2024-11-01',
 
   nitro: {
@@ -82,5 +85,16 @@ export default defineNuxtConfig({
       ],
       cookieRedirect: true,
     },
+  },
+
+  sentry: {
+    sourceMapsUploadOptions: {
+      org: 'the-glucose-games',
+      project: 'javascript-nuxt',
+    },
+  },
+
+  sourcemap: {
+    client: 'hidden',
   },
 })
