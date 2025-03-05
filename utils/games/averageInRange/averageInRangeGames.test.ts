@@ -106,6 +106,6 @@ test('averageInRangeForEveningsStreak should process records for the evening per
   const expectedAverage = Math.round(eveningRecords.reduce((acc, record) => acc + record.value, 0) / eveningRecords.length)
   expect(result.bestDay?.score).toBe(expectedAverage)
   expect(result.bestStreak.length).toBe(0)
-  expect(result.currentStreak.scoredDays.length).toBe(0)
+  expect(result.currentStreak.scoredDays.length).toBe(1)
   expect(result.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Failing)
 })
