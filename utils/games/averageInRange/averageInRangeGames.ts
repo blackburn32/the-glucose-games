@@ -23,13 +23,16 @@ export const averageInRangeGame = (
   const getCurrentDayStatus = (currentDay: ScoredDay) => {
     const today = new Date()
     const currentlyPastEndTime = today.getHours() > endHour || (today.getHours() === endHour && today.getMinutes() >= endMinutes)
-    if (currentDay.passesThreshold) {
+    if (currentDay.passesThreshold && currentlyPastEndTime) {
       return CurrentDayStatus.Pass
     }
     if (currentlyPastEndTime) {
       return CurrentDayStatus.Fail
     }
-    return CurrentDayStatus.Pending
+    if(currentDay.passesThreshold) {
+      return CurrentDayStatus.Pending
+    }
+    return CurrentDayStatus.Failing
   }
   const scorePassesStreakCheck = (score: number) => score >= thresholds.low && score <= thresholds.high
 

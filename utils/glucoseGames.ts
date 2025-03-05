@@ -196,7 +196,9 @@ const getCurrentDailyStreak = (
     }
   }
 
-  if (currentDayStatus === CurrentDayStatus.Pass && today) {
+  const acceptableStatuses = [CurrentDayStatus.Pass, CurrentDayStatus.Pending]
+
+  if (acceptableStatuses.includes(currentDayStatus) && today) {
     currentStreak.push(today)
   }
 
