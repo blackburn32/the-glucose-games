@@ -8,10 +8,12 @@ export const getIconForStatus = (status?: CurrentDayStatus | undefined) => {
       return 'ph:x-circle'
     case CurrentDayStatus.Failing:
       return 'ph:minus-circle'
+    case CurrentDayStatus.Pending:
+      return 'ph:check-circle'
     case undefined:
       return undefined
     default:
-      return 'ph:minus-circle'
+      return undefined
   }
 }
 

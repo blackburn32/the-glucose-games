@@ -1,7 +1,7 @@
 import type { Thresholds } from '~/types/thresholds'
 import type { ScoredGlucoseGames } from '~/types/scoredGlucoseGames'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
-import { averageInRangeForAfternoonsStreak, averageInRangeForEveningsStreak, averageInRangeForFullDayStreak, averageInRangeForMorningsStreak, averageInRangeForNightsStreak } from '~/utils/games/averageInRange/averangeInRangeGames'
+import { averageInRangeForAfternoonsStreak, averageInRangeForEveningsStreak, averageInRangeForFullDayStreak, averageInRangeForMorningsStreak, averageInRangeForNightsStreak } from '~/utils/games/averageInRange/averageInRangeGames'
 import { percentTimeInRangeForAfternoonsStreak, percentTimeInRangeForEveningsStreak, percentTimeInRangeForFullDayStreak, percentTimeInRangeForMorningsStreak, percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
 import { contiguousStreakWithNoHighs, contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
 
