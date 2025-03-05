@@ -1,15 +1,23 @@
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 
-export const getLastNight = (records: GlucoseRecord[]) => {
-  const now = new Date()
-  const todayMidnight = new Date()
-  todayMidnight.setHours(0, 0, 0, 0)
-  const todayMorning = new Date()
-  todayMorning.setHours(6, 0, 0, 0)
+/**
+ * Returns the glucose values which were recorded between midnight and 6AM, inclusive of start, exclusive of end.
+ *
+ * If the current time is before 1AM, it will return the values from the previous night.
+ * @param {GlucoseRecord[]} records
+ * @param {Date} startTime
+ * @returns {GlucoseRecord[]}
+ */
+export const getLastNight = (records: GlucoseRecord[], startTime: Date = new Date()) => {
+  const dateToUse = new Date(startTime)
+  const isAfter1AM = startTime.getHours() >= 1
+  if (!isAfter1AM) {
+    dateToUse.setDate(dateToUse.getDate() - 1)
+  }
+  const recordsOnDate = getRecordsWithSameDate(records, dateToUse)
+  return recordsOnDate.filter(record => record.created.getHours() < 6)
+}
 
-  const [start, end] = now < todayMorning
-    ? [new Date(todayMidnight).setDate(new Date(todayMidnight).getDate() - 1), new Date(todayMorning).setDate(new Date(todayMorning).getDate() - 1)]
-    : [todayMidnight, todayMorning]
-
-  return records.filter(record => record.created > start && record.created < end)
+export function getRecordsWithSameDate(records: GlucoseRecord[], date: Date): GlucoseRecord[] {
+  return records.filter(record => record.created.toDateString() === date.toDateString())
 }
