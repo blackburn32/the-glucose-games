@@ -1,3 +1,12 @@
 {
-   "signedContributors": []
+  "signedContributors": [
+    {
+      "name": "blackburn32",
+      "id": 16825875,
+      "comment_id": 2701877166,
+      "created_at": "2025-03-05T19:30:15Z",
+      "repoId": 912190532,
+      "pullRequestNo": 1
+    }
+  ]
 }
