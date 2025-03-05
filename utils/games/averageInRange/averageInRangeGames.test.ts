@@ -2,17 +2,14 @@ import { test, expect, vi, beforeAll } from 'vitest'
 import { averageInRangeForFullDayStreak, averageInRangeForNightsStreak, averageInRangeForMorningsStreak, averageInRangeForAfternoonsStreak, averageInRangeForEveningsStreak } from '~/utils/games/averageInRange/averageInRangeGames'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
-import { getMockGlucoseRecord } from '~/utils/test/testUtils'
+import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/testUtils'
 import { CurrentDayStatus } from '~/types/constants'
+import { generateSingleValueGlucoseRecords } from '~/utils/glucoseGenerator'
+import type { DailyStreakStats } from '~/types/dailyStreakStats'
 
 const mockThresholds: Thresholds = {
   low: 70,
   high: 180,
-}
-
-const createDate = (hours: number, minutes: number = 0, startDate: Date = new Date('2023-10-10')) => {
-  startDate.setHours(hours, minutes)
-  return startDate
 }
 
 const midnight = createDate(0)
@@ -25,7 +22,8 @@ const fivePm = createDate(17)
 const sixPm = createDate(18)
 const elevenPm = createDate(23)
 const elevenFiftyEightPm = createDate(23, 58)
-const mindightYesterday = createDate(0, 0, new Date('2023-10-09'))
+const yesterday = getDayBefore(midnight)
+const dayBefore = getDayBefore(yesterday)
 
 const mockRecordsForSingleDay: GlucoseRecord[] = [
   getMockGlucoseRecord(midnight, 100),
@@ -39,73 +37,102 @@ const mockRecordsForSingleDay: GlucoseRecord[] = [
   getMockGlucoseRecord(elevenPm, 250),
 ]
 
-const mockRecordsForMultipleDays: GlucoseRecord[] = [
-  getMockGlucoseRecord(mindightYesterday, 100),
-  ...mockRecordsForSingleDay,
-]
+export const getAverageForTimeRange = (records: GlucoseRecord[], startHour: number, endHour: number) => {
+  const filteredRecords = records.filter(record => record.created.getHours() >= startHour && record.created.getHours() <= endHour)
+  return Math.round(filteredRecords.reduce((acc, record) => acc + record.value, 0) / filteredRecords.length)
+}
+
+const mockRecordsForInRangeDay: GlucoseRecord[] = generateSingleValueGlucoseRecords(
+  100,
+  yesterday,
+)
+
+const mockRecordsForOutOfRangeDay: GlucoseRecord[] = generateSingleValueGlucoseRecords(
+  200,
+  dayBefore,
+)
+
+const allRecords = [...mockRecordsForSingleDay, ...mockRecordsForInRangeDay, ...mockRecordsForOutOfRangeDay]
 
 beforeAll(() => {
   vi.setSystemTime(elevenFiftyEightPm)
 })
 
-test('averageInRangeForFullDayStreak should process records for the full day', () => {
-  const result = averageInRangeForFullDayStreak(mockRecordsForSingleDay, mockThresholds)
-  const expectedAverage = Math.round(mockRecordsForSingleDay.filter(record => record.created.getDate() == midnight.getDate()).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.length)
-  expect(result.bestDay?.score).toBe(expectedAverage)
-  expect(result.bestStreak.length).toBe(1)
-  expect(result.bestStreak[0].score).toBe(expectedAverage)
-  expect(result.bestStreak[0].passesThreshold).toBe(true)
-  expect(result.currentStreak.scoredDays.length).toBe(1)
-  expect(result.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pending)
-  const resultMultipleDays = averageInRangeForFullDayStreak(mockRecordsForMultipleDays, mockThresholds)
-  expect(resultMultipleDays.bestDay?.score).toBe(100)
-  expect(resultMultipleDays.bestStreak.length).toBe(2)
-  expect(resultMultipleDays.bestStreak[0].score).toBe(100)
-  expect(resultMultipleDays.bestStreak[0].passesThreshold).toBe(true)
-  expect(resultMultipleDays.bestStreak[1].score).toBe(expectedAverage)
-  expect(resultMultipleDays.bestStreak[1].passesThreshold).toBe(true)
-})
+const testAverageInRangeStreak = (
+  testName: string,
+  streakFunction: (records: GlucoseRecord[], thresholds: Thresholds) => DailyStreakStats,
+  records: GlucoseRecord[],
+  thresholds: Thresholds,
+  expectedAverageForCustomDay: number,
+  expectedBestStreakLength: number,
+  expectedCurrentStreakLength: number,
+  expectedCurrentDayStatus: CurrentDayStatus,
+) => {
+  test(testName, () => {
+    const result = streakFunction(records, thresholds)
+    const customDay = result.scoredDays.find(day => day.date.toDateString() === midnight.toDateString())
+    expect(customDay?.score).toBe(expectedAverageForCustomDay)
+    if (result.bestStreak.length > 0) {
+      expect(result.bestStreak.length, 'best streak length wrong').toBe(expectedBestStreakLength)
+      expect(result.bestStreak[0].score, 'best streak first score wrong').toBe(100)
+      expect(result.bestStreak[0].passesThreshold, 'best streak first day should be passing').toBe(true)
+    }
+    expect(result.currentStreak.scoredDays.length, 'expected current streak length wrong').toBe(expectedCurrentStreakLength)
+    expect(result.currentStreak.currentDayStatus, 'expected current day status wrong').toBe(expectedCurrentDayStatus)
+  })
+}
 
-test('averageInRangeForNightsStreak should process records for the night period', () => {
-  const nightRecords = mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6)
-  const result = averageInRangeForNightsStreak(mockRecordsForSingleDay, mockThresholds)
-  const expectedAverage = Math.round(nightRecords.reduce((acc, record) => acc + record.value, 0) / nightRecords.length)
-  expect(result.bestDay?.score).toBe(expectedAverage)
-  expect(result.bestStreak.length).toBe(1)
-  expect(result.bestStreak[0].score).toBe(expectedAverage)
-  expect(result.bestStreak[0].passesThreshold).toBe(true)
-  expect(result.currentStreak.scoredDays.length).toBe(1)
-  expect(result.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pass)
-})
+testAverageInRangeStreak(
+  'averageInRangeForFullDayStreak should process records for multiple days',
+  averageInRangeForFullDayStreak,
+  allRecords,
+  mockThresholds,
+  getAverageForTimeRange(mockRecordsForSingleDay, 0, 23),
+  2,
+  2,
+  CurrentDayStatus.Pending,
+)
 
-test('averageInRangeForMorningsStreak should process records for the morning period', () => {
-  const morningRecords = mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12)
-  const result = averageInRangeForMorningsStreak(mockRecordsForSingleDay, mockThresholds)
-  const expectedAverage = Math.round(morningRecords.reduce((acc, record) => acc + record.value, 0) / morningRecords.length)
-  expect(result.bestDay?.score).toBe(expectedAverage)
-  expect(result.bestStreak.length).toBe(1)
-  expect(result.bestStreak[0].score).toBe(expectedAverage)
-  expect(result.bestStreak[0].passesThreshold).toBe(true)
-  expect(result.currentStreak.scoredDays.length).toBe(1)
-  expect(result.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pass)
-})
+testAverageInRangeStreak(
+  'averageInRangeForNightsStreak should process records for multiple days',
+  averageInRangeForNightsStreak,
+  allRecords,
+  mockThresholds,
+  Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6).length),
+  2,
+  2,
+  CurrentDayStatus.Pass,
+)
 
-test('averageInRangeForAfternoonsStreak should process records for the afternoon period', () => {
-  const afternoonRecords = mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18)
-  const result = averageInRangeForAfternoonsStreak(mockRecordsForSingleDay, mockThresholds)
-  const expectedAverage = Math.round(afternoonRecords.reduce((acc, record) => acc + record.value, 0) / afternoonRecords.length)
-  expect(result.bestDay?.score).toBe(expectedAverage)
-  expect(result.bestStreak.length).toBe(0)
-  expect(result.currentStreak.scoredDays.length).toBe(0)
-  expect(result.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Fail)
-})
+testAverageInRangeStreak(
+  'averageInRangeForMorningsStreak should process records for multiple days',
+  averageInRangeForMorningsStreak,
+  allRecords,
+  mockThresholds,
+  Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12).length),
+  2,
+  2,
+  CurrentDayStatus.Pass,
+)
 
-test('averageInRangeForEveningsStreak should process records for the evening period', () => {
-  const eveningRecords = mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24)
-  const result = averageInRangeForEveningsStreak(mockRecordsForSingleDay, mockThresholds)
-  const expectedAverage = Math.round(eveningRecords.reduce((acc, record) => acc + record.value, 0) / eveningRecords.length)
-  expect(result.bestDay?.score).toBe(expectedAverage)
-  expect(result.bestStreak.length).toBe(0)
-  expect(result.currentStreak.scoredDays.length).toBe(0)
-  expect(result.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Failing)
-})
+testAverageInRangeStreak(
+  'averageInRangeForAfternoonsStreak should process records for multiple days',
+  averageInRangeForAfternoonsStreak,
+  allRecords,
+  mockThresholds,
+  Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18).length),
+  1,
+  0,
+  CurrentDayStatus.Fail,
+)
+
+testAverageInRangeStreak(
+  'averageInRangeForEveningsStreak should process records for multiple days',
+  averageInRangeForEveningsStreak,
+  allRecords,
+  mockThresholds,
+  Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).length),
+  1,
+  1,
+  CurrentDayStatus.Failing,
+)
