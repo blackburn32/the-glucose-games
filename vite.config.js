@@ -14,4 +14,10 @@ export default defineConfig({
       org: 'the-glucose-games',
       project: 'javascript-nuxt',
     })],
+  test: {
+    coverage: {
+      reporter: ['text', 'json', 'json-summary'],
+      reportOnFailure: true,
+    },
+  },
 })
