@@ -6,6 +6,28 @@
 npm install
 ```
 
+### Setup Supabase (Database and Auth)
+
+Create an account at [Supabase](https://supabase.com/)
+
+Create a project and retrieve your SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_KEY
+
+Create a `.env.local` file in the root of the project and add the following:
+
+```.dotenv
+SUPABASE_URL=your_supabase_url
+SUPABASE_KEY=your_supabase_key
+SUPABASE_SERVICE_KEY=your_supabase_service_key
+```
+
+Then link with the Supabase CLI:
+
+```bash
+npx supabase login
+npx supabase link
+npx supabase db push
+```
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
@@ -67,3 +89,14 @@ Push changes to Supabase:
 ```bash
 supabase db push
 ```
+
+## Contributing
+
+If you would like to contribute to this project, please follow the [Contribution Guidelines](CONTRIBUTING.md).
+
+## License
+
+This project is a source available project.
+You are free to run the software for yourself, but you are not allowed to redistribute it or sell it.
+
+This project is licensed under the PolyForm Perimeter 1.0.1 License - see the [LICENSE](LICENSE) file for details.
