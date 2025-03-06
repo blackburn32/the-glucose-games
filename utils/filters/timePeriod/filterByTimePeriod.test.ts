@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { toGlucoseRecord } from '~/utils/glucoseGenerator'
+import { toGlucoseRecord } from '~/utils/generators/glucoseGenerator'
 import { filterRecordsByTimePeriod, isTimeInRange } from '~/utils/filters/timePeriod/filterByTimePeriod'
 
 test('filters/timePeriod/filterByTimePeriod.isTimeInRange', async () => {

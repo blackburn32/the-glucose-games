@@ -11,7 +11,7 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "vitest --coverage"
+    "test": "vitest --coverage.enabled true"
   },
   "dependencies": {
     "@nuxt/content": "^2.13.4",
