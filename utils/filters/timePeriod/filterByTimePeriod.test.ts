@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest'
-import { toGlucoseRecord } from '~/utils/generators/glucoseGenerator'
 import { filterRecordsByTimePeriod, isTimeInRange } from '~/utils/filters/timePeriod/filterByTimePeriod'
+import { toGlucoseRecord } from '~/utils/generators/utils'
 
 test('filters/timePeriod/filterByTimePeriod.isTimeInRange', async () => {
   const midnight = new Date('2022-01-01T00:00:00')
