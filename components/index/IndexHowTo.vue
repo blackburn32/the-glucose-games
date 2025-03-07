@@ -115,6 +115,7 @@
 <script setup lang="ts">
 import { contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
 import { percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
+import { generateGlucoseValues, RealisticGeneratorConfig } from '~/utils/generators/glucoseGenerator'
 
 const category = ref('1')
 const glucoseValues = useState('demoValues', () => generateGlucoseValues(RealisticGeneratorConfig, 1000))
