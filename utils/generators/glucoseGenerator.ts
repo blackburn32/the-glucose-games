@@ -1,6 +1,7 @@
 import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
 import { toGlucoseRecord } from '~/utils/generators/utils'
 import type { GlucoseGeneratorConfig } from '~/utils/generators/config/generatorConfig'
+import { generateTimestamps } from '~/utils/generators/timestamps/timestampGenerator'
 
 const generateStableToHigh = (config: GlucoseGeneratorConfig, previousValue: number) => {
   const newValue = Math.round(previousValue + Math.random() * config.maxChange)
@@ -27,13 +28,4 @@ export const generateGlucoseValues = (config: GlucoseGeneratorConfig, count: num
     previousValue = newValue
   }
   return generateTimestamps(values, new Date(), minutesBetweenRecords * 60 * 1000).reverse()
-}
-
-const generateTimestamps = (glucoseValues: number[], start: Date, interval: number) => {
-  const timestamps: GlucoseRecord[] = []
-  for (let i = 0; i < glucoseValues.length; i++) {
-    const createdDate = new Date(start.getTime() - i * interval)
-    timestamps.push(toGlucoseRecord(glucoseValues[i], createdDate))
-  }
-  return timestamps
 }
