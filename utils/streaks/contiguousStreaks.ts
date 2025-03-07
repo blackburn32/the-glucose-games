@@ -46,7 +46,7 @@ export const calculateContiguousStreakStats: (
   const currentStreakString = getStreakDurationString(currentStreak)
 
   const lastRecord = records.at(-1)
-  const currentlyInStreak = lastRecord && recordIncludedInStreak(lastRecord)
+  const currentlyInStreak = !!(lastRecord && recordIncludedInStreak(lastRecord))
 
   const streakStringToDisplay = currentlyInStreak ? currentStreakString : 'Not in range'
 
@@ -55,7 +55,7 @@ export const calculateContiguousStreakStats: (
     longestStreakString,
     currentStreak,
     currentStreakString,
-    currentlyInStreak: !!currentStreak,
+    currentlyInStreak,
     streaks,
     streakStringToDisplay,
   }
