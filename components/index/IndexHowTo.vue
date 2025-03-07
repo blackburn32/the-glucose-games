@@ -115,14 +115,14 @@
 <script setup lang="ts">
 import { contiguousStreakWithNoLows, contiguousStreakWithNoLowsOrHighs } from '~/utils/games/contiguousStreak/contiguousStreakGames'
 import { percentTimeInRangeForNightsStreak } from '~/utils/games/percentTimeInRange/percentTimeInRangeGames'
-import { generateGlucoseValues } from '~/utils/generators/glucoseGenerator'
+import { generateRandomWalk } from '~/utils/generators/randomWalkGenerator/randomWalkGenerator'
 import { RealisticGeneratorConfig } from '~/utils/generators/config/generatorConfig'
 
 const category = ref('1')
-const glucoseValues = useState('demoValues', () => generateGlucoseValues(RealisticGeneratorConfig, 1000))
+const glucoseValues = useState('demoValues', () => generateRandomWalk(RealisticGeneratorConfig, 1000))
 
 const refreshData = () => {
-  glucoseValues.value = generateGlucoseValues(RealisticGeneratorConfig, 1000)
+  glucoseValues.value = generateRandomWalk(RealisticGeneratorConfig, 1000)
 }
 
 const noLowsStreak = computed(() => {
