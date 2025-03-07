@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest'
-import { toGlucoseRecord } from '~/utils/generators/glucoseGenerator'
 import { scoreRecordsByAverageGlucose } from '~/utils/scoring/averageGlucoseValue/averageGlucoseValue'
+import { toGlucoseRecord } from '~/utils/generators/utils'
 
 test('scoring/averageGlucoseValue.averageGlucoseValue', async () => {
   const date = new Date()

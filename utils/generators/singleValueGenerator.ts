@@ -1,5 +1,6 @@
 import type { GlucoseRecord } from '~/types/glucoseRecord'
-import { toGlucoseRecord } from '~/utils/generators/glucoseGenerator'
+
+import { toGlucoseRecord } from '~/utils/generators/utils'
 
 /**
  * Generates glucose records for a single day with the same value.

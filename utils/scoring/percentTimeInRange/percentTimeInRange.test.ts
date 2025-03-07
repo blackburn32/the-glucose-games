@@ -1,7 +1,8 @@
 import { test, expect } from 'vitest'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import type { Thresholds } from '~/types/thresholds'
-import { toGlucoseRecord } from '~/utils/generators/glucoseGenerator'
+
+import { toGlucoseRecord } from '~/utils/generators/utils'
 
 test('scoring/percentTimeInRange.percentTimeInRange', async () => {
   const date = new Date()

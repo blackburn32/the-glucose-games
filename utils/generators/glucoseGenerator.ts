@@ -1,4 +1,5 @@
 import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
+import { toGlucoseRecord } from '~/utils/generators/utils'
 
 export type GlucoseGeneratorConfig = {
   average: number
@@ -63,16 +64,6 @@ export const generateGlucoseValues = (config: GlucoseGeneratorConfig, count: num
     previousValue = newValue
   }
   return generateTimestamps(values, new Date(), minutesBetweenRecords * 60 * 1000).reverse()
-}
-
-export const toGlucoseRecord = (value: number, created: Date) => {
-  return {
-    created,
-    value,
-    x: created.getTime(),
-    y: value,
-    provider: 'generator',
-  }
 }
 
 const generateTimestamps = (glucoseValues: number[], start: Date, interval: number) => {
