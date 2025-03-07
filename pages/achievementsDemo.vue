@@ -38,9 +38,12 @@
 </template>
 
 <script setup lang="ts">
-const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 2000, 30))
+import { generateRandomWalk } from '~/utils/generators/randomWalkGenerator/randomWalkGenerator'
+import { RealisticGeneratorConfig } from '~/utils/generators/config/generatorConfig'
+
+const demoGlucoseData = useState('demoGlucoseData', () => generateRandomWalk(RealisticGeneratorConfig, 2000, 30))
 const refreshData = () => {
-  demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 2000, 30)
+  demoGlucoseData.value = generateRandomWalk(RealisticGeneratorConfig, 2000, 30)
 }
 const { thresholds } = useDemoThresholds()
 </script>

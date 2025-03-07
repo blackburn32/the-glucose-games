@@ -3,6 +3,7 @@ import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInR
 import type { Thresholds } from '~/types/thresholds'
 import { getScoredGames } from '~/utils/games/scoredGames'
 import { NIGHTSCOUT_PROVIDER_NAME } from '~/types/constants'
+import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 
 export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined, thresholdsOverride?: Thresholds | undefined) => {
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {

@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValueGenerator'
+import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValue/singleValueGenerator'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 
 test('generateSingleValueGlucoseRecords generates records with the correct value', () => {

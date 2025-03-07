@@ -4,7 +4,8 @@ import { filterRecordsByTimePeriod } from '~/utils/filters/timePeriod/filterByTi
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import type { ScoredDay } from '~/types/scoredDay'
 import { CurrentDayStatus } from '~/types/constants'
-import { calculateDailyStreakStats, cleanPercentForDisplay } from '~/utils/glucoseGames'
+import { calculateDailyStreakStats } from '~/utils/streaks/dailyStreaks'
+import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 
 export const percentTimeInRangeGame = (
   records: GlucoseRecord[],
