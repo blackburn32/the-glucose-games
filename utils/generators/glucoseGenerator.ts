@@ -1,33 +1,6 @@
 import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
 import { toGlucoseRecord } from '~/utils/generators/utils'
-
-export type GlucoseGeneratorConfig = {
-  average: number
-  min: number
-  max: number
-  maxChange: number
-}
-
-export const StableGeneratorConfig: GlucoseGeneratorConfig = {
-  average: 100,
-  min: 80,
-  max: 150,
-  maxChange: 5,
-}
-
-export const TrendsHighGeneratorConfig: GlucoseGeneratorConfig = {
-  average: 150,
-  min: 120,
-  max: 250,
-  maxChange: 8,
-}
-
-export const RealisticGeneratorConfig: GlucoseGeneratorConfig = {
-  average: 130,
-  min: 55,
-  max: 350,
-  maxChange: 8,
-}
+import type { GlucoseGeneratorConfig } from '~/utils/generators/config/generatorConfig'
 
 const generateStableToHigh = (config: GlucoseGeneratorConfig, previousValue: number) => {
   const newValue = Math.round(previousValue + Math.random() * config.maxChange)
@@ -46,8 +19,7 @@ export const generateGlucoseValues = (config: GlucoseGeneratorConfig, count: num
   for (let i = 0; i < count; i++) {
     if (previousValue > config.max * 0.9 || previousValue < config.min * 1.1) {
       trend = previousValue < config.min * 1.1
-    }
-    else if (Math.random() > 0.8) {
+    } else if (Math.random() > 0.8) {
       trend = !trend
     }
     const newValue = trend ? generateStableToHigh(config, previousValue) : generateStableToLow(config, previousValue)

@@ -1,4 +1,4 @@
-import type { GlucoseGeneratorConfig } from '~/utils/generators/glucoseGenerator'
+import type { GlucoseGeneratorConfig } from '~/utils/generators/config/generatorConfig'
 
 export const generateTrend = (config: GlucoseGeneratorConfig, startValue: number, endValue: number, count: number, isIncreasing: boolean) => {
     const step = (endValue - startValue) / count

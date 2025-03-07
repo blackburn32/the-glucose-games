@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest'
 import { generateTrend } from './trendGenerators'
-import type { GlucoseGeneratorConfig } from '~/utils/generators/glucoseGenerator'
+import type { GlucoseGeneratorConfig } from '~/utils/generators/config/generatorConfig'
 
 test('generateTrend creates an array with the specified count', () => {
   const config: GlucoseGeneratorConfig = {
