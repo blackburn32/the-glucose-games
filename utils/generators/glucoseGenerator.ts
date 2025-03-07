@@ -39,15 +39,6 @@ const generateStableToLow = (config: GlucoseGeneratorConfig, previousValue: numb
   return Math.max(newValue, config.min)
 }
 
-const generateTrend = (config: GlucoseGeneratorConfig, startValue: number, endValue: number, count: number, isIncreasing: boolean) => {
-  const step = (endValue - startValue) / count
-  const values = []
-  for (let i = 0; i < count; i++) {
-    values.push(startValue + step * i)
-  }
-  return values.map(value => value + (isIncreasing ? 1 : -1) * Math.random() * config.maxChange)
-}
-
 export const generateGlucoseValues = (config: GlucoseGeneratorConfig, count: number, minutesBetweenRecords: number = 15) => {
   const values = []
   let previousValue = config.average
