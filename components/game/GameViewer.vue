@@ -111,6 +111,7 @@
 <script setup lang="ts">
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
+import { getIconForStatus, getIconForDailyStreak, getColorForDailyStreak, getColorForStatus } from '~/utils/status/status'
 
 const props = defineProps<{
   thresholds: Thresholds
