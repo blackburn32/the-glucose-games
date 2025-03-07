@@ -38,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { generateGlucoseValues, RealisticGeneratorConfig } from '~/utils/generators/glucoseGenerator'
+
 const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 2000, 30))
 const refreshData = () => {
   demoGlucoseData.value = generateGlucoseValues(RealisticGeneratorConfig, 2000, 30)

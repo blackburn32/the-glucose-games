@@ -1,4 +1,4 @@
-import { calculateContiguousStreakStats } from '~/utils/glucoseGames'
+import { calculateContiguousStreakStats } from '~/utils/streaks/contiguousStreaks'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
 

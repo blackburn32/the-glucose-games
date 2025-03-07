@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import { useDemoThresholds } from '~/composables/useDemoThresholds'
+import { generateGlucoseValues, RealisticGeneratorConfig } from '~/utils/generators/glucoseGenerator'
 
 const demoGlucoseData = useState('demoGlucoseData', () => generateGlucoseValues(RealisticGeneratorConfig, 1000, 30))
 const refreshData = () => {
