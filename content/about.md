@@ -56,3 +56,7 @@ You can also contact us with any questions at [support@glucose.games](mailto:sup
 ## Attributions
 
 The [privacy policy](/privacy) for The Glucose Games is based  upon the [Automattic Privacy Policy](https://automattic.com/privacy/) and is licensed under [Creative Commons Attribution Share-Alike License 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+## Collaborating
+
+If you would like to collaborate on the project, you can check out [the source code](https://github.com/blackburn32/the-glucose-games) and our [contribution guide](https://github.com/blackburn32/the-glucose-games/blob/master/CONTRIBUTING.md).
