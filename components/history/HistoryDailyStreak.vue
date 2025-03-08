@@ -48,7 +48,6 @@
 <script setup lang="ts">
 import { isSameDay } from 'date-fns'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
-import type { ScoredDay } from '~/types/scoredDay'
 
 const selectedDate = ref(new Date())
 const cleanSelectedDate = computed(() => {

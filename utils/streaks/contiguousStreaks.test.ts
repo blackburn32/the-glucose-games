@@ -66,4 +66,4 @@ describe('calculateContiguousStreakStats', () => {
     expect(result.currentStreak).toHaveLength(1)
     expect(result.currentlyInStreak).toBe(true)
   })
-}) 
+})

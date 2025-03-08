@@ -79,4 +79,4 @@ describe('getColorForDailyStreak', () => {
     expect(getColorForDailyStreak(0)).toBe('')
     expect(getColorForDailyStreak(4)).toBe('')
   })
-}) 
+})

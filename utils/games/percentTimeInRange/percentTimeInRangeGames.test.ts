@@ -12,6 +12,7 @@ import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/tes
 import { CurrentDayStatus } from '~/types/constants'
 import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValue/singleValueGenerator'
 import type { ScoredDay } from '~/types/scoredDay'
+import type { DailyStreakStats } from '~/types/dailyStreakStats'
 
 const mockThresholds: Thresholds = {
   low: 70,
@@ -33,15 +34,15 @@ const dayBefore = getDayBefore(yesterday)
 
 // Mock records for a single day with varying in-range and out-of-range values
 const mockRecordsForSingleDay: GlucoseRecord[] = [
-  getMockGlucoseRecord(midnight, 100),  // in range
-  getMockGlucoseRecord(oneAm, 110),     // in range
-  getMockGlucoseRecord(fiveAm, 120),    // in range
-  getMockGlucoseRecord(sixAm, 130),     // in range
-  getMockGlucoseRecord(elevenAm, 140),  // in range
-  getMockGlucoseRecord(twelvePm, 180),  // in range (boundary)
-  getMockGlucoseRecord(fivePm, 200),    // out of range (high)
-  getMockGlucoseRecord(sixPm, 200),     // out of range (high)
-  getMockGlucoseRecord(elevenPm, 250),  // out of range (high)
+  getMockGlucoseRecord(midnight, 100), // in range
+  getMockGlucoseRecord(oneAm, 110), // in range
+  getMockGlucoseRecord(fiveAm, 120), // in range
+  getMockGlucoseRecord(sixAm, 130), // in range
+  getMockGlucoseRecord(elevenAm, 140), // in range
+  getMockGlucoseRecord(twelvePm, 180), // in range (boundary)
+  getMockGlucoseRecord(fivePm, 200), // out of range (high)
+  getMockGlucoseRecord(sixPm, 200), // out of range (high)
+  getMockGlucoseRecord(elevenPm, 250), // out of range (high)
 ]
 
 // Generate records for a day that's completely in range
@@ -64,7 +65,7 @@ beforeAll(() => {
 
 const testPercentTimeInRangeStreak = (
   testName: string,
-  streakFunction: (records: GlucoseRecord[], thresholds: Thresholds, streakFilterValue: number) => any,
+  streakFunction: (records: GlucoseRecord[], thresholds: Thresholds, streakFilterValue: number) => DailyStreakStats,
   records: GlucoseRecord[],
   thresholds: Thresholds,
   streakFilterValue: number,
@@ -75,18 +76,18 @@ const testPercentTimeInRangeStreak = (
 ) => {
   test(testName, () => {
     const result = streakFunction(records, thresholds, streakFilterValue)
-    
+
     // Check the score for our custom day
     const customDay = result.scoredDays.find((day: ScoredDay) => day.date.toDateString() === midnight.toDateString())
     expect(customDay?.score).toBe(expectedPercentForCustomDay)
-    
+
     // Check best streak
     if (result.bestStreak.length > 0) {
       expect(result.bestStreak.length, 'best streak length wrong').toBe(expectedBestStreakLength)
       expect(result.bestStreak[0].score, 'best streak first score wrong').toBe(100)
       expect(result.bestStreak[0].passesThreshold, 'best streak first day should be passing').toBe(true)
     }
-    
+
     // Check current streak
     expect(result.currentStreak.scoredDays.length, 'expected current streak length wrong').toBe(expectedCurrentStreakLength)
     expect(result.currentStreak.currentDayStatus, 'expected current day status wrong').toBe(expectedCurrentDayStatus)
@@ -181,4 +182,4 @@ test('percentTimeInRangeGame handles boundary values', () => {
   ]
   const result = percentTimeInRangeForFullDayStreak(boundaryRecords, mockThresholds, 70)
   expect(result.scoredDays[0].score).toBe(100) // Both values should be considered in range
-}) 
+})

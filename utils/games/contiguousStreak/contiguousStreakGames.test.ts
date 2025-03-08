@@ -5,7 +5,7 @@ import type { Thresholds } from '~/types/thresholds'
 
 const mockThresholds: Thresholds = {
   low: 70,
-  high: 180
+  high: 180,
 }
 
 const createMockRecord = (value: number, minutesAgo: number = 0): GlucoseRecord => ({
@@ -13,7 +13,7 @@ const createMockRecord = (value: number, minutesAgo: number = 0): GlucoseRecord 
   created: new Date(Date.now() - minutesAgo * 60 * 1000),
   x: Date.now() - minutesAgo * 60 * 1000,
   y: value,
-  provider: 'test'
+  provider: 'test',
 })
 
 test('contiguousStreakWithNoLows identifies streak without low values', () => {
@@ -23,7 +23,7 @@ test('contiguousStreakWithNoLows identifies streak without low values', () => {
     createMockRecord(75, 30),
     createMockRecord(65, 20), // Low value breaks streak
     createMockRecord(90, 10),
-    createMockRecord(85, 0)
+    createMockRecord(85, 0),
   ]
 
   const result = contiguousStreakWithNoLows(records, mockThresholds)
@@ -49,7 +49,7 @@ test('contiguousStreakWithNoHighs identifies streak without high values', () => 
     createMockRecord(190, 30), // High value breaks streak
     createMockRecord(170, 20),
     createMockRecord(175, 10),
-    createMockRecord(185, 0) // High value ends current streak
+    createMockRecord(185, 0), // High value ends current streak
   ]
 
   const result = contiguousStreakWithNoHighs(records, mockThresholds)
@@ -67,13 +67,13 @@ test('contiguousStreakWithNoHighs identifies streak without high values', () => 
 
 test('contiguousStreakWithNoLowsOrHighs identifies streak within range', () => {
   const records: GlucoseRecord[] = [
-    createMockRecord(65, 60),  // Low value
+    createMockRecord(65, 60), // Low value
     createMockRecord(100, 50),
     createMockRecord(150, 40),
     createMockRecord(190, 30), // High value
     createMockRecord(120, 20),
     createMockRecord(130, 10),
-    createMockRecord(140, 0)
+    createMockRecord(140, 0),
   ]
 
   const result = contiguousStreakWithNoLowsOrHighs(records, mockThresholds)
@@ -137,9 +137,9 @@ test('streak functions handle single record', () => {
 
 test('streak functions handle boundary values', () => {
   const records: GlucoseRecord[] = [
-    createMockRecord(mockThresholds.low, 20),     // Exactly low threshold
-    createMockRecord(mockThresholds.high, 10),    // Exactly high threshold
-    createMockRecord((mockThresholds.low + mockThresholds.high) / 2, 0)  // Middle value
+    createMockRecord(mockThresholds.low, 20), // Exactly low threshold
+    createMockRecord(mockThresholds.high, 10), // Exactly high threshold
+    createMockRecord((mockThresholds.low + mockThresholds.high) / 2, 0), // Middle value
   ]
 
   const noLowsResult = contiguousStreakWithNoLows(records, mockThresholds)
@@ -154,4 +154,4 @@ test('streak functions handle boundary values', () => {
   expect(noLowsResult.currentlyInStreak).toBe(true)
   expect(noHighsResult.currentlyInStreak).toBe(true)
   expect(noLowsOrHighsResult.currentlyInStreak).toBe(true)
-}) 
+})

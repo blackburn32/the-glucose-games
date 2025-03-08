@@ -4,7 +4,6 @@ import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
 import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/testUtils'
 import { CurrentDayStatus } from '~/types/constants'
-import type { ScoredDay } from '~/types/scoredDay'
 
 const mockThresholds: Thresholds = {
   low: 70,
@@ -26,29 +25,29 @@ const dayBefore = getDayBefore(yesterday)
 
 // Mock records for a single day with varying in-range and out-of-range values
 const mockRecordsForSingleDay: GlucoseRecord[] = [
-  getMockGlucoseRecord(midnight, 100),  // in range
-  getMockGlucoseRecord(oneAm, 110),     // in range
-  getMockGlucoseRecord(fiveAm, 120),    // in range
-  getMockGlucoseRecord(sixAm, 130),     // in range
-  getMockGlucoseRecord(elevenAm, 140),  // in range
-  getMockGlucoseRecord(twelvePm, 180),  // in range (boundary)
-  getMockGlucoseRecord(fivePm, 200),    // out of range (high)
-  getMockGlucoseRecord(sixPm, 200),     // out of range (high)
-  getMockGlucoseRecord(elevenPm, 250),  // out of range (high)
+  getMockGlucoseRecord(midnight, 100), // in range
+  getMockGlucoseRecord(oneAm, 110), // in range
+  getMockGlucoseRecord(fiveAm, 120), // in range
+  getMockGlucoseRecord(sixAm, 130), // in range
+  getMockGlucoseRecord(elevenAm, 140), // in range
+  getMockGlucoseRecord(twelvePm, 180), // in range (boundary)
+  getMockGlucoseRecord(fivePm, 200), // out of range (high)
+  getMockGlucoseRecord(sixPm, 200), // out of range (high)
+  getMockGlucoseRecord(elevenPm, 250), // out of range (high)
 ]
 
 // Create records for yesterday (one per time period, all in range)
 const mockRecordsForInRangeDay: GlucoseRecord[] = [
-  getMockGlucoseRecord(new Date(yesterday.setHours(2)), 100),  // night
-  getMockGlucoseRecord(new Date(yesterday.setHours(8)), 100),  // morning
+  getMockGlucoseRecord(new Date(yesterday.setHours(2)), 100), // night
+  getMockGlucoseRecord(new Date(yesterday.setHours(8)), 100), // morning
   getMockGlucoseRecord(new Date(yesterday.setHours(14)), 100), // afternoon
   getMockGlucoseRecord(new Date(yesterday.setHours(20)), 100), // evening
 ]
 
 // Create records for day before (one per time period, all out of range)
 const mockRecordsForOutOfRangeDay: GlucoseRecord[] = [
-  getMockGlucoseRecord(new Date(dayBefore.setHours(2)), 200),  // night
-  getMockGlucoseRecord(new Date(dayBefore.setHours(8)), 200),  // morning
+  getMockGlucoseRecord(new Date(dayBefore.setHours(2)), 200), // night
+  getMockGlucoseRecord(new Date(dayBefore.setHours(8)), 200), // morning
   getMockGlucoseRecord(new Date(dayBefore.setHours(14)), 200), // afternoon
   getMockGlucoseRecord(new Date(dayBefore.setHours(20)), 200), // evening
 ]
@@ -89,32 +88,32 @@ test('getScoredGames calculates daily streak stats correctly', () => {
 
   // Test full day stats
   expect(result.dailyStreakStats.averageInRangeForFullDay.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pending)
-  expect(result.dailyStreakStats.percentTimeInRangeForFullDay.scoredDays.find(day => 
-    day.date.toDateString() === midnight.toDateString()
+  expect(result.dailyStreakStats.percentTimeInRangeForFullDay.scoredDays.find(day =>
+    day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe((6 / 9) * 100)
 
   // Test night stats (00:00-05:59)
   expect(result.dailyStreakStats.averageInRangeForNights.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pass)
-  expect(result.dailyStreakStats.percentTimeInRangeForNights.scoredDays.find(day => 
-    day.date.toDateString() === midnight.toDateString()
+  expect(result.dailyStreakStats.percentTimeInRangeForNights.scoredDays.find(day =>
+    day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(100) // All night values are in range
 
   // Test morning stats (06:00-11:59)
   expect(result.dailyStreakStats.averageInRangeForMornings.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pass)
-  expect(result.dailyStreakStats.percentTimeInRangeForMornings.scoredDays.find(day => 
-    day.date.toDateString() === midnight.toDateString()
+  expect(result.dailyStreakStats.percentTimeInRangeForMornings.scoredDays.find(day =>
+    day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(100) // All morning values are in range
 
   // Test afternoon stats (12:00-17:59)
   expect(result.dailyStreakStats.averageInRangeForAfternoons.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Fail)
-  expect(result.dailyStreakStats.percentTimeInRangeForAfternoons.scoredDays.find(day => 
-    day.date.toDateString() === midnight.toDateString()
+  expect(result.dailyStreakStats.percentTimeInRangeForAfternoons.scoredDays.find(day =>
+    day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(50) // 1 in range (boundary), 1 out of range
 
   // Test evening stats (18:00-23:59)
   expect(result.dailyStreakStats.averageInRangeForEvenings.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Failing)
-  expect(result.dailyStreakStats.percentTimeInRangeForEvenings.scoredDays.find(day => 
-    day.date.toDateString() === midnight.toDateString()
+  expect(result.dailyStreakStats.percentTimeInRangeForEvenings.scoredDays.find(day =>
+    day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(0) // All evening values are out of range
 })
 
@@ -141,14 +140,14 @@ test('getScoredGames handles empty record list', () => {
   const result = getScoredGames([], mockThresholds)
 
   // Check daily streak stats
-  Object.values(result.dailyStreakStats).forEach(stats => {
+  Object.values(result.dailyStreakStats).forEach((stats) => {
     expect(stats.scoredDays).toHaveLength(0)
     expect(stats.bestStreak).toHaveLength(0)
     expect(stats.currentStreak.scoredDays).toHaveLength(0)
   })
 
   // Check contiguous streak stats
-  Object.values(result.contiguousStreakStats).forEach(stats => {
+  Object.values(result.contiguousStreakStats).forEach((stats) => {
     expect(stats.currentStreak).toHaveLength(0)
     expect(stats.longestStreak).toHaveLength(0)
     expect(stats.currentlyInStreak).toBe(false)
@@ -169,4 +168,4 @@ test('getScoredGames handles single record', () => {
   expect(result.contiguousStreakStats.noHighsStreaks.currentStreak).toHaveLength(1)
   expect(result.contiguousStreakStats.noLowsStreaks.currentStreak).toHaveLength(1)
   expect(result.contiguousStreakStats.noHighsOrLowsStreaks.currentStreak).toHaveLength(1)
-}) 
+})

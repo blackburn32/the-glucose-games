@@ -16,4 +16,4 @@ describe('cleanPercentForDisplay', () => {
     expect(cleanPercentForDisplay(null as unknown as number)).toBe('0.00')
     expect(cleanPercentForDisplay(undefined as unknown as number)).toBe('0.00')
   })
-}) 
+})

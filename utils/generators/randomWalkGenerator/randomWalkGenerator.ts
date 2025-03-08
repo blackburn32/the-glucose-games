@@ -1,4 +1,3 @@
-import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
 import type { GlucoseGeneratorConfig } from '~/utils/generators/config/generatorConfig'
 import { generateTimestamps } from '~/utils/generators/timestamps/timestampGenerator'
 
@@ -19,7 +18,8 @@ export const generateRandomWalk = (config: GlucoseGeneratorConfig, count: number
   for (let i = 0; i < count; i++) {
     if (previousValue > config.max * 0.9 || previousValue < config.min * 1.1) {
       trend = previousValue < config.min * 1.1
-    } else if (Math.random() > 0.8) {
+    }
+    else if (Math.random() > 0.8) {
       trend = !trend
     }
     const newValue = trend ? generateStableToHigh(config, previousValue) : generateStableToLow(config, previousValue)
@@ -27,4 +27,4 @@ export const generateRandomWalk = (config: GlucoseGeneratorConfig, count: number
     previousValue = newValue
   }
   return generateTimestamps(values, new Date(), minutesBetweenRecords * 60 * 1000).reverse()
-} 
+}

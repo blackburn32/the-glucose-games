@@ -24,4 +24,4 @@ export const RealisticGeneratorConfig: GlucoseGeneratorConfig = {
   min: 55,
   max: 350,
   maxChange: 8,
-} 
+}

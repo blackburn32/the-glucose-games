@@ -29,7 +29,7 @@ describe('calculateDailyStreakStats', () => {
     const today = new Date()
     const yesterday = new Date(today)
     yesterday.setDate(yesterday.getDate() - 1)
-    
+
     const records: GlucoseRecord[] = [
       createRecord(100, yesterday),
       createRecord(120, yesterday),
@@ -74,11 +74,11 @@ describe('calculateDailyStreakStats', () => {
     yesterday.setDate(yesterday.getDate() - 1)
     const twoDaysAgo = new Date(today)
     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
-    
+
     const records: GlucoseRecord[] = [
       createRecord(120, twoDaysAgo), // Pass
-      createRecord(80, yesterday),   // Fail
-      createRecord(110, today),      // Pass
+      createRecord(80, yesterday), // Fail
+      createRecord(110, today), // Pass
     ]
 
     const result = calculateDailyStreakStats(
@@ -98,7 +98,7 @@ describe('calculateDailyStreakStats', () => {
   it('should use custom comparison function for best day', () => {
     const today = new Date()
     const records: GlucoseRecord[] = [
-      createRecord(95, today),  // Day 1 average: 95
+      createRecord(95, today), // Day 1 average: 95
       createRecord(110, new Date(today.getTime() + 24 * 60 * 60 * 1000)), // Day 2 average: 110
     ]
 
@@ -120,4 +120,4 @@ describe('calculateDailyStreakStats', () => {
 
     expect(result.bestDay?.score).toBe(95) // Should pick the value closer to 100
   })
-}) 
+})
