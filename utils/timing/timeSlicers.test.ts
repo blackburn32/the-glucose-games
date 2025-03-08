@@ -1,4 +1,4 @@
-import { test, expect, vi } from 'vitest'
+import { test, expect } from 'vitest'
 import { getLastNight } from '~/utils/timing/timeSlicers'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { getMockGlucoseRecord } from '~/utils/test/testUtils'

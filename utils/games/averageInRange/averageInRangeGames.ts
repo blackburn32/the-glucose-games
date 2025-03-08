@@ -30,7 +30,7 @@ export const averageInRangeGame = (
     if (currentlyPastEndTime) {
       return CurrentDayStatus.Fail
     }
-    if(currentDay.passesThreshold) {
+    if (currentDay.passesThreshold) {
       return CurrentDayStatus.Pending
     }
     return CurrentDayStatus.Failing

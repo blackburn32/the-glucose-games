@@ -21,7 +21,7 @@ const splitRecordsIntoContiguousStreaks = (
     }
   }
 
-  if (currentStreak.length) {
+  if (currentStreak.length && records.length > 0 && recordIncludedInStreak(records[records.length - 1])) {
     streaks.push(currentStreak)
   }
 
@@ -42,11 +42,12 @@ export const calculateContiguousStreakStats: (
   }, [] as GlucoseRecord[])
   const longestStreakString = getStreakDurationString(longestStreak)
 
-  const currentStreak = streaks.at(-1) || []
-  const currentStreakString = getStreakDurationString(currentStreak)
-
   const lastRecord = records.at(-1)
   const currentlyInStreak = !!(lastRecord && recordIncludedInStreak(lastRecord))
+
+  // If we're not currently in a streak, the current streak should be empty
+  const currentStreak = currentlyInStreak ? (streaks.at(-1) || []) : []
+  const currentStreakString = getStreakDurationString(currentStreak)
 
   const streakStringToDisplay = currentlyInStreak ? currentStreakString : 'Not in range'
 
@@ -59,4 +60,4 @@ export const calculateContiguousStreakStats: (
     streaks,
     streakStringToDisplay,
   }
-} 
+}

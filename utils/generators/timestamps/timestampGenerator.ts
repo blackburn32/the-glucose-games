@@ -8,4 +8,4 @@ export const generateTimestamps = (glucoseValues: number[], start: Date, interva
     timestamps.push(toGlucoseRecord(glucoseValues[i], createdDate))
   }
   return timestamps
-} 
+}

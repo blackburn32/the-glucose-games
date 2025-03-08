@@ -50,9 +50,13 @@ You can also check back regularly to see what new features have been added!
 
 ## Contact
 
-If you have questions, comments, or ideas about the games, please reach out!
-You can contact us at [support@glucose.games](mailto:support@glucose.games).
+If you have questions, comments, or ideas about the games, please reach out on our [discord channel](https://discord.gg/v7mCxUE4)!
+You can also contact us with any questions at [support@glucose.games](mailto:support@glucose.games).
 
 ## Attributions
 
 The [privacy policy](/privacy) for The Glucose Games is based  upon the [Automattic Privacy Policy](https://automattic.com/privacy/) and is licensed under [Creative Commons Attribution Share-Alike License 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+## Collaborating
+
+If you would like to collaborate on the project, you can check out [the source code](https://github.com/blackburn32/the-glucose-games) and our [contribution guide](https://github.com/blackburn32/the-glucose-games/blob/master/CONTRIBUTING.md).

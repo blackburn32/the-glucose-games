@@ -94,6 +94,8 @@ supabase db push
 
 If you would like to contribute to this project, please follow the [Contribution Guidelines](CONTRIBUTING.md).
 
+If you have any questions along the way, feel free to reach out on our [discord channel](https://discord.gg/v7mCxUE4).
+
 ## License
 
 This project is a source available project.

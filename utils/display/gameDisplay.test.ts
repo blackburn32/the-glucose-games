@@ -31,8 +31,8 @@ test('getDailyStreakGameDisplayStats returns correct stats with valid data', () 
       created: new Date(),
       x: Date.now(),
       y: 120,
-      provider: 'test'
-    }
+      provider: 'test',
+    },
   ]
 
   const mockStreak: DailyStreakStats = {
@@ -41,25 +41,25 @@ test('getDailyStreakGameDisplayStats returns correct stats with valid data', () 
       glucoseRecords: mockRecords,
       score: 75,
       scoreForDisplay: '75',
-      passesThreshold: true
+      passesThreshold: true,
     },
     bestDay: {
       date: new Date(),
       glucoseRecords: mockRecords,
       score: 90,
       scoreForDisplay: '90',
-      passesThreshold: true
+      passesThreshold: true,
     },
     bestStreak: [],
     bestStreakIncludesToday: false,
     currentStreak: {
       scoredDays: [],
-      currentDayStatus: CurrentDayStatus.Pass
+      currentDayStatus: CurrentDayStatus.Pass,
     },
     scoredDays: [],
     todaysScoredDay: undefined,
     mostRecentScoredDay: undefined,
-    streaks: []
+    streaks: [],
   }
 
   const mockScoreHandler = (score: string | undefined) => score ? `Score: ${score}` : 'No score'
@@ -80,12 +80,12 @@ test('getDailyStreakGameDisplayStats handles missing data', () => {
     bestStreakIncludesToday: false,
     currentStreak: {
       scoredDays: [],
-      currentDayStatus: CurrentDayStatus.Pending
+      currentDayStatus: CurrentDayStatus.Pending,
     },
     scoredDays: [],
     todaysScoredDay: undefined,
     mostRecentScoredDay: undefined,
-    streaks: []
+    streaks: [],
   }
 
   const mockScoreHandler = (score: string | undefined) => score ? `Score: ${score}` : 'No score'
@@ -105,25 +105,25 @@ test('getDailyStreakGameDisplayStats uses custom score handler', () => {
       glucoseRecords: [],
       score: 75,
       scoreForDisplay: '75',
-      passesThreshold: true
+      passesThreshold: true,
     },
     bestDay: {
       date: new Date(),
       glucoseRecords: [],
       score: 90,
       scoreForDisplay: '90',
-      passesThreshold: true
+      passesThreshold: true,
     },
     bestStreak: [],
     bestStreakIncludesToday: false,
     currentStreak: {
       scoredDays: [],
-      currentDayStatus: CurrentDayStatus.Pass
+      currentDayStatus: CurrentDayStatus.Pass,
     },
     scoredDays: [],
     todaysScoredDay: undefined,
     mostRecentScoredDay: undefined,
-    streaks: []
+    streaks: [],
   }
 
   const customScoreHandler = (score: string | undefined) => score ? `Custom: ${score}!` : 'None'
@@ -132,4 +132,4 @@ test('getDailyStreakGameDisplayStats uses custom score handler', () => {
 
   expect(result.description).toBe('Custom: 75!')
   expect(result.best).toBe('Custom: 90!')
-}) 
+})

@@ -11,7 +11,7 @@ describe('groupRecordsByDay', () => {
     ]
 
     const result = groupRecordsByDay(records)
-    
+
     expect(Object.keys(result)).toHaveLength(2)
     expect(result['1/1/2024']).toHaveLength(2)
     expect(result['1/2/2024']).toHaveLength(1)
@@ -30,8 +30,8 @@ describe('groupRecordsByDay', () => {
     ]
 
     const result = groupRecordsByDay(records)
-    
+
     expect(Object.keys(result)).toHaveLength(1)
     expect(result['1/1/2024']).toHaveLength(2)
   })
-}) 
+})
