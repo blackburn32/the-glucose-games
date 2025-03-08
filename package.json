@@ -11,7 +11,7 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "vitest --coverage.enabled --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reporter=json"
+    "test": "vitest --config vitest.config.ts"
   },
   "dependencies": {
     "@nuxt/content": "^2.13.4",
