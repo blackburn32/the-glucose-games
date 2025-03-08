@@ -50,8 +50,8 @@ You can also check back regularly to see what new features have been added!
 
 ## Contact
 
-If you have questions, comments, or ideas about the games, please reach out!
-You can contact us at [support@glucose.games](mailto:support@glucose.games).
+If you have questions, comments, or ideas about the games, please reach out on our [discord channel](https://discord.gg/v7mCxUE4)!
+You can also contact us with any questions at [support@glucose.games](mailto:support@glucose.games).
 
 ## Attributions
 
