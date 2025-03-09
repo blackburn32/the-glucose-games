@@ -1,5 +1,5 @@
 import { test, expect, describe, vi, beforeEach } from 'vitest'
-import { MockSupabaseClient } from '../../test/mockSupabase'
+import { MockSupabaseClient } from '../../../test/mockSupabase'
 import { deleteToken } from './deleteToken'
 
 // Mock the createError function since it's from Nuxt

@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '~/types/database.types.ts'
-import { deleteToken } from '~/server/utils/database/deleteToken/deleteToken'
+import { deleteToken } from '~/server/utils/database/oauthTokens/deleteToken/deleteToken'
 
 export const storeToken = async (tokenData: Database['public']['Tables']['oauth_tokens']['Insert'], client: SupabaseClient<Database>) => {
   const { data, error } = await client.from('oauth_tokens').insert(tokenData)

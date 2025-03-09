@@ -1,5 +1,5 @@
 import { test, expect, describe, vi, beforeEach } from 'vitest'
-import { MockSupabaseClient } from '../../test/mockSupabase'
+import { MockSupabaseClient } from '../../../test/mockSupabase'
 import { storeToken, safeStoreToken } from './storeToken'
 import type { Database } from '~/types/database.types'
 
