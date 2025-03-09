@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import type { Database } from '~/types/database.types.ts'
 import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
-import { safeStoreToken } from '~/server/utils/database/storeToken'
+import { safeStoreToken } from '~/server/utils/database/storeToken/storeToken'
 
 const dexcomTokenValidator = z.object({
   access_token: z.string(),
