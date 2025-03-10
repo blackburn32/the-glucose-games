@@ -16,7 +16,7 @@ export default defineConfig({
     })],
   test: {
     coverage: {
-      reporter: ['text', 'json', 'json-summary'],
+      reporter: ['json', 'json-summary'],
       reportOnFailure: true,
     },
   },
