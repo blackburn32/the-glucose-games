@@ -78,13 +78,25 @@ export class MockSupabaseClient {
 
     const insertMock = vi.fn().mockImplementation((data: Record<string, unknown>) => {
       if (this.mockStoreError) {
-        return Promise.resolve({ data: null, error: this.mockStoreError })
+        return {
+          select: () => ({
+            single: () => Promise.resolve({ data: null, error: this.mockStoreError }),
+          }),
+        }
       }
       const mockData = this.getCurrentTableData()
       if (mockData) {
-        return Promise.resolve({ data: mockData, error: null })
+        return {
+          select: () => ({
+            single: () => Promise.resolve({ data: mockData, error: null }),
+          }),
+        }
       }
-      return Promise.resolve({ data, error: null })
+      return {
+        select: () => ({
+          single: () => Promise.resolve({ data, error: null }),
+        }),
+      }
     })
 
     const upsertMock = vi.fn().mockImplementation((data: Record<string, unknown>) => ({

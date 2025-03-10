@@ -3,6 +3,7 @@ import { z } from 'zod'
 import type { Database } from '~/types/database.types.ts'
 import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
 import { safeStoreToken } from '~/server/utils/database/oauthTokens/storeToken/storeToken'
+import type { GlucoseRecord } from '~/types/glucoseRecord'
 
 const dexcomTokenValidator = z.object({
   access_token: z.string(),
@@ -58,7 +59,7 @@ export const refreshDexcomTokenIfNecessary = async (
   dexcomBaseUrl: string,
   clientId: string,
   clientSecret: string,
-) => {
+): Promise<Database['public']['Tables']['oauth_tokens']['Row']> => {
   const expired = new Date(token.expires_at) < new Date()
   if (!expired) {
     return token
@@ -79,7 +80,7 @@ export const sendAndStoreTokenRequest = async (
   formData: Record<string, string>,
   dexcomBaseUrl: string,
   client: SupabaseClient<Database>,
-) => {
+): Promise<Database['public']['Tables']['oauth_tokens']['Row']> => {
   const resp = await fetch(
     `${dexcomBaseUrl}/v2/oauth2/token`,
     {
@@ -108,7 +109,7 @@ export const handleTokenResponse = async (
   userId: string,
   data: z.infer<typeof dexcomTokenValidator>,
   client: SupabaseClient<Database>,
-) => {
+): Promise<Database['public']['Tables']['oauth_tokens']['Row']> => {
   const tokenData = {
     access_token: data.access_token,
     refresh_token: data.refresh_token,
@@ -118,13 +119,12 @@ export const handleTokenResponse = async (
     scopes: ['offline_access'],
     provider: DEXCOM_PROVIDER_NAME,
   }
-  await safeStoreToken(tokenData, client)
-  return tokenData
+  return safeStoreToken(tokenData, client)
 }
 
 export const dexcomRecordToGlucoseRecord = (
   record: z.infer<typeof dexcomRecordValidator>,
-) => {
+): GlucoseRecord => {
   return {
     created: new Date(record.displayTime),
     x: new Date(record.displayTime).getTime(),
@@ -143,7 +143,7 @@ export const getEstimatedBloodGlucoseValuesFromDexcom = async (
   until: Date,
   token: Database['public']['Tables']['oauth_tokens']['Row'],
   dexcomBaseUrl: string,
-) => {
+): Promise<GlucoseRecord[]> => {
   const sinceString = formatDateString(since)
   const untilString = formatDateString(until)
 

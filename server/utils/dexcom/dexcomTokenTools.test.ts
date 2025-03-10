@@ -34,7 +34,11 @@ describe('dexcomTokenTools', () => {
   // Create a minimal mock of SupabaseClient with just the methods we need
   const mockClient = {
     from: vi.fn().mockReturnValue({
-      insert: vi.fn().mockResolvedValue({ data: null, error: null }),
+      insert: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnValue({
+          single: vi.fn().mockResolvedValue({ data: mockValidTokenResponse, error: null }),
+        }),
+      }),
       delete: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
           eq: vi.fn().mockResolvedValue({ error: null }),
@@ -48,7 +52,11 @@ describe('dexcomTokenTools', () => {
     vi.stubGlobal('fetch', vi.fn())
     // Reset the mock implementation for each test
     vi.mocked(mockClient.from).mockReturnValue({
-      insert: vi.fn().mockResolvedValue({ data: null, error: null }),
+      insert: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnValue({
+          single: vi.fn().mockResolvedValue({ data: mockValidTokenResponse, error: null }),
+        }),
+      }),
       delete: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
           eq: vi.fn().mockResolvedValue({ error: null }),
@@ -84,15 +92,7 @@ describe('dexcomTokenTools', () => {
         },
       )
 
-      expect(result).toEqual({
-        access_token: mockValidTokenResponse.access_token,
-        refresh_token: mockValidTokenResponse.refresh_token,
-        expires_at: expect.any(String),
-        created_at: expect.any(String),
-        user_id: mockUserId,
-        scopes: ['offline_access'],
-        provider: DEXCOM_PROVIDER_NAME,
-      })
+      expect(result).toEqual(mockValidTokenResponse)
     })
 
     test('should throw error for invalid token response', async () => {
@@ -157,15 +157,7 @@ describe('dexcomTokenTools', () => {
         `${mockBaseUrl}/v2/oauth2/token`,
         expect.any(Object),
       )
-      expect(result).toEqual({
-        access_token: mockValidTokenResponse.access_token,
-        refresh_token: mockValidTokenResponse.refresh_token,
-        expires_at: expect.any(String),
-        created_at: expect.any(String),
-        user_id: mockUserId,
-        scopes: ['offline_access'],
-        provider: DEXCOM_PROVIDER_NAME,
-      })
+      expect(result).toEqual(mockValidTokenResponse)
     })
   })
 

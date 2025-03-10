@@ -3,7 +3,7 @@ import type { Database } from '~/types/database.types.ts'
 import { deleteToken } from '~/server/utils/database/oauthTokens/deleteToken/deleteToken'
 
 export const storeToken = async (tokenData: Database['public']['Tables']['oauth_tokens']['Insert'], client: SupabaseClient<Database>) => {
-  const { data, error } = await client.from('oauth_tokens').insert(tokenData)
+  const { data, error } = await client.from('oauth_tokens').insert(tokenData).select().single()
   if (error) {
     console.error('Failed to store token', error)
     throw createError({

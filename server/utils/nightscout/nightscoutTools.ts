@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { NIGHTSCOUT_PROVIDER_NAME } from '~/types/constants'
+import type { GlucoseRecord } from '~/types/glucoseRecord'
 
 const nightScoutRecordValidator = z.object({
   date: z.number(),
@@ -11,7 +12,7 @@ const nightScoutRecordArrayValidator = z.array(nightScoutRecordValidator)
 
 export const nightScoutRecordToGlucoseRecord = (
   record: z.infer<typeof nightScoutRecordValidator>,
-) => {
+): GlucoseRecord => {
   const date = new Date(record.date)
   return {
     created: date,
@@ -23,7 +24,7 @@ export const nightScoutRecordToGlucoseRecord = (
   }
 }
 
-export const getNightscoutEGVs = async (baseUrl: string, token: string, count: number) => {
+export const getNightscoutEGVs = async (baseUrl: string, token: string, count: number): Promise<GlucoseRecord[]> => {
   const finalUrl = `${baseUrl}/api/v1/entries/sgv?token=${token}&count=${count}`
   const response = await fetch(
     finalUrl,
