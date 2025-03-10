@@ -42,7 +42,7 @@ describe('storeToken', () => {
 
   test('should throw error when storage fails', async () => {
     const mockError = new Error('Storage failed')
-    mockSupabase.setMockError(mockError)
+    mockSupabase.setMockStoreError(mockError)
 
     await expect(storeToken(mockTokenData, mockSupabase.getMockClient()))
       .rejects.toThrow('Failed to store token')
@@ -92,7 +92,7 @@ describe('safeStoreToken', () => {
 
   test('should throw error when storage fails', async () => {
     const mockError = new Error('Storage failed')
-    mockSupabase.setMockError(mockError)
+    mockSupabase.setMockStoreError(mockError)
 
     await expect(safeStoreToken(mockTokenData, mockSupabase.getMockClient()))
       .rejects.toThrow('Failed to store token')

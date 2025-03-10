@@ -10,4 +10,5 @@ export const deleteToken = async (user_id: string, provider: string, client: Sup
       statusMessage: `Failed to delete token: ${error.message}`,
     })
   }
+  return { data: null, error: null }
 }

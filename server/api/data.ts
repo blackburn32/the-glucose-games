@@ -3,10 +3,10 @@ import type { RuntimeConfig } from '@nuxt/schema'
 import { serverSupabaseServiceRole, serverSupabaseUser } from '#supabase/server'
 import type { Database } from '~/types/database.types.ts'
 import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
-import { getToken } from '~/server/utils/database/getToken'
+import { getToken } from '~/server/utils/database/oauthTokens/getToken/getToken'
 import { getEstimatedBloodGlucoseValuesFromDexcom, refreshDexcomTokenIfNecessary } from '~/server/utils/dexcom/dexcomTokenTools'
 import { getNightscoutEGVs } from '~/server/utils/nightscout/nightscoutTools'
-import { getNightscoutSettings } from '~/server/utils/database/getNightscoutSettings'
+import { getNightscoutSettings } from '~/server/utils/database/nightscoutSettings/getNightscoutSettings/getNightscoutSettings'
 
 export default defineEventHandler(async (event) => {
   const user = await serverSupabaseUser(event)

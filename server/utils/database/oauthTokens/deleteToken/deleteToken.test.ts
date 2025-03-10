@@ -27,7 +27,7 @@ describe('deleteToken', () => {
 
   test('should throw error when deletion fails', async () => {
     const mockError = new Error('Deletion failed')
-    mockSupabase.setMockError(mockError)
+    mockSupabase.setMockDeleteError(mockError)
 
     await expect(deleteToken(userId, provider, mockSupabase.getMockClient()))
       .rejects.toThrow('Failed to delete token: Deletion failed')

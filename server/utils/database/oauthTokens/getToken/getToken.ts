@@ -7,7 +7,7 @@ export const getToken = async (user_id: string, provider: string, client: Supaba
     console.error('Failed to get token', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to get token',
+      statusMessage: `Failed to get token: ${error.message}`,
     })
   }
   return data

@@ -8,7 +8,7 @@ export const storeToken = async (tokenData: Database['public']['Tables']['oauth_
     console.error('Failed to store token', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to store token',
+      statusMessage: `Failed to store token: ${error.message}`,
     })
   }
   return data
@@ -21,6 +21,27 @@ export const safeStoreToken = async (tokenData: Database['public']['Tables']['oa
       statusMessage: 'Missing required fields, user_id and provider are required',
     })
   }
-  await deleteToken(tokenData.user_id, tokenData.provider, client)
-  return storeToken(tokenData, client)
+  try {
+    await deleteToken(tokenData.user_id, tokenData.provider, client)
+    const result = await storeToken(tokenData, client)
+    return result
+  }
+  catch (error) {
+    if (error instanceof Error && error.message.startsWith('Failed to delete token')) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: error.message,
+      })
+    }
+    if (error instanceof Error && error.message.startsWith('Failed to store token')) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: error.message,
+      })
+    }
+    throw createError({
+      statusCode: 500,
+      statusMessage: `Failed to store token: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    })
+  }
 }

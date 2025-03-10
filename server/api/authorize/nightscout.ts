@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { serverSupabaseServiceRole, serverSupabaseUser } from '#supabase/server'
 import type { Database } from '~/types/database.types'
-import { setNightscoutSettings } from '~/server/utils/database/setNightscoutSettings'
+import { setNightscoutSettings } from '~/server/utils/database/nightscoutSettings/setNightscoutSettings/setNightscoutSettings'
 
 const validBody = z.object({
   baseUrl: z.string(),
