@@ -91,3 +91,62 @@ export const createEmptyScoredGames = () => ({
   },
   contiguousStreakStats: createEmptyStreakStats(),
 })
+
+/**
+ * Creates daily streak stats with multiple days. The days don't need to be consecutive.
+ * Each day is treated as its own streak.
+ */
+export const createDailyStreakStatsWithMultipleDays = (scoredDays: ScoredDay[]) => {
+  const sortedDays = [...scoredDays].sort((a, b) => a.date.getTime() - b.date.getTime())
+  const streaks = sortedDays.map(day => ({
+    start: day.date,
+    end: day.date,
+    streak: [day],
+  }))
+
+  return {
+    streaks,
+    bestStreak: sortedDays.length > 0 ? [sortedDays[0]] : [],
+    bestDay: sortedDays.length > 0 ? sortedDays[0] : undefined,
+    bestStreakIncludesToday: false,
+    currentScoredDayWithFallback: sortedDays.length > 0 ? sortedDays[sortedDays.length - 1] : undefined,
+    currentStreak: {
+      scoredDays: sortedDays.length > 0 ? [sortedDays[sortedDays.length - 1]] : [],
+      currentDayStatus: CurrentDayStatus.Pending,
+    },
+    scoredDays: sortedDays,
+    todaysScoredDay: undefined,
+    mostRecentScoredDay: sortedDays.length > 0 ? sortedDays[sortedDays.length - 1] : undefined,
+  }
+}
+
+/**
+ * Creates daily streak stats with multiple consecutive days as a single streak.
+ * All days must be in order (oldest to newest) and are assumed to be consecutive.
+ */
+export const createDailyStreakStatsWithMultipleDaysStreak = (scoredDays: ScoredDay[]) => {
+  if (scoredDays.length === 0) {
+    return createEmptyDailyStreakStats()
+  }
+
+  const sortedDays = [...scoredDays].sort((a, b) => a.date.getTime() - b.date.getTime())
+
+  return {
+    streaks: [{
+      start: sortedDays[0].date,
+      end: sortedDays[sortedDays.length - 1].date,
+      streak: sortedDays,
+    }],
+    bestStreak: sortedDays,
+    bestDay: sortedDays[0],
+    bestStreakIncludesToday: false,
+    currentScoredDayWithFallback: sortedDays[sortedDays.length - 1],
+    currentStreak: {
+      scoredDays: sortedDays,
+      currentDayStatus: CurrentDayStatus.Pending,
+    },
+    scoredDays: sortedDays,
+    todaysScoredDay: undefined,
+    mostRecentScoredDay: sortedDays[sortedDays.length - 1],
+  }
+}
