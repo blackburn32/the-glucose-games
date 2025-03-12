@@ -21,3 +21,11 @@ export const getLastNight = (records: GlucoseRecord[], startTime: Date = new Dat
 export function getRecordsWithSameDate(records: GlucoseRecord[], date: Date): GlucoseRecord[] {
   return records.filter(record => record.created.toDateString() === date.toDateString())
 }
+
+export function getTimestampsBetweenDatesUsingDuration(start: Date, end: Date, interval: number): number[] {
+  const timestamps = []
+  for (let i = start.getTime(); i < end.getTime(); i += interval) {
+    timestamps.push(i)
+  }
+  return timestamps
+}

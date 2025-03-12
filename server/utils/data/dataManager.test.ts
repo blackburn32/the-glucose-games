@@ -2,7 +2,7 @@ import { test, expect, describe, vi, beforeEach, afterEach } from 'vitest'
 import type { RuntimeConfig } from 'nuxt/schema'
 import { MockSupabaseClient } from '../test/mockSupabase'
 import { getNightscoutSettings } from '../database/nightscoutSettings/getNightscoutSettings/getNightscoutSettings'
-import { getNightscoutEGVs } from '../nightscout/nightscoutTools'
+import { pageThroughNightscoutEGVs } from '../nightscout/nightscoutTools'
 import { refreshDexcomTokenIfNecessary, getEstimatedBloodGlucoseValuesFromDexcom } from '../dexcom/dexcomTokenTools'
 import { getToken } from '../database/oauthTokens/getToken/getToken'
 import { DataManager } from './dataManager'
@@ -17,7 +17,7 @@ vi.mock('../database/nightscoutSettings/getNightscoutSettings/getNightscoutSetti
 }))
 
 vi.mock('../nightscout/nightscoutTools', () => ({
-  getNightscoutEGVs: vi.fn(),
+  pageThroughNightscoutEGVs: vi.fn(),
 }))
 
 vi.mock('../dexcom/dexcomTokenTools', () => ({
@@ -77,17 +77,18 @@ describe('DataManager', () => {
       ] as unknown as GlucoseRecord[]
 
       vi.mocked(getNightscoutSettings).mockResolvedValueOnce(mockNightscoutSettings)
-      vi.mocked(getNightscoutEGVs).mockResolvedValueOnce(mockGlucoseRecords)
+      vi.mocked(pageThroughNightscoutEGVs).mockResolvedValueOnce(mockGlucoseRecords)
 
       // Act
       const result = await dataManager.getNightscoutData()
 
       // Assert
       expect(getNightscoutSettings).toHaveBeenCalledWith(userId, mockSupabase.getMockClient())
-      expect(getNightscoutEGVs).toHaveBeenCalledWith(
+      expect(pageThroughNightscoutEGVs).toHaveBeenCalledWith(
         mockNightscoutSettings.base_url,
         mockNightscoutSettings.token,
-        100000,
+        1000,
+        expect.any(Date),
       )
       expect(result).toEqual(mockGlucoseRecords)
     })
@@ -101,7 +102,7 @@ describe('DataManager', () => {
 
       // Assert
       expect(getNightscoutSettings).toHaveBeenCalledWith(userId, mockSupabase.getMockClient())
-      expect(getNightscoutEGVs).not.toHaveBeenCalled()
+      expect(pageThroughNightscoutEGVs).not.toHaveBeenCalled()
       expect(console.trace).toHaveBeenCalledWith('No Nightscout settings found')
       expect(result).toEqual([])
     })

@@ -1,11 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { RuntimeConfig } from 'nuxt/schema'
 import { getNightscoutSettings } from '../database/nightscoutSettings/getNightscoutSettings/getNightscoutSettings'
-import { getNightscoutEGVs } from '../nightscout/nightscoutTools'
+import { pageThroughNightscoutEGVs } from '../nightscout/nightscoutTools'
 import { refreshDexcomTokenIfNecessary, getEstimatedBloodGlucoseValuesFromDexcom } from '../dexcom/dexcomTokenTools'
 
 import { getToken } from '../database/oauthTokens/getToken/getToken'
-import { DEXCOM_PROVIDER_NAME } from '~/types/constants'
+import { DEXCOM_PROVIDER_NAME, ONE_MONTH } from '~/types/constants'
 import type { Database } from '~/types/database.types'
 
 export class DataManager {
@@ -22,8 +22,9 @@ export class DataManager {
       console.trace('No Nightscout settings found')
       return []
     }
-    const count = 100000
-    return getNightscoutEGVs(nightscoutSettings.base_url, nightscoutSettings.token, count)
+    const oneMonthAgo = new Date(Date.now() - ONE_MONTH)
+    const count = 1000
+    return pageThroughNightscoutEGVs(nightscoutSettings.base_url, nightscoutSettings.token, count, oneMonthAgo)
   }
 
   public async getDexcomData() {
