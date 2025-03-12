@@ -30,7 +30,7 @@
         </div>
       </NuxtLink>
     </div>
-    <div v-if="!hasGlucoseData">
+    <div v-if="!hasGlucoseData && !glucoseDataLoading">
       <NuxtLink
         class="btn btn-outline"
         to="/connect"
@@ -39,9 +39,14 @@
       </NuxtLink>
     </div>
     <HistoryViewer v-if="hasGlucoseData" />
+    <div v-if="glucoseDataLoading">
+      <div class="text-4xl font-bold mt-10">
+        Loading...
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { hasGlucoseData } = useGlucoseValues()
+const { hasGlucoseData, glucoseDataLoading } = useGlucoseValues()
 </script>

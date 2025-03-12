@@ -20,3 +20,18 @@ export const getDayBefore = (date: Date) => {
   newDate.setDate(newDate.getDate() - 1)
   return newDate
 }
+
+/**
+ * Helper function to create an array of n consecutive days ending with endDay
+ */
+export const createConsecutiveDays = (n: number, endDay: Date): Date[] => {
+  const days: Date[] = [endDay]
+  let currentDay = endDay
+
+  for (let i = 1; i < n; i++) {
+    currentDay = getDayBefore(currentDay)
+    days.unshift(currentDay)
+  }
+
+  return days
+}
