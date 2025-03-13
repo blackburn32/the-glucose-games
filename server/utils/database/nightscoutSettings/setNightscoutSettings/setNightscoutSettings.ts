@@ -9,9 +9,10 @@ export const setNightscoutSettings = async (user_id: string, base_url: string, t
 
   if (error) {
     console.error('Failed to set nightscout settings', error)
+    const errorMessage = `Failed to set nightscout settings: ${error.message}`
     throw createError({
       statusCode: 500,
-      statusMessage: `Failed to set nightscout settings: ${error.message}`,
+      statusMessage: errorMessage,
     })
   }
 

@@ -6,10 +6,12 @@ import { NIGHTSCOUT_PROVIDER_NAME } from '~/types/constants'
 import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 
 export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined, thresholdsOverride?: Thresholds | undefined) => {
+  const { data: cachedData } = useNuxtData<GlucoseRecord[]>('glucoseData')
+
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
     key: 'glucoseData',
     default: () => [],
-    lazy: true,
+    lazy: !!(dataOverride?.value.length || !cachedData.value),
     retry: 3,
   })
 
@@ -38,7 +40,8 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
 
   const glucoseData: Ref<GlucoseRecord[]> = computed(() => {
     if (dataOverride?.value.length) return dataOverride.value
-    return glucoseDataRaw.data.value.map(record => ({
+    const data = cachedData.value || glucoseDataRaw.data.value
+    return data.map(record => ({
       ...record,
       created: new Date(record.created),
     })).sort((a, b) => a.created.getTime() - b.created.getTime())

@@ -102,22 +102,27 @@ export class MockSupabaseClient {
     const upsertMock = vi.fn().mockImplementation((data: Record<string, unknown>) => ({
       single: () => {
         if (this.mockError) {
-          throw new Error(`Failed to set nightscout settings: ${this.mockError.message}`)
+          return Promise.resolve({ data: null, error: this.mockError })
         }
-        const mockData = this.getCurrentTableData()
-        if (mockData) {
-          return Promise.resolve({ data: mockData, error: null })
+        const now = new Date().toISOString()
+        const responseData = {
+          ...data,
+          created_at: now,
+          updated_at: now,
         }
-        return Promise.resolve({ data, error: null })
+        return Promise.resolve({ data: responseData, error: null })
       },
     }))
 
-    const fromMock = vi.fn().mockImplementation(() => ({
-      delete: deleteMock,
-      insert: insertMock,
-      select: selectMock,
-      upsert: upsertMock,
-    }))
+    const fromMock = vi.fn().mockImplementation((table: string) => {
+      this.mockData[table] = this.mockData[table] || []
+      return {
+        select: selectMock,
+        delete: deleteMock,
+        insert: insertMock,
+        upsert: upsertMock,
+      }
+    })
 
     return {
       from: fromMock,
