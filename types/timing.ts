@@ -6,6 +6,7 @@ export type Timing = {
   startMinutes: number
   endHour: number
   endMinutes: number
+  formattedStartTime: string
 }
 
 export const FullDayTiming: Timing = {
@@ -16,9 +17,10 @@ export const FullDayTiming: Timing = {
   startMinutes: 0,
   endHour: 23,
   endMinutes: 59,
+  formattedStartTime: '12AM'
 }
 
-export const NightTiming = {
+export const NightTiming: Timing = {
   id: 1,
   icon: 'ph:moon-stars',
   title: 'Night',
@@ -26,9 +28,10 @@ export const NightTiming = {
   startMinutes: 0,
   endHour: 5,
   endMinutes: 59,
+  formattedStartTime: '12AM'
 }
 
-export const MorningTiming = {
+export const MorningTiming: Timing = {
   id: 2,
   icon: 'ph:sun-horizon',
   title: 'Morning',
@@ -36,9 +39,10 @@ export const MorningTiming = {
   startMinutes: 0,
   endHour: 11,
   endMinutes: 59,
+  formattedStartTime: '6AM'
 }
 
-export const AfternoonTiming = {
+export const AfternoonTiming: Timing = {
   id: 3,
   icon: 'ph:sun',
   title: 'Afternoon',
@@ -46,9 +50,10 @@ export const AfternoonTiming = {
   startMinutes: 0,
   endHour: 17,
   endMinutes: 59,
+  formattedStartTime: '12PM'
 }
 
-export const EveningTiming = {
+export const EveningTiming: Timing = {
   id: 4,
   icon: 'ph:cloud-sun',
   title: 'Evening',
@@ -56,6 +61,7 @@ export const EveningTiming = {
   startMinutes: 0,
   endHour: 23,
   endMinutes: 59,
+  formattedStartTime: '6PM'
 }
 
 export const AllTimings: Timing[] = [

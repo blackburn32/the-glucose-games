@@ -17,18 +17,27 @@
     </div>
     <div class="stats w-full h-min overflow-hidden bg-base-300">
       <div class="stat min-w-fit">
-        <div class="stat-title">
+        <div class="stat-title mb-1">
           {{ title }}
         </div>
         <ClientOnly>
-          <div class="stat-value">
+          <!-- Show streak days indicator above the value -->
+          <div v-if="showStreakDays && streakStats" class="flex justify-start mb-1">
+            <StreakDaysIndicator 
+              :streak-stats="streakStats" 
+              :target-score="targetScore"
+              :is-percentage="isPercentage"
+            />
+          </div>
+          <!-- Use stat-value class with conditional sizing -->
+          <div class="stat-value" :class="{'text-lg': showStreakDays}">
             {{ value }}
           </div>
           <div class="stat-desc">
             {{ description }}
           </div>
           <template #fallback>
-            <div class="stat-value">
+            <div class="stat-value text-lg">
               Loading...
             </div>
             <div class="stat-desc">
@@ -42,12 +51,21 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import type { DailyStreakStats } from '~/types/dailyStreakStats'
+
+const props = defineProps<{
   title: string
   value: string
   description: string
   icon?: string | undefined
   iconColor?: string | undefined
   best?: boolean | undefined
+  showStreakDays?: boolean
+  streakStats?: DailyStreakStats
+  targetScore?: number
+  isPercentage?: boolean
 }>()
+
+// Provide the title to child components like StreakDaysIndicator
+provide('statBadgeTitle', props.title)
 </script>
