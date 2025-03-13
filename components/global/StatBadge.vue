@@ -22,15 +22,21 @@
         </div>
         <ClientOnly>
           <!-- Show streak days indicator above the value -->
-          <div v-if="showStreakDays && streakStats" class="flex justify-start mb-1">
-            <StreakDaysIndicator 
-              :streak-stats="streakStats" 
+          <div
+            v-if="showStreakDays && streakStats"
+            class="flex justify-start mb-1"
+          >
+            <StreakDaysIndicator
+              :streak-stats="streakStats"
               :target-score="targetScore"
               :is-percentage="isPercentage"
             />
           </div>
           <!-- Use stat-value class with conditional sizing -->
-          <div class="stat-value" :class="{'text-lg': showStreakDays}">
+          <div
+            class="stat-value"
+            :class="{ 'text-lg': showStreakDays }"
+          >
             {{ value }}
           </div>
           <div class="stat-desc">

@@ -17,7 +17,7 @@ export const FullDayTiming: Timing = {
   startMinutes: 0,
   endHour: 23,
   endMinutes: 59,
-  formattedStartTime: '12AM'
+  formattedStartTime: '12AM',
 }
 
 export const NightTiming: Timing = {
@@ -28,7 +28,7 @@ export const NightTiming: Timing = {
   startMinutes: 0,
   endHour: 5,
   endMinutes: 59,
-  formattedStartTime: '12AM'
+  formattedStartTime: '12AM',
 }
 
 export const MorningTiming: Timing = {
@@ -39,7 +39,7 @@ export const MorningTiming: Timing = {
   startMinutes: 0,
   endHour: 11,
   endMinutes: 59,
-  formattedStartTime: '6AM'
+  formattedStartTime: '6AM',
 }
 
 export const AfternoonTiming: Timing = {
@@ -50,7 +50,7 @@ export const AfternoonTiming: Timing = {
   startMinutes: 0,
   endHour: 17,
   endMinutes: 59,
-  formattedStartTime: '12PM'
+  formattedStartTime: '12PM',
 }
 
 export const EveningTiming: Timing = {
@@ -61,7 +61,7 @@ export const EveningTiming: Timing = {
   startMinutes: 0,
   endHour: 23,
   endMinutes: 59,
-  formattedStartTime: '6PM'
+  formattedStartTime: '6PM',
 }
 
 export const AllTimings: Timing[] = [
