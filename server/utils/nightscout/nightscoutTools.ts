@@ -30,7 +30,7 @@ export const pageThroughNightscoutEGVs = async (baseUrl: string, token: string, 
   const timestamps = getTimestampsBetweenDatesUsingDuration(since, new Date(), threeDaysDuration)
   const records: GlucoseRecord[] = []
   const promises: Promise<GlucoseRecord[]>[] = []
-  for (let i = 0; i < timestamps.length - 1; i++) {
+  for (let i = 0; i < timestamps.length; i++) {
     const timestamp = timestamps[i]
     const nextTimestamp = timestamps[i + 1]
     promises.push(getNightscoutEGVs(baseUrl, token, countPerRequest, timestamp, nextTimestamp))
@@ -44,8 +44,8 @@ export const pageThroughNightscoutEGVs = async (baseUrl: string, token: string, 
 
 export const getNightscoutEGVs = async (baseUrl: string, token: string, count: number, timestamp: number, nextTimestamp?: number): Promise<GlucoseRecord[]> => {
   try {
-    const nextTimestampToUse = nextTimestamp ?? new Date().getTime()
-    const finalUrl = `${baseUrl}/api/v1/entries/sgv?token=${token}&count=${count}&find[date][$gte]=${timestamp}&find[date][$lt]=${nextTimestampToUse}`
+    const upperBound = nextTimestamp ?? Date.now()
+    const finalUrl = `${baseUrl}/api/v1/entries/sgv?token=${token}&count=${count}&find[date][$gte]=${timestamp}&find[date][$lt]=${upperBound}`
     const response = await fetch(
       finalUrl,
       {

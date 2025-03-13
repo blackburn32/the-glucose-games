@@ -219,7 +219,7 @@ describe('nightscoutTools', () => {
       )
 
       // Verify fetch was called for each time period
-      expect(fetch).toHaveBeenCalledTimes(3)
+      expect(fetch).toHaveBeenCalledTimes(4)
 
       // Verify the URLs for each fetch call
       for (let i = 0; i < 3; i++) {
