@@ -2,7 +2,7 @@
   <div
     class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4"
   >
-    <div class="grid grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-6">
       <StatBadge
         title="Daily Average"
         :value="scoredGames.dailyStreakStats.averageInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'"
@@ -33,6 +33,10 @@
         :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length)"
         :best="scoredGames.dailyStreakStats.averageInRangeForFullDay.bestStreak.length === scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length"
         description="average within range"
+        :show-streak-days="true"
+        :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
+        :target-score="thresholds.high / 2 + thresholds.low / 2"
+        :is-percentage="false"
       />
       <StatBadge
         title="In Range Streak"
@@ -41,6 +45,10 @@
         :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
         :best="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        :show-streak-days="true"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
+        :target-score="80"
+        :is-percentage="true"
       />
       <StatBadge
         title="Nighttime Streak"
@@ -49,6 +57,10 @@
         :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length)"
         :best="scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        :show-streak-days="true"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForNights"
+        :target-score="80"
+        :is-percentage="true"
       />
       <StatBadge
         title="Morning Streak"
@@ -57,6 +69,10 @@
         :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
         :best="scoredGames.dailyStreakStats.percentTimeInRangeForMornings.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        :show-streak-days="true"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForMornings"
+        :target-score="80"
+        :is-percentage="true"
       />
       <StatBadge
         title="Afternoon Streak"
@@ -65,6 +81,10 @@
         :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
         :best="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        :show-streak-days="true"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons"
+        :target-score="80"
+        :is-percentage="true"
       />
       <StatBadge
         title="Evening Streak"
@@ -73,6 +93,10 @@
         :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
         :best="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        :show-streak-days="true"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
+        :target-score="80"
+        :is-percentage="true"
       />
     </div>
     <LineGraph
