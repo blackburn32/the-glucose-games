@@ -1,28 +1,16 @@
 <template>
-  <div class="flex flex-col items-start streak-component relative">
-    <!-- Days of the week labels -->
-    <div class="flex space-x-1 text-xs opacity-70">
+    <div
+      v-for="(day, index) in mostRecentScoredDays"
+      :key="`indicator-${index}`"
+    >
       <div
-        v-for="(day, index) in recentDays"
-        :key="`label-${index}`"
-        class="w-5 h-5 flex items-center justify-center"
-      >
-        {{ getDayLabel(day.date) }}
-      </div>
-    </div>
-
-    <!-- Status indicators with tooltips -->
-    <div class="flex space-x-1 streak-indicators-container">
-      <div
-        v-for="(day, index) in recentDays"
-        :key="`indicator-${index}`"
-        class="w-5 h-5 flex items-center justify-center relative group"
-        :class="{ 'border border-base-300 rounded-full': day.isPending }"
+        class="flex flex-col items-center"
         aria-haspopup="true"
         :aria-label="getDayTooltipLabel(day)"
         @mouseenter="showTooltip($event, index, day)"
         @mouseleave="hideTooltip"
       >
+        <div>{{ getDayLabel(day.date) }}</div>
         <Icon
           :name="getIconAndColorForScoredDay(day).name"
           :class="getIconAndColorForScoredDay(day).color"
