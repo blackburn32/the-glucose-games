@@ -19,7 +19,7 @@ export const getDailyStreakGameDisplayStats = (title: string, streak: DailyStrea
   }
 }
 
-const scoredDayIsPending = (scoredDay: ScoredDay): boolean => {
+export const scoredDayIsPending = (scoredDay: ScoredDay): boolean => {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 

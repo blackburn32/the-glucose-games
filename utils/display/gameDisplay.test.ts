@@ -1,7 +1,8 @@
 import { test, expect } from 'vitest'
-import { getPercentToDisplay, getGlucoseValueToDisplay, getDailyStreakGameDisplayStats } from './gameDisplay'
+import { getPercentToDisplay, getGlucoseValueToDisplay, getDailyStreakGameDisplayStats, getIconAndColorForScoredDay, scoredDayIsPending } from './gameDisplay'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
+import type { ScoredDay } from '~/types/scoredDay'
 import { CurrentDayStatus } from '~/types/constants'
 
 test('getPercentToDisplay formats percentage correctly', () => {
@@ -132,4 +133,106 @@ test('getDailyStreakGameDisplayStats uses custom score handler', () => {
 
   expect(result.description).toBe('Custom: 75!')
   expect(result.best).toBe('Custom: 90!')
+})
+
+test('getIconAndColorForScoredDay returns correct icon and color for undefined day', () => {
+  const result = getIconAndColorForScoredDay(null as unknown as ScoredDay)
+  expect(result).toEqual({
+    name: 'ph:question-fill',
+    color: 'text-base-content',
+  })
+})
+
+test('getIconAndColorForScoredDay returns correct icon and color for pending day', () => {
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const pendingDay = {
+    date: tomorrow,
+    glucoseRecords: [],
+    score: 0,
+    scoreForDisplay: '0',
+    passesThreshold: false,
+  }
+
+  const result = getIconAndColorForScoredDay(pendingDay)
+  expect(result).toEqual({
+    name: 'ph:clock-fill',
+    color: 'text-secondary',
+  })
+})
+
+test('getIconAndColorForScoredDay returns correct icon and color for passing day', () => {
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  const passingDay = {
+    date: yesterday,
+    glucoseRecords: [],
+    score: 100,
+    scoreForDisplay: '100',
+    passesThreshold: true,
+  }
+
+  const result = getIconAndColorForScoredDay(passingDay)
+  expect(result).toEqual({
+    name: 'ph:check-circle-fill',
+    color: 'text-primary',
+  })
+})
+
+test('getIconAndColorForScoredDay returns correct icon and color for failing day', () => {
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  const failingDay = {
+    date: yesterday,
+    glucoseRecords: [],
+    score: 50,
+    scoreForDisplay: '50',
+    passesThreshold: false,
+  }
+
+  const result = getIconAndColorForScoredDay(failingDay)
+  expect(result).toEqual({
+    name: 'ph:x-circle-fill',
+    color: 'text-error',
+  })
+})
+
+test('scoredDayIsPending returns true for today and future dates', () => {
+  const today = new Date()
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+
+  const todayScored = {
+    date: today,
+    glucoseRecords: [],
+    score: 0,
+    scoreForDisplay: '0',
+    passesThreshold: false,
+  }
+
+  const tomorrowScored = {
+    date: tomorrow,
+    glucoseRecords: [],
+    score: 0,
+    scoreForDisplay: '0',
+    passesThreshold: false,
+  }
+
+  expect(scoredDayIsPending(todayScored)).toBe(true)
+  expect(scoredDayIsPending(tomorrowScored)).toBe(true)
+})
+
+test('scoredDayIsPending returns false for past dates', () => {
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+
+  const yesterdayScored = {
+    date: yesterday,
+    glucoseRecords: [],
+    score: 0,
+    scoreForDisplay: '0',
+    passesThreshold: false,
+  }
+
+  expect(scoredDayIsPending(yesterdayScored)).toBe(false)
 })
