@@ -1,14 +1,12 @@
 <template>
-    <div
+  <div class="flex flex-row w-full justify-evenly">
+    <UTooltip
       v-for="(day, index) in mostRecentScoredDays"
       :key="`indicator-${index}`"
+      :text="getDayTooltip(day)"
     >
       <div
         class="flex flex-col items-center"
-        aria-haspopup="true"
-        :aria-label="getDayTooltipLabel(day)"
-        @mouseenter="showTooltip($event, index, day)"
-        @mouseleave="hideTooltip"
       >
         <div>{{ getDayLabel(day.date) }}</div>
         <Icon
@@ -17,26 +15,8 @@
           size="16"
         />
       </div>
-    </div>
+    </UTooltip>
   </div>
-
-  <!-- Teleport tooltip to document body -->
-  <ClientOnly>
-    <Teleport to="body">
-      <div
-        v-show="tooltipVisible"
-        class="fixed pointer-events-none z-[9999]"
-        :style="tooltipStyle"
-        role="tooltip"
-        aria-live="polite"
-      >
-        <div class="unovis-style-tooltip">
-          <span class="font-semibold">{{ tooltipDate }}</span>:
-          {{ tooltipText }}
-        </div>
-      </div>
-    </Teleport>
-  </ClientOnly>
 </template>
 
 <script setup lang="ts">
@@ -54,50 +34,13 @@ interface DayStatus {
 
 const props = defineProps<{
   streakStats: DailyStreakStats
-  targetScore?: number
-  isPercentage?: boolean
+  title: string
+  unit: string
 }>()
 
 // Get the title from the parent StatBadge component
 const title = inject('statBadgeTitle', '')
 
-// Tooltip state
-const tooltipVisible = ref(false)
-const tooltipStyle = ref({
-  top: '0px',
-  left: '0px',
-  transform: 'translate(-50%, -100%)',
-})
-const tooltipDate = ref('')
-const tooltipText = ref('')
-
-// Show tooltip when hovering over indicator
-const showTooltip = (event: MouseEvent, index: number, day: DayStatus) => {
-  // Get element position
-  const target = event.currentTarget as HTMLElement
-  const rect = target.getBoundingClientRect()
-
-  // Calculate position (in the middle of the element, above it)
-  const left = rect.left + (rect.width / 2)
-  const top = rect.top
-
-  // Update tooltip data
-  tooltipDate.value = formatDate(day.date)
-  tooltipText.value = day.scoreDisplay
-  tooltipStyle.value = {
-    top: `${top}px`,
-    left: `${left}px`,
-    transform: 'translate(-50%, -100%)',
-  }
-
-  // Show tooltip
-  tooltipVisible.value = true
-}
-
-// Hide tooltip
-const hideTooltip = () => {
-  tooltipVisible.value = false
-}
 
 // Get the 5 most recent days from the scored days
 const recentDays = computed(() => {
@@ -260,39 +203,8 @@ const getDayLabel = (date: Date) => {
   }
 }
 
-// Format date for tooltip display
-const formatDate = (date: Date) => {
-  try {
-    if (!date) return ''
-    const d = new Date(date)
-    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
-  }
-  catch {
-    return ''
-  }
-}
-
-// Get tooltip label for aria-label
-const getDayTooltipLabel = (day: DayStatus) => {
-  try {
-    return `${formatDate(day.date)}: ${day.scoreDisplay}`
-  }
-  catch {
-    return 'Day information'
-  }
+const getDayTooltip = (day: ScoredDay) => {
+  const date = day.date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+  return `${date}: ${day.scoreForDisplay}${props.unit}`
 }
 </script>
-
-<style scoped>
-.unovis-style-tooltip {
-  padding: 6px 10px;
-  background-color: oklch(0.243535 0 0);
-  color: #fff;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  white-space: nowrap;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  margin-bottom: 8px;
-  max-width: 250px;
-}
-</style>
