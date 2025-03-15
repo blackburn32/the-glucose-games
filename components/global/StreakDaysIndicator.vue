@@ -24,28 +24,9 @@
         @mouseleave="hideTooltip"
       >
         <Icon
-          v-if="day.success === true"
-          name="ph:check-circle-fill"
-          class="text-success"
-          size="18"
-        />
-        <Icon
-          v-else-if="day.success === false"
-          name="ph:x-circle-fill"
-          class="text-error"
-          size="18"
-        />
-        <Icon
-          v-else-if="day.isPending"
-          name="ph:clock-fill"
-          class="text-base-content opacity-50"
-          size="18"
-        />
-        <Icon
-          v-else
-          name="ph:question-fill"
-          class="text-base-content opacity-50"
-          size="18"
+          :name="getIconAndColorForScoredDay(day).name"
+          :class="getIconAndColorForScoredDay(day).color"
+          size="16"
         />
       </div>
     </div>
