@@ -26,77 +26,41 @@
         :best="scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay && (scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback?.score ?? 0) >= scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay.score"
         description="time in range"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Daily Average Streak"
-        :value="`${scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.averageInRangeForFullDay.bestStreak.length === scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length"
         description="average within range"
-        :show-streak-days="true"
+        unit="mg/dl"
         :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
-        :target-score="thresholds.high / 2 + thresholds.low / 2"
-        :is-percentage="false"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="In Range Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length"
         description="at least 80% in range"
-        :show-streak-days="true"
+        unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
-        :target-score="80"
-        :is-percentage="true"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Nighttime Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length"
         description="at least 80% in range"
-        :show-streak-days="true"
+        unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForNights"
-        :target-score="80"
-        :is-percentage="true"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Morning Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForMornings.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length"
         description="at least 80% in range"
-        :show-streak-days="true"
+        unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForMornings"
-        :target-score="80"
-        :is-percentage="true"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Afternoon Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length"
         description="at least 80% in range"
-        :show-streak-days="true"
+        unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons"
-        :target-score="80"
-        :is-percentage="true"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Evening Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length"
         description="at least 80% in range"
-        :show-streak-days="true"
+        unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
-        :target-score="80"
-        :is-percentage="true"
       />
     </div>
     <LineGraph
@@ -135,7 +99,7 @@
 <script setup lang="ts">
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
-import { getIconForStatus, getIconForDailyStreak, getColorForDailyStreak, getColorForStatus } from '~/utils/status/status'
+import { getIconForStatus, getColorForStatus } from '~/utils/status/status'
 
 const props = defineProps<{
   thresholds: Thresholds
