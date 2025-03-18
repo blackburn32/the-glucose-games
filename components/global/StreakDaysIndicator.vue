@@ -1,21 +1,28 @@
 <template>
   <div class="flex flex-row w-full justify-evenly">
-    <UTooltip
-      v-for="(day, index) in mostRecentScoredDays"
-      :key="`indicator-${index}`"
-      :text="getDayTooltip(day)"
-    >
-      <div
-        class="flex flex-col items-center"
+    <ClientOnly>
+      <UTooltip
+        v-for="(day, index) in mostRecentScoredDays"
+        :key="`indicator-${index}`"
+        :text="getDayTooltip(day)"
       >
-        <div>{{ getDayLabel(day.date) }}</div>
-        <Icon
-          :name="getIconForDay(day).name"
-          :class="getIconForDay(day).color"
-          size="16"
-        />
-      </div>
-    </UTooltip>
+        <div
+          class="flex flex-col items-center"
+        >
+          <div>{{ getDayLabel(day.date) }}</div>
+          <Icon
+            :name="getIconForDay(day).name"
+            :class="getIconForDay(day).color"
+            size="16"
+          />
+        </div>
+      </UTooltip>
+      <template #fallback>
+        <div class="text-sm">
+          Loading...
+        </div>
+      </template>
+    </ClientOnly>
   </div>
 </template>
 

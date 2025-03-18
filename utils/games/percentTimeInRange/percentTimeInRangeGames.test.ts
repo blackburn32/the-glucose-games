@@ -103,7 +103,7 @@ testPercentTimeInRangeStreak(
   70, // 70% threshold
   (6 / 9) * 100, // 6 in-range values out of 9 total for the custom day, exact value
   1, // Best streak of 1 day (yesterday only, day before is out of range)
-  1, // Current streak of 1 days
+  1, // Current streak of 1 day
   CurrentDayStatus.Pending,
 )
 
