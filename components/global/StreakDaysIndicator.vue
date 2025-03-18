@@ -10,8 +10,8 @@
       >
         <div>{{ getDayLabel(day.date) }}</div>
         <Icon
-          :name="getIconAndColorForScoredDay(day).name"
-          :class="getIconAndColorForScoredDay(day).color"
+          :name="getIconForDay(day).name"
+          :class="getIconForDay(day).color"
           size="16"
         />
       </div>
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 import type { ScoredDay } from '~/types/scoredDay'
-import { getIconAndColorForScoredDay } from '~/utils/display/gameDisplay'
+import { getIconAndColorForCurrentDay, getIconAndColorForScoredDay } from '~/utils/display/gameDisplay'
 
 const props = defineProps<{
   streakStats: DailyStreakStats
@@ -35,6 +35,18 @@ const daysToDisplay = 7
 const mostRecentScoredDays = computed(() => {
   return props.streakStats.scoredDays.slice(-daysToDisplay, props.streakStats.scoredDays.length)
 })
+
+const today = new Date()
+const dayIsCurrentDay = (day: ScoredDay) => {
+  return day.date.toDateString() === today.toDateString()
+}
+
+const getIconForDay = (day: ScoredDay) => {
+  if (dayIsCurrentDay(day)) {
+    return getIconAndColorForCurrentDay(props.streakStats.currentStreak.currentDayStatus, day)
+  }
+  return getIconAndColorForScoredDay(day)
+}
 
 const getDayLabel = (date: Date) => {
   try {

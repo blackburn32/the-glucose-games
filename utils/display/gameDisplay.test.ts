@@ -1,9 +1,10 @@
-import { test, expect } from 'vitest'
-import { getPercentToDisplay, getGlucoseValueToDisplay, getDailyStreakGameDisplayStats, getIconAndColorForScoredDay, scoredDayIsPending } from './gameDisplay'
+import { expect, test } from 'vitest'
+import { getDailyStreakGameDisplayStats, getGlucoseValueToDisplay, getIconAndColorForScoredDay, getPercentToDisplay, scoredDayIsPending } from './gameDisplay'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { ScoredDay } from '~/types/scoredDay'
 import { CurrentDayStatus } from '~/types/constants'
+import { ScoreCheckResult } from '~/types/scoreCheckResult'
 
 test('getPercentToDisplay formats percentage correctly', () => {
   expect(getPercentToDisplay('75')).toBe('75%')
@@ -41,15 +42,19 @@ test('getDailyStreakGameDisplayStats returns correct stats with valid data', () 
       date: new Date(),
       glucoseRecords: mockRecords,
       score: 75,
+      scoreResult: ScoreCheckResult.Almost,
       scoreForDisplay: '75',
       passesThreshold: true,
+      medal: undefined,
     },
     bestDay: {
       date: new Date(),
       glucoseRecords: mockRecords,
       score: 90,
+      scoreResult: ScoreCheckResult.Pass,
       scoreForDisplay: '90',
       passesThreshold: true,
+      medal: undefined,
     },
     bestStreak: [],
     bestStreakIncludesToday: false,
@@ -105,15 +110,19 @@ test('getDailyStreakGameDisplayStats uses custom score handler', () => {
       date: new Date(),
       glucoseRecords: [],
       score: 75,
+      scoreResult: ScoreCheckResult.Almost,
       scoreForDisplay: '75',
       passesThreshold: true,
+      medal: undefined,
     },
     bestDay: {
       date: new Date(),
       glucoseRecords: [],
       score: 90,
+      scoreResult: ScoreCheckResult.Pass,
       scoreForDisplay: '90',
       passesThreshold: true,
+      medal: undefined,
     },
     bestStreak: [],
     bestStreakIncludesToday: false,
@@ -135,14 +144,6 @@ test('getDailyStreakGameDisplayStats uses custom score handler', () => {
   expect(result.best).toBe('Custom: 90!')
 })
 
-test('getIconAndColorForScoredDay returns correct icon and color for undefined day', () => {
-  const result = getIconAndColorForScoredDay(null as unknown as ScoredDay)
-  expect(result).toEqual({
-    name: 'ph:question-fill',
-    color: 'text-base-content',
-  })
-})
-
 test('getIconAndColorForScoredDay returns correct icon and color for pending day', () => {
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
@@ -150,8 +151,10 @@ test('getIconAndColorForScoredDay returns correct icon and color for pending day
     date: tomorrow,
     glucoseRecords: [],
     score: 0,
+    scoreResult: ScoreCheckResult.Fail,
     scoreForDisplay: '0',
     passesThreshold: false,
+    medal: undefined,
   }
 
   const result = getIconAndColorForScoredDay(pendingDay)
@@ -169,7 +172,9 @@ test('getIconAndColorForScoredDay returns correct icon and color for passing day
     glucoseRecords: [],
     score: 100,
     scoreForDisplay: '100',
+    scoreResult: ScoreCheckResult.Pass,
     passesThreshold: true,
+    medal: undefined,
   }
 
   const result = getIconAndColorForScoredDay(passingDay)
@@ -186,8 +191,10 @@ test('getIconAndColorForScoredDay returns correct icon and color for failing day
     date: yesterday,
     glucoseRecords: [],
     score: 50,
+    scoreResult: ScoreCheckResult.Fail,
     scoreForDisplay: '50',
     passesThreshold: false,
+    medal: undefined,
   }
 
   const result = getIconAndColorForScoredDay(failingDay)
@@ -206,16 +213,20 @@ test('scoredDayIsPending returns true for today and future dates', () => {
     date: today,
     glucoseRecords: [],
     score: 0,
+    scoreResult: ScoreCheckResult.Fail,
     scoreForDisplay: '0',
     passesThreshold: false,
+    medal: undefined,
   }
 
   const tomorrowScored = {
     date: tomorrow,
     glucoseRecords: [],
     score: 0,
+    scoreResult: ScoreCheckResult.Fail,
     scoreForDisplay: '0',
     passesThreshold: false,
+    medal: undefined,
   }
 
   expect(scoredDayIsPending(todayScored)).toBe(true)
@@ -230,8 +241,10 @@ test('scoredDayIsPending returns false for past dates', () => {
     date: yesterday,
     glucoseRecords: [],
     score: 0,
+    scoreResult: ScoreCheckResult.Fail,
     scoreForDisplay: '0',
     passesThreshold: false,
+    medal: undefined,
   }
 
   expect(scoredDayIsPending(yesterdayScored)).toBe(false)

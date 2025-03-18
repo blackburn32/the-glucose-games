@@ -3,6 +3,7 @@ import { calculateDailyStreakStats } from './dailyStreaks'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { CurrentDayStatus } from '~/types/constants'
 import type { ScoredDay } from '~/types/scoredDay'
+import { ScoreCheckResult } from '~/types/scoreCheckResult'
 
 describe('calculateDailyStreakStats', () => {
   const createRecord = (value: number, created: Date): GlucoseRecord => ({
@@ -18,7 +19,11 @@ describe('calculateDailyStreakStats', () => {
     const sum = records.reduce((acc, record) => acc + record.value, 0)
     return records.length ? sum / records.length : 0
   }
-  const mockScorePassesCheck = (score: number) => score >= 100
+  const mockScorePassesCheck = (score: number) => {
+    if (score >= 100) return ScoreCheckResult.Pass
+    else if (score >= 90) return ScoreCheckResult.Almost
+    else return ScoreCheckResult.Fail
+  }
   const mockScoreDisplay = (score: number) => score.toFixed(1)
   const mockCurrentDayStatus = (day: ScoredDay) => {
     if (day.passesThreshold) return CurrentDayStatus.Pass

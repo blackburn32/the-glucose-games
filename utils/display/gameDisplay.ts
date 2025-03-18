@@ -1,6 +1,8 @@
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 import type { GameDisplayStats } from '~/types/gameDisplayStats'
 import type { ScoredDay } from '~/types/scoredDay'
+import { CurrentDayStatus, MedalType } from '~/types/constants'
+import { ScoreCheckResult } from '~/types/scoreCheckResult'
 
 export const getPercentToDisplay = (percent: string | undefined): string => {
   return percent ? `${percent}%` : 'Unknown'
@@ -29,27 +31,78 @@ export const scoredDayIsPending = (scoredDay: ScoredDay): boolean => {
   return dayDate >= today
 }
 
-export const getIconAndColorForScoredDay = (day: ScoredDay) => {
-  if (!day) {
-    return {
-      name: 'ph:question-fill',
-      color: 'text-base-content',
-    }
+export const getColorForMedal = (medal: MedalType | undefined): string => {
+  switch (medal) {
+    case MedalType.Gold:
+      return 'text-primary'
+    case MedalType.Silver:
+      return 'text-silver'
+    case MedalType.Bronze:
+      return 'text-secondary'
+    default:
+      return 'text-error'
   }
+}
+
+export const getIconForScoreResult = (scoreResult: ScoreCheckResult): string => {
+  switch (scoreResult) {
+    case ScoreCheckResult.Pass:
+      return 'ph:check-circle-fill'
+    case ScoreCheckResult.Almost:
+      return 'ph:warning-circle-fill'
+    default:
+      return 'ph:x-circle-fill'
+  }
+}
+
+export const getColorForScoreResult = (scoreResult: ScoreCheckResult): string => {
+  switch (scoreResult) {
+    case ScoreCheckResult.Pass:
+      return 'text-primary'
+    case ScoreCheckResult.Almost:
+      return 'text-secondary'
+    default:
+      return 'text-error'
+  }
+}
+
+export const getIconAndColorForScoredDay = (day: ScoredDay) => {
   if (scoredDayIsPending(day)) {
     return {
       name: 'ph:clock-fill',
       color: 'text-secondary',
     }
   }
-  if (day.passesThreshold) {
+  if (day.medal) {
     return {
-      name: 'ph:check-circle-fill',
-      color: 'text-primary',
+      name: 'ph:medal-fill',
+      color: getColorForMedal(day.medal),
     }
   }
   return {
-    name: 'ph:x-circle-fill',
-    color: 'text-error',
+    name: getIconForScoreResult(day.scoreResult),
+    color: getColorForScoreResult(day.scoreResult),
+  }
+}
+
+export const getIconAndColorForCurrentDay = (currentDayStatus: CurrentDayStatus, day: ScoredDay) => {
+  switch (currentDayStatus) {
+    case CurrentDayStatus.Pass:
+      return {
+        name: 'ph:check-circle-fill',
+        color: 'text-primary',
+      }
+    case CurrentDayStatus.Fail:
+      return {
+        name: 'ph:x-circle-fill',
+        color: 'text-error',
+      }
+    case CurrentDayStatus.Pending:
+      return {
+        name: 'ph:clock-fill',
+        color: 'text-base-content',
+      }
+    default:
+      return getIconAndColorForScoredDay(day)
   }
 }

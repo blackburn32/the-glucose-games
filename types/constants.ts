@@ -12,3 +12,9 @@ export enum CurrentDayStatus {
   Fail,
   Failing,
 }
+
+export enum MedalType {
+  Bronze,
+  Silver,
+  Gold,
+}

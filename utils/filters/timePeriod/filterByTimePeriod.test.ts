@@ -53,3 +53,46 @@ test('filters/filterByTimeInRange.filterRecordsByTimePeriod', async () => {
 
   expect(filterRecordsByTimePeriod(allRecords, startHours, startMinutes, endHours, endMinutes)).toEqual(validRecords)
 })
+
+test('filters/timePeriod/filterByTimePeriod.isTimeInRange for evening period', async () => {
+  const sixPM = new Date('2022-01-01T18:00:00')
+  const sevenPM = new Date('2022-01-01T19:00:00')
+  const elevenFiftyNinePM = new Date('2022-01-01T23:59:00')
+  const midnight = new Date('2022-01-01T00:00:00')
+  const fivePM = new Date('2022-01-01T17:00:00')
+
+  // In range
+  expect(isTimeInRange(sixPM, 18, 0, 23, 59)).toBe(true)
+  expect(isTimeInRange(sevenPM, 18, 0, 23, 59)).toBe(true)
+  expect(isTimeInRange(elevenFiftyNinePM, 18, 0, 23, 59)).toBe(true)
+
+  // Out of range
+  expect(isTimeInRange(midnight, 18, 0, 23, 59)).toBe(false)
+  expect(isTimeInRange(fivePM, 18, 0, 23, 59)).toBe(false)
+})
+
+test('filters/filterByTimeInRange.filterRecordsByTimePeriod for evening period', async () => {
+  const startHours = 18
+  const startMinutes = 0
+  const endHours = 23
+  const endMinutes = 59
+
+  const validRecords = [
+    new Date('2022-01-01T18:00:00'),
+    new Date('2022-01-01T19:00:00'),
+    new Date('2022-01-01T20:00:00'),
+    new Date('2022-01-01T21:00:00'),
+    new Date('2022-01-01T22:00:00'),
+    new Date('2022-01-01T23:59:00'),
+  ].map(date => toGlucoseRecord(100, date))
+
+  const invalidRecords = [
+    new Date('2022-01-01T17:59:00'),
+    new Date('2022-01-01T00:00:00'),
+    new Date('2022-01-01T12:00:00'),
+  ].map(date => toGlucoseRecord(100, date))
+
+  const allRecords = validRecords.concat(invalidRecords)
+
+  expect(filterRecordsByTimePeriod(allRecords, startHours, startMinutes, endHours, endMinutes)).toEqual(validRecords)
+})

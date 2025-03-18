@@ -3,29 +3,6 @@
     class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4"
   >
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-6">
-      <StatBadge
-        title="Daily Average"
-        :value="scoredGames.dailyStreakStats.averageInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'"
-        :icon="getIconForStatus(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.currentDayStatus)"
-        description="mg/dL"
-      />
-      <StatBadge
-        title="Today"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay}%` || 'Unknown'"
-        :icon="getIconForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.currentDayStatus)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay && (scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.score ?? 0) >= scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay.score"
-        description="time in range"
-      />
-      <StatBadge
-        title="Last Night"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'}%`"
-        :icon="getIconForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.currentDayStatus)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay && (scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback?.score ?? 0) >= scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay.score"
-        description="time in range"
-      />
       <DailyStreakBadge
         title="Daily Average Streak"
         description="average within range"
@@ -99,7 +76,6 @@
 <script setup lang="ts">
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
-import { getIconForStatus, getColorForStatus } from '~/utils/status/status'
 
 const props = defineProps<{
   thresholds: Thresholds

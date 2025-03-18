@@ -89,7 +89,7 @@ testAverageInRangeStreak(
   mockThresholds,
   getAverageForTimeRange(mockRecordsForSingleDay, 0, 23),
   2,
-  2,
+  1,
   CurrentDayStatus.Pending,
 )
 
@@ -134,5 +134,5 @@ testAverageInRangeStreak(
   Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).length),
   1,
   1,
-  CurrentDayStatus.Failing,
+  CurrentDayStatus.Pending,
 )

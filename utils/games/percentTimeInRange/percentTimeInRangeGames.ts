@@ -6,6 +6,7 @@ import type { ScoredDay } from '~/types/scoredDay'
 import { CurrentDayStatus } from '~/types/constants'
 import { calculateDailyStreakStats } from '~/utils/streaks/dailyStreaks'
 import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
+import { ScoreCheckResult } from '~/types/scoreCheckResult'
 
 export const percentTimeInRangeGame = (
   records: GlucoseRecord[],
@@ -16,6 +17,8 @@ export const percentTimeInRangeGame = (
   endMinutes: number,
   streakFilterValue: number,
 ) => {
+  const tenPercentMargin = streakFilterValue * 0.1
+
   const filterFunction = (records: GlucoseRecord[]) => {
     return filterRecordsByTimePeriod(records, startHour, startMinutes, endHour, endMinutes)
   }
@@ -25,7 +28,7 @@ export const percentTimeInRangeGame = (
   const getCurrentDayStatus = (currentDay: ScoredDay) => {
     const today = new Date()
     const currentlyPastEndTime = today.getHours() > endHour || (today.getHours() === endHour && today.getMinutes() >= endMinutes)
-    if (currentDay.passesThreshold) {
+    if (currentlyPastEndTime && currentDay.passesThreshold) {
       return CurrentDayStatus.Pass
     }
     if (currentlyPastEndTime) {
@@ -33,13 +36,20 @@ export const percentTimeInRangeGame = (
     }
     return CurrentDayStatus.Pending
   }
-  const scorePassesStreakCheck = (score: number) => score >= streakFilterValue
+  const scoreResultCheck = (score: number) => {
+    if (score >= streakFilterValue)
+      return ScoreCheckResult.Pass
+    else if (score >= streakFilterValue - tenPercentMargin)
+      return ScoreCheckResult.Almost
+    else
+      return ScoreCheckResult.Fail
+  }
 
   return calculateDailyStreakStats(
     records,
     filterFunction,
     dailyScoringFunction,
-    scorePassesStreakCheck,
+    scoreResultCheck,
     getCurrentDayStatus,
     cleanPercentForDisplay,
   )
