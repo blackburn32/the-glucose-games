@@ -111,7 +111,7 @@ test('getScoredGames calculates daily streak stats correctly', () => {
   )?.score).toBe(50) // 1 in range (boundary), 1 out of range
 
   // Test evening stats (18:00-23:59)
-  expect(result.dailyStreakStats.averageInRangeForEvenings.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Failing)
+  expect(result.dailyStreakStats.averageInRangeForEvenings.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pending)
   expect(result.dailyStreakStats.percentTimeInRangeForEvenings.scoredDays.find(day =>
     day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(0) // All evening values are out of range

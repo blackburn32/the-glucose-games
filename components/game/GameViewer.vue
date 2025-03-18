@@ -2,77 +2,42 @@
   <div
     class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4"
   >
-    <div class="grid grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-6">
-      <StatBadge
-        title="Daily Average"
-        :value="scoredGames.dailyStreakStats.averageInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'"
-        :icon="getIconForStatus(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.currentDayStatus)"
-        description="mg/dL"
-      />
-      <StatBadge
-        title="Today"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.scoreForDisplay}%` || 'Unknown'"
-        :icon="getIconForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.currentDayStatus)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay && (scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentScoredDayWithFallback?.score ?? 0) >= scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestDay.score"
-        description="time in range"
-      />
-      <StatBadge
-        title="Last Night"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback?.scoreForDisplay || 'Unknown'}%`"
-        :icon="getIconForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.currentDayStatus)"
-        :icon-color="getColorForStatus(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.currentDayStatus)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay && (scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentScoredDayWithFallback?.score ?? 0) >= scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestDay.score"
-        description="time in range"
-      />
-      <StatBadge
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-6">
+      <DailyStreakBadge
         title="Daily Average Streak"
-        :value="`${scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.averageInRangeForFullDay.bestStreak.length === scoredGames.dailyStreakStats.averageInRangeForFullDay.currentStreak.scoredDays.length"
         description="average within range"
+        unit="mg/dl"
+        :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="In Range Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        unit="%"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Nighttime Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForNights.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForNights.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        unit="%"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForNights"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Morning Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForMornings.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForMornings.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        unit="%"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForMornings"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Afternoon Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        unit="%"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons"
       />
-      <StatBadge
+      <DailyStreakBadge
         title="Evening Streak"
-        :value="`${scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length} days`"
-        :icon="getIconForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
-        :icon-color="getColorForDailyStreak(scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length)"
-        :best="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.bestStreak.length === scoredGames.dailyStreakStats.percentTimeInRangeForEvenings.currentStreak.scoredDays.length"
         description="at least 80% in range"
+        unit="%"
+        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
       />
     </div>
     <LineGraph
@@ -111,7 +76,6 @@
 <script setup lang="ts">
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
-import { getIconForStatus, getIconForDailyStreak, getColorForDailyStreak, getColorForStatus } from '~/utils/status/status'
 
 const props = defineProps<{
   thresholds: Thresholds

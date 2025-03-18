@@ -6,6 +6,7 @@ import type { ScoredDay } from '~/types/scoredDay'
 import { CurrentDayStatus } from '~/types/constants'
 import { calculateDailyStreakStats } from '~/utils/streaks/dailyStreaks'
 import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
+import { ScoreCheckResult } from '~/types/scoreCheckResult'
 
 export const averageInRangeGame = (
   records: GlucoseRecord[],
@@ -15,6 +16,8 @@ export const averageInRangeGame = (
   endHour: number,
   endMinutes: number,
 ) => {
+  const targetBloodSugar = 110
+  const tenPercentMargin = targetBloodSugar * 0.1
   const filterFunction = (records: GlucoseRecord[]) => {
     return filterRecordsByTimePeriod(records, startHour, startMinutes, endHour, endMinutes)
   }
@@ -30,12 +33,16 @@ export const averageInRangeGame = (
     if (currentlyPastEndTime) {
       return CurrentDayStatus.Fail
     }
-    if (currentDay.passesThreshold) {
-      return CurrentDayStatus.Pending
-    }
-    return CurrentDayStatus.Failing
+    return CurrentDayStatus.Pending
   }
-  const scorePassesStreakCheck = (score: number) => score >= thresholds.low && score <= thresholds.high
+  const scoreResultCheck = (score: number) => {
+    if (score >= thresholds.low && score <= thresholds.high)
+      return ScoreCheckResult.Pass
+    else if (score >= thresholds.low - tenPercentMargin && score <= thresholds.high + tenPercentMargin)
+      return ScoreCheckResult.Almost
+    else
+      return ScoreCheckResult.Fail
+  }
 
   // Returns the day with a value closest to 100
   const bestDayComparisonFunction = (a: ScoredDay, b: ScoredDay) => {
@@ -48,7 +55,7 @@ export const averageInRangeGame = (
     records,
     filterFunction,
     dailyScoringFunction,
-    scorePassesStreakCheck,
+    scoreResultCheck,
     getCurrentDayStatus,
     cleanPercentForDisplay,
     bestDayComparisonFunction,

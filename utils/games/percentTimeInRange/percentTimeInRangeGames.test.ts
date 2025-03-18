@@ -103,7 +103,7 @@ testPercentTimeInRangeStreak(
   70, // 70% threshold
   (6 / 9) * 100, // 6 in-range values out of 9 total for the custom day, exact value
   1, // Best streak of 1 day (yesterday only, day before is out of range)
-  2, // Current streak of 2 days
+  1, // Current streak of 1 day
   CurrentDayStatus.Pending,
 )
 
@@ -155,7 +155,7 @@ testPercentTimeInRangeStreak(
   70,
   0, // All evening values are out of range
   1,
-  2, // Current streak includes today (pending) and yesterday (in range)
+  1, // Current streak only includes yesterday, not today
   CurrentDayStatus.Pending, // Not past end time (23:59) yet
 )
 
@@ -172,7 +172,7 @@ test('percentTimeInRangeGame handles single record', () => {
   const result = percentTimeInRangeForFullDayStreak(singleRecord, mockThresholds, 70)
   expect(result.scoredDays).toHaveLength(1)
   expect(result.scoredDays[0].score).toBe(100)
-  expect(result.currentStreak.scoredDays).toHaveLength(1)
+  expect(result.currentStreak.scoredDays).toHaveLength(0) // Current day doesn't count in streaks
 })
 
 test('percentTimeInRangeGame handles boundary values', () => {

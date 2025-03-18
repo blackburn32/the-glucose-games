@@ -6,5 +6,9 @@ export default defineAppConfig({
       background: 'bg-base-300 dark:bg-base-300',
       ring: 'ring-0',
     },
+    tooltip: {
+      background: 'bg-base-300 dark:bg-base-300',
+      ring: 'ring-0',
+    },
   },
 })
