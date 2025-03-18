@@ -2,7 +2,6 @@ import { expect, test } from 'vitest'
 import { getDailyStreakGameDisplayStats, getGlucoseValueToDisplay, getIconAndColorForScoredDay, getPercentToDisplay, scoredDayIsPending } from './gameDisplay'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
-import type { ScoredDay } from '~/types/scoredDay'
 import { CurrentDayStatus } from '~/types/constants'
 import { ScoreCheckResult } from '~/types/scoreCheckResult'
 
