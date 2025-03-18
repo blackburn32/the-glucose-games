@@ -103,7 +103,7 @@ testPercentTimeInRangeStreak(
   70, // 70% threshold
   (6 / 9) * 100, // 6 in-range values out of 9 total for the custom day, exact value
   1, // Best streak of 1 day (yesterday only, day before is out of range)
-  1, // Current streak of 1 day
+  0, // Current streak of 1 day
   CurrentDayStatus.Pending,
 )
 
@@ -116,7 +116,7 @@ testPercentTimeInRangeStreak(
   70,
   100, // All night values are in range
   2,
-  2,
+  1,
   CurrentDayStatus.Pass,
 )
 
@@ -129,7 +129,7 @@ testPercentTimeInRangeStreak(
   70,
   100, // All morning values are in range
   2,
-  2,
+  1,
   CurrentDayStatus.Pass,
 )
 
@@ -155,7 +155,7 @@ testPercentTimeInRangeStreak(
   70,
   0, // All evening values are out of range
   1,
-  1, // Current streak only includes yesterday, not today
+  0, // Current streak only includes yesterday, not today
   CurrentDayStatus.Pending, // Not past end time (23:59) yet
 )
 
