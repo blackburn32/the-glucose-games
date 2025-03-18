@@ -175,11 +175,11 @@ export const calculateDailyStreakStats: (
     : undefined
 
   const today = new Date().toDateString()
-  const todaysScoredDay = scoredDaysWithPotentiallyMissingDates.find(day => day.date.toDateString() === today)
+  const todaysScoredDay = scoredDays.find(day => day.date.toDateString() === today)
 
-  const mostRecentScoredDay = scoredDaysWithPotentiallyMissingDates.at(-1)
+  const mostRecentScoredDay = scoredDays.at(-1)
 
-  const currentStreak = getCurrentDailyStreak(todaysScoredDay, scoredDaysWithPotentiallyMissingDates, currentDayStatus)
+  const currentStreak = getCurrentDailyStreak(todaysScoredDay, scoredDays, currentDayStatus)
 
   const bestStreak = getBestDailyStreak(scoredDaysWithPotentiallyMissingDates)
   const bestStreakIncludesToday = todaysScoredDay ? bestStreak.includes(todaysScoredDay) : false
