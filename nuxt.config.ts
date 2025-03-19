@@ -51,6 +51,21 @@ export default defineNuxtConfig({
     '/history': {
       ssr: false,
     },
+    '/current': {
+      ssr: false,
+    },
+    '/demo': {
+      ssr: false,
+    },
+    '/currentDemo': {
+      ssr: false,
+    },
+    '/achievements': {
+      ssr: false,
+    },
+    '/achievementsDemo': {
+      ssr: false,
+    },
   },
 
   sourcemap: {
