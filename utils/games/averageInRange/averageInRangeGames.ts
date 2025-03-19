@@ -16,8 +16,7 @@ export const averageInRangeGame = (
   endHour: number,
   endMinutes: number,
 ) => {
-  const targetBloodSugar = 110
-  const tenPercentMargin = targetBloodSugar * 0.1
+  const tenPercentMargin = thresholds.target * 0.1
   const filterFunction = (records: GlucoseRecord[]) => {
     return filterRecordsByTimePeriod(records, startHour, startMinutes, endHour, endMinutes)
   }
@@ -46,8 +45,8 @@ export const averageInRangeGame = (
 
   // Returns the day with a value closest to 100
   const bestDayComparisonFunction = (a: ScoredDay, b: ScoredDay) => {
-    const aDiff = Math.abs(a.score - 100)
-    const bDiff = Math.abs(b.score - 100)
+    const aDiff = Math.abs(a.score - thresholds.target)
+    const bDiff = Math.abs(b.score - thresholds.target)
     return aDiff < bDiff ? a : b
   }
 

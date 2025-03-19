@@ -39,6 +39,58 @@
           <span class="label-text-alt">Must be between 120 and 400</span>
         </div>
       </label>
+      <label class="form-control w-full md:col-span-2">
+        <div class="label">
+          <span class="label-text">Target Blood Glucose</span>
+        </div>
+        <div class="flex flex-row w-full items-center space-x-4">
+          <input
+            v-model="target"
+            type="range"
+            min="80"
+            max="180"
+            step="1"
+            class="range range-primary grow"
+          >
+          <input
+            v-model="target"
+            type="number"
+            min="80"
+            max="180"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-32"
+          >
+        </div>
+        <div class="label">
+          <span class="label-text-alt">Used to rank your average blood glucose across days</span>
+        </div>
+      </label>
+      <label class="form-control w-full md:col-span-2">
+        <div class="label">
+          <span class="label-text">Daily Streak Percent Time in Range Threshold</span>
+        </div>
+        <div class="flex flex-row w-full items-center space-x-4">
+          <input
+            v-model="dailyStreakPercentThreshold"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            class="range range-primary grow"
+          >
+          <input
+            v-model="dailyStreakPercentThreshold"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-32"
+          >
+        </div>
+        <div class="label">
+          <span class="label-text-alt">Used to calculate whether or not your percent time in range scores will count towards your daily streak</span>
+        </div>
+      </label>
       <div
         class="btn btn-outline"
         :class="{ 'btn-disabled': !changesToSave }"
@@ -82,6 +134,8 @@
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_THRESHOLDS } from '~/types/constants'
+
 const { thresholds, setThresholds } = useThresholds()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
@@ -123,13 +177,40 @@ const highThreshold = computed({
   },
 })
 
+const tempDailyStreakPercent = ref<number | undefined>(undefined)
+const dailyStreakPercentThreshold = computed({
+  get() {
+    if (tempDailyStreakPercent.value !== undefined) return tempDailyStreakPercent.value
+    return thresholds.value?.dailyStreakPercentTimeInRange ?? DEFAULT_THRESHOLDS.dailyStreakPercentTimeInRange
+  },
+  set(value) {
+    tempDailyStreakPercent.value = value
+  },
+})
+
+const tempTarget = ref<number | undefined>(undefined)
+const target = computed({
+  get() {
+    if (tempTarget.value !== undefined) return tempTarget.value
+    return thresholds.value?.target ?? DEFAULT_THRESHOLDS.target
+  },
+  set(value) {
+    tempTarget.value = value
+  },
+})
+
 watch(() => thresholds.value, () => {
-  lowThreshold.value = thresholds.value?.low ?? 70
-  highThreshold.value = thresholds.value?.high ?? 180
+  lowThreshold.value = thresholds.value?.low ?? DEFAULT_THRESHOLDS.low
+  highThreshold.value = thresholds.value?.high ?? DEFAULT_THRESHOLDS.high
+  target.value = thresholds.value?.target ?? DEFAULT_THRESHOLDS.target
+  dailyStreakPercentThreshold.value = thresholds.value?.dailyStreakPercentTimeInRange ?? DEFAULT_THRESHOLDS.dailyStreakPercentTimeInRange
 })
 
 const changesToSave = computed(() => {
-  return lowThreshold.value !== thresholds.value?.low || highThreshold.value !== thresholds.value?.high
+  return lowThreshold.value !== thresholds.value?.low
+    || highThreshold.value !== thresholds.value?.high
+    || target.value !== thresholds.value?.target
+    || dailyStreakPercentThreshold.value !== thresholds.value?.dailyStreakPercentTimeInRange
 })
 
 const saveThresholds = async () => {
@@ -137,6 +218,8 @@ const saveThresholds = async () => {
   await setThresholds({
     low: lowThreshold.value,
     high: highThreshold.value,
+    target: target.value,
+    dailyStreakPercentTimeInRange: dailyStreakPercentThreshold.value,
   })
 }
 

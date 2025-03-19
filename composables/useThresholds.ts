@@ -1,4 +1,5 @@
 import type { Thresholds } from '~/types/thresholds.ts'
+import { DEFAULT_THRESHOLDS } from '~/types/constants'
 
 export const useThresholds = () => {
   const supabase = useSupabaseClient()
@@ -7,10 +8,7 @@ export const useThresholds = () => {
 
   const currentThresholds = useAsyncData<Thresholds>('thresholds', async () => {
     if (!user.value) {
-      return {
-        low: 70,
-        high: 180,
-      }
+      return DEFAULT_THRESHOLDS
     }
     const { data, error } = await supabase.from('thresholds').select('*').maybeSingle()
     if (error) {
@@ -21,21 +19,17 @@ export const useThresholds = () => {
       })
     }
     if (!data) {
-      return {
-        low: 70,
-        high: 180,
-      }
+      return DEFAULT_THRESHOLDS
     }
     return {
       low: data.low,
       high: data.high,
+      target: data.target,
+      dailyStreakPercentTimeInRange: data.daily_percent_time_in_range,
     }
   }, {
     default: () => {
-      return {
-        low: 70,
-        high: 180,
-      }
+      return DEFAULT_THRESHOLDS
     },
   })
 
@@ -57,6 +51,14 @@ export const useThresholds = () => {
       })
       return
     }
+    if (newThresholds.dailyStreakPercentTimeInRange > 100 || newThresholds.dailyStreakPercentTimeInRange < 0) {
+      toast.add({
+        title: 'Invalid daily streak percent time in range',
+        description: 'Percent time in range must be between 0 and 100',
+        color: 'red',
+      })
+      return
+    }
     if (!userId) {
       toast.add({
         title: 'Not logged in',
@@ -68,7 +70,8 @@ export const useThresholds = () => {
     const { error } = await supabase.from('thresholds').upsert({
       low: newThresholds.low,
       high: newThresholds.high,
-      updated_at: new Date().toISOString(),
+      target: newThresholds.target,
+      daily_percent_time_in_range: newThresholds.dailyStreakPercentTimeInRange,
       user_id: userId,
     })
     if (error) {

@@ -1,3 +1,5 @@
+import type { Thresholds } from '~/types/thresholds'
+
 export const DEXCOM_PROVIDER_NAME = 'dexcom'
 export const NIGHTSCOUT_PROVIDER_NAME = 'nightscout'
 
@@ -5,6 +7,13 @@ export const FIVE_MINUTES = 5 * 60 * 1000
 export const ONE_DAY = 24 * 60 * 60 * 1000
 export const ONE_WEEK = 7 * ONE_DAY
 export const ONE_MONTH = 30 * ONE_DAY
+
+export const DEFAULT_THRESHOLDS: Thresholds = {
+  high: 180,
+  low: 70,
+  target: 110,
+  dailyStreakPercentTimeInRange: 70,
+}
 
 export enum CurrentDayStatus {
   Pending,

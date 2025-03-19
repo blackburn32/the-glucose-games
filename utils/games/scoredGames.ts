@@ -12,11 +12,11 @@ export const getScoredGames = (allRecords: GlucoseRecord[], thresholds: Threshol
     averageInRangeForFullDay: averageInRangeForFullDayStreak(allRecords, thresholds),
     averageInRangeForMornings: averageInRangeForMorningsStreak(allRecords, thresholds),
     averageInRangeForNights: averageInRangeForNightsStreak(allRecords, thresholds),
-    percentTimeInRangeForAfternoons: percentTimeInRangeForAfternoonsStreak(allRecords, thresholds, 80),
-    percentTimeInRangeForEvenings: percentTimeInRangeForEveningsStreak(allRecords, thresholds, 80),
-    percentTimeInRangeForFullDay: percentTimeInRangeForFullDayStreak(allRecords, thresholds, 80),
-    percentTimeInRangeForMornings: percentTimeInRangeForMorningsStreak(allRecords, thresholds, 80),
-    percentTimeInRangeForNights: percentTimeInRangeForNightsStreak(allRecords, thresholds, 80),
+    percentTimeInRangeForAfternoons: percentTimeInRangeForAfternoonsStreak(allRecords, thresholds),
+    percentTimeInRangeForEvenings: percentTimeInRangeForEveningsStreak(allRecords, thresholds),
+    percentTimeInRangeForFullDay: percentTimeInRangeForFullDayStreak(allRecords, thresholds),
+    percentTimeInRangeForMornings: percentTimeInRangeForMorningsStreak(allRecords, thresholds),
+    percentTimeInRangeForNights: percentTimeInRangeForNightsStreak(allRecords, thresholds),
   }
   const contiguousStreakStats = {
     noHighsStreaks: contiguousStreakWithNoHighs(allRecords, thresholds),

@@ -128,22 +128,28 @@ export type Database = {
       thresholds: {
         Row: {
           created_at: string
+          daily_percent_time_in_range: number
           high: number
           low: number
+          target: number
           updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
+          daily_percent_time_in_range: number
           high: number
           low: number
+          target?: number
           updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
+          daily_percent_time_in_range?: number
           high?: number
           low?: number
+          target?: number
           updated_at?: string
           user_id?: string
         }

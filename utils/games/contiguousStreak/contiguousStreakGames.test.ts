@@ -1,12 +1,9 @@
 import { test, expect } from 'vitest'
 import { contiguousStreakWithNoLows, contiguousStreakWithNoHighs, contiguousStreakWithNoLowsOrHighs } from './contiguousStreakGames'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
-import type { Thresholds } from '~/types/thresholds'
+import { DEFAULT_THRESHOLDS } from '~/types/constants'
 
-const mockThresholds: Thresholds = {
-  low: 70,
-  high: 180,
-}
+const mockThresholds = DEFAULT_THRESHOLDS
 
 const createMockRecord = (value: number, minutesAgo: number = 0): GlucoseRecord => ({
   value,

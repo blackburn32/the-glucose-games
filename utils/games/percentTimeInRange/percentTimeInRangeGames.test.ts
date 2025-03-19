@@ -9,15 +9,12 @@ import {
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
 import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/testUtils'
-import { CurrentDayStatus } from '~/types/constants'
+import { CurrentDayStatus, DEFAULT_THRESHOLDS } from '~/types/constants'
 import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValue/singleValueGenerator'
 import type { ScoredDay } from '~/types/scoredDay'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 
-const mockThresholds: Thresholds = {
-  low: 70,
-  high: 180,
-}
+const mockThresholds: Thresholds = DEFAULT_THRESHOLDS
 
 const midnight = createDate(0)
 const oneAm = createDate(1)
@@ -161,7 +158,7 @@ testPercentTimeInRangeStreak(
 
 // Test edge cases
 test('percentTimeInRangeGame handles empty record list', () => {
-  const result = percentTimeInRangeForFullDayStreak([], mockThresholds, 70)
+  const result = percentTimeInRangeForFullDayStreak([], mockThresholds)
   expect(result.scoredDays).toHaveLength(0)
   expect(result.bestStreak).toHaveLength(0)
   expect(result.currentStreak.scoredDays).toHaveLength(0)
@@ -169,7 +166,7 @@ test('percentTimeInRangeGame handles empty record list', () => {
 
 test('percentTimeInRangeGame handles single record', () => {
   const singleRecord = [getMockGlucoseRecord(midnight, 100)]
-  const result = percentTimeInRangeForFullDayStreak(singleRecord, mockThresholds, 70)
+  const result = percentTimeInRangeForFullDayStreak(singleRecord, mockThresholds)
   expect(result.scoredDays).toHaveLength(1)
   expect(result.scoredDays[0].score).toBe(100)
   expect(result.currentStreak.scoredDays).toHaveLength(0) // Current day doesn't count in streaks
@@ -180,6 +177,6 @@ test('percentTimeInRangeGame handles boundary values', () => {
     getMockGlucoseRecord(midnight, mockThresholds.low),
     getMockGlucoseRecord(oneAm, mockThresholds.high),
   ]
-  const result = percentTimeInRangeForFullDayStreak(boundaryRecords, mockThresholds, 70)
+  const result = percentTimeInRangeForFullDayStreak(boundaryRecords, mockThresholds)
   expect(result.scoredDays[0].score).toBe(100) // Both values should be considered in range
 })
