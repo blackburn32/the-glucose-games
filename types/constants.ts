@@ -9,6 +9,8 @@ export const ONE_DAY = 24 * 60 * 60 * 1000
 export const ONE_WEEK = 7 * ONE_DAY
 export const ONE_MONTH = 30 * ONE_DAY
 
+export const MMOL_CONVERSION_FACTOR = 18.0156
+
 export const DEFAULT_THRESHOLDS: Thresholds = {
   high: 180,
   low: 70,
