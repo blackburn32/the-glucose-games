@@ -66,6 +66,12 @@ export default defineNuxtConfig({
     '/achievementsDemo': {
       ssr: false,
     },
+    '/account': {
+      ssr: false,
+    },
+    '/home': {
+      ssr: false,
+    },
   },
 
   sourcemap: {
