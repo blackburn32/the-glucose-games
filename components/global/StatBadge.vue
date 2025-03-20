@@ -11,13 +11,13 @@
     </ClientOnly>
     <div
       v-if="best"
-      class="badge badge-primary indicator-item indicator-bottom bottom-2"
+      class="badge badge-success indicator-item indicator-bottom bottom-2"
     >
       Best
     </div>
     <div class="stats w-full h-min overflow-hidden bg-base-300">
       <div class="stat min-w-fit">
-        <div class="stat-title mb-1">
+        <div class="stat-title text-base">
           {{ title }}
         </div>
         <ClientOnly>

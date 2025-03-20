@@ -26,10 +26,20 @@
           Best streaks
         </div>
         <UPagination
-          v-model="streakIndexToDisplay"
+          v-model:page="streakIndexToDisplay"
           class="mt-2"
-          :page-count="1"
+          :items-per-page="1"
           :total="streaksSortedByLength.length"
+          variant="soft"
+          active-variant="outline"
+          :ui="{
+            list: 'w-full gap-x-2',
+            item: 'btn btn-primary btn-sm btn-soft w-10',
+            first: 'btn btn-sm btn-soft',
+            last: 'btn btn-sm btn-soft',
+            prev: 'btn btn-sm btn-soft',
+            next: 'btn btn-sm btn-soft',
+          }"
         />
         <div class="w-full mt-2 flex flex-row space-x-4">
           <span class="font-bold"> Length: </span> <span>{{ durationToDisplay }}</span>

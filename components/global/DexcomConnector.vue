@@ -13,7 +13,7 @@
     </div>
     <div class="flex flex-row space-x-4 w-full">
       <div
-        class="btn btn-primary"
+        class="btn btn-soft btn-primary"
         :class="{
           'btn-disabled': !isAdmin,
         }"
@@ -27,7 +27,7 @@
       </div>
       <div
         v-if="hasDexcom"
-        class="btn btn-error"
+        class="btn btn-soft btn-error"
         @click="deleteDexcom"
       >
         <Icon
@@ -52,7 +52,7 @@ const connectDexcom = async () => {
     toast.add({
       title: 'Already connected',
       description: 'Dexcom already connected',
-      color: 'green',
+      color: 'success',
     })
     return
   }
@@ -70,7 +70,7 @@ const deleteDexcom = async () => {
       toast.add({
         title: 'Error',
         description: error.message,
-        color: 'red',
+        color: 'error',
       })
     },
   )

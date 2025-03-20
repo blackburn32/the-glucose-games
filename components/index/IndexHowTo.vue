@@ -25,21 +25,21 @@
                 <div class="flex flex-wrap -m-1.5">
                   <button
                     class="btn btn-sm px-3 py-1 shadow-sm m-1.5"
-                    :class="category === '1' ? 'btn-accent' : 'btn-outline'"
+                    :class="category === '1' ? 'btn-accent' : 'btn-soft'"
                     @click="category = '1'"
                   >
                     Connect
                   </button>
                   <button
                     class="btn btn-sm px-3 py-1 shadow-sm m-1.5"
-                    :class="category === '2' ? 'btn-accent' : 'btn-outline'"
+                    :class="category === '2' ? 'btn-accent' : 'btn-soft'"
                     @click="category = '2'"
                   >
                     Play
                   </button>
                   <button
                     class="btn btn-sm px-3 py-1 shadow-sm m-1.5"
-                    :class="category === '3' ? 'btn-accent' : 'btn-outline'"
+                    :class="category === '3' ? 'btn-accent' : 'btn-soft'"
                     @click="category = '3'"
                   >
                     Improve

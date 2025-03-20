@@ -15,9 +15,9 @@
           class="flex flex-col space-y-4"
         >
           <div class="flex flex-col">
-            <div class="form-control mt-4">
-              <label class="label cursor-pointer">
-                <span class="label-text">I accept The Glucose Games'
+            <div class="fieldset mt-4">
+              <fieldset class="label cursor-pointer">
+                <span class="fieldset-label">I accept The Glucose Games'
                   <NuxtLink
                     class="text-primary underline"
                     to="/privacy"
@@ -30,11 +30,11 @@
                   type="checkbox"
                   class="checkbox checkbox-primary"
                 >
-              </label>
+              </fieldset>
             </div>
-            <div class="form-control">
-              <label class="label cursor-pointer">
-                <span class="label-text">I accept The Glucose Games'
+            <div class="fieldset">
+              <fieldset class="label cursor-pointer">
+                <span class="fieldset-label">I accept The Glucose Games'
                   <NuxtLink
                     class="text-primary underline"
                     to="/tos"
@@ -47,7 +47,7 @@
                   type="checkbox"
                   class="checkbox checkbox-primary"
                 >
-              </label>
+              </fieldset>
             </div>
           </div>
           <div class="text-xl font-semibold">
@@ -93,7 +93,7 @@
           </div>
           <button
             size="md"
-            class="btn btn-sm btn-outline"
+            class="btn btn-sm btn-soft"
             @click="supabase.auth.signOut()"
           >
             <Icon
@@ -147,18 +147,18 @@ const buttonLabel = computed(() => {
 
 const getOneTimePasscode = async () => {
   if (!acceptedPrivacyPolicy.value) {
-    toast.add({ title: 'Accept the privacy policy to sign in', color: 'red' })
+    toast.add({ title: 'Accept the privacy policy to sign in', color: 'error' })
     return
   }
 
   if (!acceptedTermsOfService.value) {
-    toast.add({ title: 'Accept the terms of service to sign in', color: 'red' })
+    toast.add({ title: 'Accept the terms of service to sign in', color: 'error' })
     return
   }
 
   const emailValue = email.value?.value
   if (!emailValue) {
-    toast.add({ title: 'Please enter an email address', color: 'red' })
+    toast.add({ title: 'Please enter an email address', color: 'error' })
     return
   }
 
@@ -174,7 +174,7 @@ const getOneTimePasscode = async () => {
   otpSent.value = true
 
   if (error) {
-    toast.add({ title: error.message, color: 'red' })
+    toast.add({ title: error.message, color: 'error' })
     return
   }
   else {
@@ -184,12 +184,12 @@ const getOneTimePasscode = async () => {
 
 const signUpWithGoogle = async () => {
   if (!acceptedPrivacyPolicy.value) {
-    toast.add({ title: 'Accept the privacy policy to sign in', color: 'red' })
+    toast.add({ title: 'Accept the privacy policy to sign in', color: 'error' })
     return
   }
 
   if (!acceptedTermsOfService.value) {
-    toast.add({ title: 'Accept the terms of service to sign in', color: 'red' })
+    toast.add({ title: 'Accept the terms of service to sign in', color: 'error' })
     return
   }
 
@@ -199,7 +199,7 @@ const signUpWithGoogle = async () => {
   })
 
   if (error) {
-    toast.add({ title: error.message, color: 'red' })
+    toast.add({ title: error.message, color: 'error' })
   }
 }
 </script>

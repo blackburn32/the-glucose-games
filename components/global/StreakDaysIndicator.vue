@@ -5,6 +5,10 @@
         v-for="(day, index) in mostRecentScoredDays"
         :key="`indicator-${index}`"
         :text="getDayTooltip(day)"
+        :delay-duration="0"
+        :ui="{
+          content: 'z-30 b-0 bg-base-300',
+        }"
       >
         <div
           class="flex flex-col items-center"

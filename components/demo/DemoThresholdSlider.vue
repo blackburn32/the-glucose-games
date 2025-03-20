@@ -10,7 +10,7 @@
       <div class="w-16">
         {{ tempLow }}
       </div>
-      <label class="form-control w-full">
+      <fieldset class="fieldset w-full">
         <input
           v-model="tempLow"
           type="range"
@@ -20,11 +20,11 @@
           class="w-full range range-sm range-primary"
           @mouseup="updateLow"
         >
-        <div class="label">
-          <span class="label-text-alt">40</span>
-          <span class="label-text-alt">120</span>
+        <div class="fieldset-label justify-between">
+          <span class="fieldset-label-alt">40</span>
+          <span class="fieldset-label-alt">120</span>
         </div>
-      </label>
+      </fieldset>
     </div>
 
     <div class="flex flex-row w-full space-x-4">
@@ -34,7 +34,7 @@
       <div class="w-16">
         {{ tempHigh }}
       </div>
-      <label class="form-control w-full">
+      <fieldset class="fieldset w-full">
         <input
           v-model="tempHigh"
           type="range"
@@ -44,11 +44,11 @@
           class="w-full range range-sm range-primary"
           @mouseup="updateHigh"
         >
-        <div class="label">
-          <span class="label-text-alt">120</span>
-          <span class="label-text-alt">400</span>
+        <div class="fieldset-label justify-between">
+          <span class="fieldset-label-alt">120</span>
+          <span class="fieldset-label-alt">400</span>
         </div>
-      </label>
+      </fieldset>
     </div>
   </div>
 </template>

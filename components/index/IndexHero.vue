@@ -31,7 +31,7 @@
             </div>
             <div>
               <NuxtLink
-                class="btn btn-outline w-full shadow-sm"
+                class="btn btn-soft w-full shadow-sm"
                 to="/demo"
               >Check Out a Demo</NuxtLink>
             </div>

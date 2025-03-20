@@ -7,10 +7,10 @@
       Thresholds
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-xl gap-4">
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <span class="label-text">Low Threshold</span>
-        </div>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">
+          Low Threshold
+        </legend>
         <input
           v-model="lowThreshold"
           type="number"
@@ -19,14 +19,14 @@
           placeholder="Type here"
           class="input input-bordered w-full max-w-xs"
         >
-        <div class="label">
-          <span class="label-text-alt">Must be between {{ lowThresholdBounds.min }} and {{ lowThresholdBounds.max }}</span>
+        <div class="fieldset-label">
+          Must be between {{ lowThresholdBounds.min }} and {{ lowThresholdBounds.max }}
         </div>
-      </label>
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <span class="label-text">High Threshold</span>
-        </div>
+      </fieldset>
+      <fieldset class="fieldset w-full max-w-xs">
+        <legend class="fieldset-legend">
+          High Threshold
+        </legend>
         <input
           v-model="highThreshold"
           type="number"
@@ -35,14 +35,14 @@
           placeholder="Type here"
           class="input input-bordered w-full max-w-xs"
         >
-        <div class="label">
-          <span class="label-text-alt">Must be between {{ highThresholdBounds.min }} and {{ highThresholdBounds.max }}</span>
+        <div class="fieldset-label">
+          Must be between {{ highThresholdBounds.min }} and {{ highThresholdBounds.max }}
         </div>
-      </label>
-      <label class="form-control w-full md:col-span-2">
-        <div class="label">
-          <span class="label-text">Target Blood Glucose</span>
-        </div>
+      </fieldset>
+      <fieldset class="fieldset w-full md:col-span-2">
+        <legend class="fieldset-legend">
+          Target Blood Glucose
+        </legend>
         <div class="flex flex-row w-full items-center space-x-4">
           <input
             v-model="target"
@@ -61,14 +61,14 @@
             class="input input-bordered w-full max-w-32"
           >
         </div>
-        <div class="label">
-          <span class="label-text-alt">Used to rank your average blood glucose across days</span>
+        <div class="fieldset-label">
+          Used to rank your average blood glucose across days
         </div>
-      </label>
-      <label class="form-control w-full md:col-span-2">
-        <div class="label">
-          <span class="label-text">Daily Streak Percent Time in Range Threshold</span>
-        </div>
+      </fieldset>
+      <fieldset class="fieldset w-full md:col-span-2">
+        <legend class="fieldset-legend">
+          Daily Streak Percent Time in Range Threshold
+        </legend>
         <div class="flex flex-row w-full items-center space-x-4">
           <input
             v-model="dailyStreakPercentThreshold"
@@ -87,12 +87,12 @@
             class="input input-bordered w-full max-w-32"
           >
         </div>
-        <div class="label">
-          <span class="label-text-alt">Used to calculate whether or not your percent time in range scores will count towards your daily streak</span>
+        <div class="fieldset-label">
+          Used to calculate whether or not your percent time in range scores will count towards your daily streak
         </div>
-      </label>
+      </fieldset>
       <div
-        class="btn btn-outline"
+        class="btn btn-soft"
         :class="{ 'btn-disabled': !changesToSave }"
         @click="resetThresholds"
       >
@@ -135,13 +135,13 @@
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-xl mt-4 gap-4">
       <div
-        class="btn btn-outline"
+        class="btn btn-soft"
         @click="triggerSignOut"
       >
         Sign Out
       </div>
       <div
-        class="btn btn-outline btn-error"
+        class="btn btn-soft btn-error"
         @click="deleteAccount"
       >
         Delete Account

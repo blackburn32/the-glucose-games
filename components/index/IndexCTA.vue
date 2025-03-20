@@ -27,7 +27,7 @@
             </div>
             <div>
               <NuxtLink
-                class="btn btn-outline w-full shadow-sm"
+                class="btn btn-soft w-full shadow-sm"
                 to="/about"
               >Learn More</NuxtLink>
             </div>

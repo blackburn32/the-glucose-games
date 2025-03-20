@@ -40,18 +40,18 @@
           v-if="high"
           :x="x"
           :y="() => high"
-          color="oklch(var(--s))"
+          color="var(--color-secondary)"
         />
         <VisLine
           :x="x"
           :y="y"
           :line-width="2.5"
-          color="oklch(var(--p))"
+          color="var(--color-success)"
         />
         <VisArea
           :x="x"
           :y="y"
-          color="oklch(var(--p))"
+          color="var(--color-success)"
           :opacity="0.1"
         />
 
@@ -69,7 +69,7 @@
           :x="x"
           :y="y"
           :template="crosshairTemplate"
-          color="oklch(var(--p))"
+          color="var(--color-primary)"
         />
       </VisXYContainer>
       <template #fallback>

@@ -16,7 +16,7 @@ export const useThresholds = () => {
       toast.add({
         title: 'Error fetching thresholds',
         description: error.message,
-        color: 'red',
+        color: 'error',
       })
     }
     if (!data) {
@@ -61,7 +61,7 @@ export const useThresholds = () => {
       toast.add({
         title: 'Invalid low threshold',
         description: `Low threshold must be between ${lowThresholdBounds.value.min} and ${lowThresholdBounds.value.max}`,
-        color: 'red',
+        color: 'error',
       })
       return
     }
@@ -69,7 +69,7 @@ export const useThresholds = () => {
       toast.add({
         title: 'Invalid high threshold',
         description: `High threshold must be between ${highThresholdBounds.value.min} and ${highThresholdBounds.value.max}`,
-        color: 'red',
+        color: 'error',
       })
       return
     }
@@ -77,7 +77,7 @@ export const useThresholds = () => {
       toast.add({
         title: 'Invalid target blood glucose',
         description: `Target blood glucose must be between ${targetBloodGlucoseBounds.value.min} and ${targetBloodGlucoseBounds.value.max}`,
-        color: 'red',
+        color: 'error',
       })
       return
     }
@@ -85,7 +85,7 @@ export const useThresholds = () => {
       toast.add({
         title: 'Invalid daily streak percent time in range',
         description: 'Percent time in range must be between 0 and 100',
-        color: 'red',
+        color: 'error',
       })
       return
     }
@@ -93,7 +93,7 @@ export const useThresholds = () => {
       toast.add({
         title: 'Not logged in',
         description: 'You need to be logged in to save thresholds',
-        color: 'red',
+        color: 'error',
       })
       return
     }
@@ -114,7 +114,7 @@ export const useThresholds = () => {
       toast.add({
         title: 'Error saving thresholds',
         description: error.message,
-        color: 'red',
+        color: 'error',
       })
     }
     await currentThresholds.refresh()

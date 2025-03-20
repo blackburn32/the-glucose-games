@@ -38,9 +38,9 @@
             </div>
           </div>
         </ClientOnly>
-        <label
+        <fieldset
           v-if="goal"
-          class="form-control w-full grow"
+          class="fieldset w-full grow"
         >
           <progress
             class="progress progress-primary w-full"
@@ -48,10 +48,10 @@
             :max="goal"
           />
           <div class="label pt-1">
-            <span class="label-text text-xs">Progress:</span>
-            <span class="label-text-alt text-xs">{{ progress ?? 0 }}/{{ goal }}</span>
+            <span class="fieldset-label text-xs">Progress:</span>
+            <span class="fieldset-label-alt text-xs">{{ progress ?? 0 }}/{{ goal }}</span>
           </div>
-        </label>
+        </fieldset>
       </div>
     </div>
   </div>

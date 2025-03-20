@@ -19,7 +19,7 @@
       />
     </div>
     <NuxtLink
-      class="btn btn-outline"
+      class="btn btn-soft"
       to="/current"
     >
       {{ buttonText }}
