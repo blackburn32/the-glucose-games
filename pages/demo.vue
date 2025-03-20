@@ -34,7 +34,8 @@
       :thresholds="thresholds"
       :glucose-values="computed(() => demoGlucoseData)"
     />
-    <DemoThresholdSlider class="max-w-full md:max-w-md" />
+    <DemoThresholdSlider class="max-w-full md:max-w-xl mx-2" />
+    <DemoTargetSliders class="max-w-full md:max-w-xl mx-2" />
   </div>
 </template>
 
@@ -42,6 +43,7 @@
 import { useDemoThresholds } from '~/composables/useDemoThresholds'
 import { generateRandomWalk } from '~/utils/generators/randomWalkGenerator/randomWalkGenerator'
 import { RealisticGeneratorConfig } from '~/utils/generators/config/generatorConfig'
+import DemoTargetSliders from '~/components/demo/DemoTargetSliders.vue'
 
 const demoGlucoseData = useState('demoGlucoseData', () => generateRandomWalk(RealisticGeneratorConfig, 1000, 30))
 const refreshData = () => {

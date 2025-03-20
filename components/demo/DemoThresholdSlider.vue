@@ -1,23 +1,20 @@
 <template>
   <div class="flex flex-col w-full space-y-2">
-    <div class="text-2xl w-full font-semibold">
+    <div class="text-2xl text-center w-full font-semibold">
       Thresholds
     </div>
-    <div class="flex flex-row w-full space-x-4">
-      <div class="text-lg w-16">
-        Low:
-      </div>
-      <div class="w-16">
-        {{ tempLow }}
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend text-lg">
+          Low: {{ tempLow }}
+        </legend>
         <input
           v-model="tempLow"
           type="range"
           min="40"
           max="120"
           step="1"
-          class="w-full range range-sm range-primary"
+          class="w-full range range-sm range-error"
           @mouseup="updateLow"
         >
         <div class="fieldset-label justify-between">
@@ -25,23 +22,18 @@
           <span class="fieldset-label-alt">120</span>
         </div>
       </fieldset>
-    </div>
 
-    <div class="flex flex-row w-full space-x-4">
-      <div class="text-lg w-16">
-        High:
-      </div>
-      <div class="w-16">
-        {{ tempHigh }}
-      </div>
       <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend text-lg">
+          High: {{ tempHigh }}
+        </legend>
         <input
           v-model="tempHigh"
           type="range"
           min="120"
           max="400"
           step="1"
-          class="w-full range range-sm range-primary"
+          class="w-full range range-sm range-secondary"
           @mouseup="updateHigh"
         >
         <div class="fieldset-label justify-between">
