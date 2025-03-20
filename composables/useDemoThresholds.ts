@@ -5,6 +5,8 @@ export const useDemoThresholds = () => {
     return {
       low: 70,
       high: 180,
+      target: 110,
+      dailyStreakPercentTimeInRange: 80,
     }
   })
 
