@@ -1,4 +1,4 @@
-alter table "public"."thresholds" add column "daily_percent_time_in_range" smallint not null;
+alter table "public"."thresholds" add column "daily_percent_time_in_range" smallint not null default '70'::smallint;
 
 alter table "public"."thresholds" add column "target" smallint not null default '110'::smallint;
 
