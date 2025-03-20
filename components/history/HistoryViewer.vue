@@ -21,7 +21,7 @@
     />
     <HistoryDailyStreak
       title="In Range Streak"
-      description="Consecutive full days with at least 80% time in range"
+      :description="`Consecutive full days with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
@@ -30,7 +30,7 @@
     />
     <HistoryDailyStreak
       title="Nighttime Streak"
-      description="Consecutive nights with at least 80% time in range"
+      :description="`Consecutive nights with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForNights"
@@ -39,7 +39,7 @@
     />
     <HistoryDailyStreak
       title="Morning Streak"
-      description="Consecutive mornings with at least 80% time in range"
+      :description="`Consecutive mornings with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForMornings"
@@ -48,7 +48,7 @@
     />
     <HistoryDailyStreak
       title="Afternoon Streak"
-      description="Consecutive afternoons with at least 80% time in range"
+      :description="`Consecutive afternoons with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons"
@@ -57,7 +57,7 @@
     />
     <HistoryDailyStreak
       title="Evening Streak"
-      description="Consecutive evenings with at least 80% time in range"
+      :description="`Consecutive evenings with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
