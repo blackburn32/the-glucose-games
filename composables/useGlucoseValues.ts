@@ -7,6 +7,7 @@ import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 
 export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined, thresholdsOverride?: Thresholds | undefined) => {
   const { data: cachedData } = useNuxtData<GlucoseRecord[]>('glucoseData')
+  const { getGlucoseValue } = useDisplaySettings()
 
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
     key: 'glucoseData',
@@ -43,6 +44,8 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     const data = cachedData.value || glucoseDataRaw.data.value
     return data.map(record => ({
       ...record,
+      value: getGlucoseValue(record.value),
+      y: getGlucoseValue(record.value),
       created: new Date(record.created),
     })).sort((a, b) => a.created.getTime() - b.created.getTime())
   })

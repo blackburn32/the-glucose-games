@@ -14,13 +14,13 @@
         <input
           v-model="lowThreshold"
           type="number"
-          min="40"
-          max="100"
+          :min="lowThresholdBounds.min"
+          :max="lowThresholdBounds.max"
           placeholder="Type here"
           class="input input-bordered w-full max-w-xs"
         >
         <div class="label">
-          <span class="label-text-alt">Must be between 40 and 100</span>
+          <span class="label-text-alt">Must be between {{ lowThresholdBounds.min }} and {{ lowThresholdBounds.max }}</span>
         </div>
       </label>
       <label class="form-control w-full max-w-xs">
@@ -30,13 +30,65 @@
         <input
           v-model="highThreshold"
           type="number"
-          min="120"
-          max="400"
+          :min="highThresholdBounds.min"
+          :max="highThresholdBounds.max"
           placeholder="Type here"
           class="input input-bordered w-full max-w-xs"
         >
         <div class="label">
-          <span class="label-text-alt">Must be between 120 and 400</span>
+          <span class="label-text-alt">Must be between {{ highThresholdBounds.min }} and {{ highThresholdBounds.max }}</span>
+        </div>
+      </label>
+      <label class="form-control w-full md:col-span-2">
+        <div class="label">
+          <span class="label-text">Target Blood Glucose</span>
+        </div>
+        <div class="flex flex-row w-full items-center space-x-4">
+          <input
+            v-model="target"
+            type="range"
+            :min="targetBloodGlucoseBounds.min"
+            :max="targetBloodGlucoseBounds.max"
+            :step="useMmol ? 0.1 : 1"
+            class="range range-primary grow"
+          >
+          <input
+            v-model="target"
+            type="number"
+            :min="targetBloodGlucoseBounds.min"
+            :max="targetBloodGlucoseBounds.max"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-32"
+          >
+        </div>
+        <div class="label">
+          <span class="label-text-alt">Used to rank your average blood glucose across days</span>
+        </div>
+      </label>
+      <label class="form-control w-full md:col-span-2">
+        <div class="label">
+          <span class="label-text">Daily Streak Percent Time in Range Threshold</span>
+        </div>
+        <div class="flex flex-row w-full items-center space-x-4">
+          <input
+            v-model="dailyStreakPercentThreshold"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            class="range range-primary grow"
+          >
+          <input
+            v-model="dailyStreakPercentThreshold"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-32"
+          >
+        </div>
+        <div class="label">
+          <span class="label-text-alt">Used to calculate whether or not your percent time in range scores will count towards your daily streak</span>
         </div>
       </label>
       <div
@@ -54,6 +106,23 @@
         Save
       </div>
     </div>
+    <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">
+      Display Settings
+    </div>
+    <div class="text-xl underline w-full md:max-w-xl mt-3">
+      Glucose Display Unit
+    </div>
+    <div class="flex flex-row space-x-2 items-center w-full md:max-w-xl mt-2">
+      <input
+        v-model="useMmol"
+        type="checkbox"
+        class="toggle"
+      >
+      <div class="text-lg">
+        {{ unit }}
+      </div>
+    </div>
+    <div class="flex flex-row w-full md:max-w-xl items-center space-x-4" />
     <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">
       Connections
     </div>
@@ -82,7 +151,10 @@
 </template>
 
 <script setup lang="ts">
-const { thresholds, setThresholds } = useThresholds()
+import { DEFAULT_THRESHOLDS } from '~/types/constants'
+
+const { highThresholdBounds, lowThresholdBounds, setThresholds, targetBloodGlucoseBounds, thresholds } = useThresholds()
+const { useMmol, unit, getGlucoseValue } = useDisplaySettings()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 
@@ -105,7 +177,7 @@ const tempLow = ref<number | undefined>(undefined)
 const lowThreshold = computed({
   get() {
     if (tempLow.value !== undefined) return tempLow.value
-    return thresholds.value?.low ?? 70
+    return thresholds.value?.low ?? getGlucoseValue(DEFAULT_THRESHOLDS.low)
   },
   set(value) {
     tempLow.value = value
@@ -116,20 +188,47 @@ const tempHigh = ref<number | undefined>(undefined)
 const highThreshold = computed({
   get() {
     if (tempHigh.value !== undefined) return tempHigh.value
-    return thresholds.value?.high ?? 180
+    return thresholds.value?.high ?? getGlucoseValue(DEFAULT_THRESHOLDS.high)
   },
   set(value) {
     tempHigh.value = value
   },
 })
 
+const tempDailyStreakPercent = ref<number | undefined>(undefined)
+const dailyStreakPercentThreshold = computed({
+  get() {
+    if (tempDailyStreakPercent.value !== undefined) return tempDailyStreakPercent.value
+    return thresholds.value?.dailyStreakPercentTimeInRange ?? DEFAULT_THRESHOLDS.dailyStreakPercentTimeInRange
+  },
+  set(value) {
+    tempDailyStreakPercent.value = value
+  },
+})
+
+const tempTarget = ref<number | undefined>(undefined)
+const target = computed({
+  get() {
+    if (tempTarget.value !== undefined) return tempTarget.value
+    return thresholds.value?.target ?? DEFAULT_THRESHOLDS.target
+  },
+  set(value) {
+    tempTarget.value = value
+  },
+})
+
 watch(() => thresholds.value, () => {
-  lowThreshold.value = thresholds.value?.low ?? 70
-  highThreshold.value = thresholds.value?.high ?? 180
+  lowThreshold.value = thresholds.value?.low ?? DEFAULT_THRESHOLDS.low
+  highThreshold.value = thresholds.value?.high ?? DEFAULT_THRESHOLDS.high
+  target.value = thresholds.value?.target ?? DEFAULT_THRESHOLDS.target
+  dailyStreakPercentThreshold.value = thresholds.value?.dailyStreakPercentTimeInRange ?? DEFAULT_THRESHOLDS.dailyStreakPercentTimeInRange
 })
 
 const changesToSave = computed(() => {
-  return lowThreshold.value !== thresholds.value?.low || highThreshold.value !== thresholds.value?.high
+  return lowThreshold.value !== thresholds.value?.low
+    || highThreshold.value !== thresholds.value?.high
+    || target.value !== thresholds.value?.target
+    || dailyStreakPercentThreshold.value !== thresholds.value?.dailyStreakPercentTimeInRange
 })
 
 const saveThresholds = async () => {
@@ -137,11 +236,15 @@ const saveThresholds = async () => {
   await setThresholds({
     low: lowThreshold.value,
     high: highThreshold.value,
+    target: target.value,
+    dailyStreakPercentTimeInRange: dailyStreakPercentThreshold.value,
   })
 }
 
 const resetThresholds = () => {
   tempLow.value = undefined
   tempHigh.value = undefined
+  tempTarget.value = undefined
+  tempDailyStreakPercent.value = undefined
 }
 </script>

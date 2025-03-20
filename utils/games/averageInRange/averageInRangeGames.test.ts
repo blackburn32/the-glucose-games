@@ -3,14 +3,11 @@ import { averageInRangeForFullDayStreak, averageInRangeForNightsStreak, averageI
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
 import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/testUtils'
-import { CurrentDayStatus } from '~/types/constants'
+import { CurrentDayStatus, DEFAULT_THRESHOLDS } from '~/types/constants'
 import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValue/singleValueGenerator'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 
-const mockThresholds: Thresholds = {
-  low: 70,
-  high: 180,
-}
+const mockThresholds = DEFAULT_THRESHOLDS
 
 const midnight = createDate(0)
 const oneAm = createDate(1)

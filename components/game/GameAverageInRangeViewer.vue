@@ -16,28 +16,30 @@ import type { Thresholds } from '~/types/thresholds'
 import type { GameDisplayStats } from '~/types/gameDisplayStats'
 import { getDailyStreakGameDisplayStats, getGlucoseValueToDisplay } from '~/utils/display/gameDisplay'
 
+const { unit } = useDisplaySettings()
+
 const props = defineProps<{
   games: ScoredGlucoseGames
   thresholds: Thresholds
 }>()
 
 const morning: Ref<GameDisplayStats> = computed(() => {
-  return getDailyStreakGameDisplayStats('This Morning\'s Average', props.games.dailyStreakStats.averageInRangeForMornings, getGlucoseValueToDisplay)
+  return getDailyStreakGameDisplayStats('This Morning\'s Average', props.games.dailyStreakStats.averageInRangeForMornings, value => getGlucoseValueToDisplay(value, unit.value))
 })
 
 const afternoon: Ref<GameDisplayStats> = computed(() => {
-  return getDailyStreakGameDisplayStats('This Afternoon\'s Average', props.games.dailyStreakStats.averageInRangeForAfternoons, getGlucoseValueToDisplay)
+  return getDailyStreakGameDisplayStats('This Afternoon\'s Average', props.games.dailyStreakStats.averageInRangeForAfternoons, value => getGlucoseValueToDisplay(value, unit.value))
 })
 
 const evening: Ref<GameDisplayStats> = computed(() => {
-  return getDailyStreakGameDisplayStats('This Evening\'s Average', props.games.dailyStreakStats.averageInRangeForEvenings, getGlucoseValueToDisplay)
+  return getDailyStreakGameDisplayStats('This Evening\'s Average', props.games.dailyStreakStats.averageInRangeForEvenings, value => getGlucoseValueToDisplay(value, unit.value))
 })
 
 const night: Ref<GameDisplayStats> = computed(() => {
-  return getDailyStreakGameDisplayStats('Last Night\'s Average', props.games.dailyStreakStats.averageInRangeForNights, getGlucoseValueToDisplay)
+  return getDailyStreakGameDisplayStats('Last Night\'s Average', props.games.dailyStreakStats.averageInRangeForNights, value => getGlucoseValueToDisplay(value, unit.value))
 })
 
 const fullDay: Ref<GameDisplayStats> = computed(() => {
-  return getDailyStreakGameDisplayStats('Today\'s Average', props.games.dailyStreakStats.averageInRangeForFullDay, getGlucoseValueToDisplay)
+  return getDailyStreakGameDisplayStats('Today\'s Average', props.games.dailyStreakStats.averageInRangeForFullDay, value => getGlucoseValueToDisplay(value, unit.value))
 })
 </script>

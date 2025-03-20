@@ -15,9 +15,8 @@ export const percentTimeInRangeGame = (
   startMinutes: number,
   endHour: number,
   endMinutes: number,
-  streakFilterValue: number,
 ) => {
-  const tenPercentMargin = streakFilterValue * 0.1
+  const tenPercentMargin = thresholds.dailyStreakPercentTimeInRange * 0.1
 
   const filterFunction = (records: GlucoseRecord[]) => {
     return filterRecordsByTimePeriod(records, startHour, startMinutes, endHour, endMinutes)
@@ -37,9 +36,9 @@ export const percentTimeInRangeGame = (
     return CurrentDayStatus.Pending
   }
   const scoreResultCheck = (score: number) => {
-    if (score >= streakFilterValue)
+    if (score >= thresholds.dailyStreakPercentTimeInRange)
       return ScoreCheckResult.Pass
-    else if (score >= streakFilterValue - tenPercentMargin)
+    else if (score >= thresholds.dailyStreakPercentTimeInRange - tenPercentMargin)
       return ScoreCheckResult.Almost
     else
       return ScoreCheckResult.Fail
@@ -58,39 +57,34 @@ export const percentTimeInRangeGame = (
 export const percentTimeInRangeForFullDayStreak = (
   records: GlucoseRecord[],
   thresholds: Thresholds,
-  streakFilterValue: number,
 ) => {
-  return percentTimeInRangeGame(records, thresholds, 0, 0, 23, 59, streakFilterValue)
+  return percentTimeInRangeGame(records, thresholds, 0, 0, 23, 59)
 }
 
 export const percentTimeInRangeForNightsStreak = (
   records: GlucoseRecord[],
   thresholds: Thresholds,
-  streakFilterValue: number,
 ) => {
-  return percentTimeInRangeGame(records, thresholds, 0, 0, 5, 59, streakFilterValue)
+  return percentTimeInRangeGame(records, thresholds, 0, 0, 5, 59)
 }
 
 export const percentTimeInRangeForMorningsStreak = (
   records: GlucoseRecord[],
   thresholds: Thresholds,
-  streakFilterValue: number,
 ) => {
-  return percentTimeInRangeGame(records, thresholds, 6, 0, 11, 59, streakFilterValue)
+  return percentTimeInRangeGame(records, thresholds, 6, 0, 11, 59)
 }
 
 export const percentTimeInRangeForAfternoonsStreak = (
   records: GlucoseRecord[],
   thresholds: Thresholds,
-  streakFilterValue: number,
 ) => {
-  return percentTimeInRangeGame(records, thresholds, 12, 0, 17, 59, streakFilterValue)
+  return percentTimeInRangeGame(records, thresholds, 12, 0, 17, 59)
 }
 
 export const percentTimeInRangeForEveningsStreak = (
   records: GlucoseRecord[],
   thresholds: Thresholds,
-  streakFilterValue: number,
 ) => {
-  return percentTimeInRangeGame(records, thresholds, 18, 0, 23, 59, streakFilterValue)
+  return percentTimeInRangeGame(records, thresholds, 18, 0, 23, 59)
 }

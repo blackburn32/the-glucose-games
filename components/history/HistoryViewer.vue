@@ -68,7 +68,7 @@
       title="Full Day Average in Range"
       description="Average glucose within range"
       score-label="Average Blood Glucose"
-      score-units="mg/dL"
+      :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
@@ -77,7 +77,7 @@
       title="Night Average in Range"
       description="Night time average glucose within range"
       score-label="Average Blood Glucose"
-      score-units="mg/dL"
+      :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForNights"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
@@ -86,7 +86,7 @@
       title="Morning Average in Range"
       description="Morning average glucose within range"
       score-label="Average Blood Glucose"
-      score-units="mg/dL"
+      :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForMornings"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
@@ -95,7 +95,7 @@
       title="Afternoon Average in Range"
       description="Afternoon average glucose within range"
       score-label="Average Blood Glucose"
-      score-units="mg/dL"
+      :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForAfternoons"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
@@ -104,7 +104,7 @@
       title="Evening Average in Range"
       description="Evening average glucose within range"
       score-label="Average Blood Glucose"
-      score-units="mg/dL"
+      :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForEvenings"
       :high-line="thresholdsToUse.high"
       :low-line="thresholdsToUse.low"
@@ -126,11 +126,11 @@ const {
   scoredGames,
 } = useGlucoseValues(props.glucoseValues, props.thresholds)
 
+const { unit } = useDisplaySettings()
+const { thresholds: storedThresholds } = useThresholds()
+
 const thresholdsToUse = computed(() => {
   if (props.thresholds) return props.thresholds
-  return {
-    low: 70,
-    high: 180,
-  }
+  return storedThresholds.value
 })
 </script>
