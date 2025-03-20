@@ -1,4 +1,4 @@
-import { DEFAULT_DISPLAY_SETTINGS } from '~/types/constants'
+import { DEFAULT_DISPLAY_SETTINGS, MMOL_CONVERSION_FACTOR } from '~/types/constants'
 import type { DisplaySettings } from '~/types/displaySettings'
 
 export const useDisplaySettings = () => {
@@ -77,8 +77,12 @@ export const useDisplaySettings = () => {
     return displaySettings.value.useMmol ? 'mmol/L' : 'mg/dL'
   })
 
+  const roundToOneDecimal = (sgv: number) => {
+    return Math.round(sgv * 10) / 10
+  }
+
   const getGlucoseValue = (sgv: number) => {
-    return displaySettings.value.useMmol ? sgv / 18.0182 : sgv
+    return displaySettings.value.useMmol ? roundToOneDecimal(sgv / MMOL_CONVERSION_FACTOR) : roundToOneDecimal(sgv)
   }
 
   const getCleanGlucoseValue = (sgv: number) => {

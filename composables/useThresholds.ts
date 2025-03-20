@@ -1,5 +1,5 @@
 import type { Thresholds } from '~/types/thresholds.ts'
-import { DEFAULT_THRESHOLDS } from '~/types/constants'
+import { DEFAULT_THRESHOLDS, MMOL_CONVERSION_FACTOR } from '~/types/constants'
 
 export const useThresholds = () => {
   const supabase = useSupabaseClient()
@@ -99,9 +99,9 @@ export const useThresholds = () => {
     }
     const valueToSet = {
       ...newThresholds,
-      low: useMmol.value ? newThresholds.low * 18.182 : newThresholds.low,
-      high: useMmol.value ? newThresholds.high * 18.182 : newThresholds.high,
-      target: useMmol.value ? newThresholds.target * 18.182 : newThresholds.target,
+      low: useMmol.value ? newThresholds.low * MMOL_CONVERSION_FACTOR : newThresholds.low,
+      high: useMmol.value ? newThresholds.high * MMOL_CONVERSION_FACTOR : newThresholds.high,
+      target: useMmol.value ? newThresholds.target * MMOL_CONVERSION_FACTOR : newThresholds.target,
     }
     const { error } = await supabase.from('thresholds').upsert({
       low: valueToSet.low,
