@@ -1,4 +1,5 @@
 import type { Thresholds } from '~/types/thresholds'
+import type { DisplaySettings } from '~/types/displaySettings'
 
 export const DEXCOM_PROVIDER_NAME = 'dexcom'
 export const NIGHTSCOUT_PROVIDER_NAME = 'nightscout'
@@ -13,6 +14,10 @@ export const DEFAULT_THRESHOLDS: Thresholds = {
   low: 70,
   target: 110,
   dailyStreakPercentTimeInRange: 70,
+}
+
+export const DEFAULT_DISPLAY_SETTINGS: DisplaySettings = {
+  useMmol: false,
 }
 
 export enum CurrentDayStatus {

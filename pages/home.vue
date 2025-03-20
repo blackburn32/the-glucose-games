@@ -21,8 +21,8 @@
       <StatBadge
         v-if="mostRecentRecordWithinLastHour"
         title="Current Blood Glucose"
-        :value="mostRecentRecordWithinLastHour.value.toString()"
-        description="mg/dL"
+        :value="mostRecentRecordWithinLastHour.value?.toFixed(2)"
+        :description="unit"
       />
       <StatBadge
         title="Time in Range"
@@ -59,6 +59,7 @@
 
 <script setup lang="ts">
 const { thresholds } = useThresholds()
+const { unit } = useDisplaySettings()
 
 const {
   hasGlucoseData,

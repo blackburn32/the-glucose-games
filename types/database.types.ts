@@ -34,6 +34,35 @@ export type Database = {
   }
   public: {
     Tables: {
+      display_settings: {
+        Row: {
+          created_at: string
+          updated_at: string
+          use_mmol: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          updated_at?: string
+          use_mmol?: boolean
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          updated_at?: string
+          use_mmol?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'public_display_settings_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: true
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       nightscout_settings: {
         Row: {
           base_url: string

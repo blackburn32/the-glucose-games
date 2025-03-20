@@ -6,7 +6,7 @@
       <DailyStreakBadge
         title="Daily Average Streak"
         description="average within range"
-        unit="mg/dl"
+        :unit="unit"
         :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
       />
       <DailyStreakBadge
@@ -83,4 +83,5 @@ const props = defineProps<{
 }>()
 
 const { scoredGames } = useGlucoseValues(props.glucoseValues, props.thresholds)
+const { unit } = useDisplaySettings()
 </script>

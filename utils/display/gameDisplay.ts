@@ -8,8 +8,8 @@ export const getPercentToDisplay = (percent: string | undefined): string => {
   return percent ? `${percent}%` : 'Unknown'
 }
 
-export const getGlucoseValueToDisplay = (glucoseValue: string | undefined): string => {
-  return glucoseValue ? `${glucoseValue} mg/dL` : 'Unknown'
+export const getGlucoseValueToDisplay = (glucoseValue: string | undefined, unit: string | undefined): string => {
+  return glucoseValue ? `${glucoseValue} ${unit ?? 'mg/dL'}` : 'Unknown'
 }
 
 export const getDailyStreakGameDisplayStats = (title: string, streak: DailyStreakStats, scoreHandler: (score: string | undefined) => string): GameDisplayStats => {

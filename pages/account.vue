@@ -14,13 +14,13 @@
         <input
           v-model="lowThreshold"
           type="number"
-          min="40"
-          max="100"
+          :min="lowThresholdBounds.min"
+          :max="lowThresholdBounds.max"
           placeholder="Type here"
           class="input input-bordered w-full max-w-xs"
         >
         <div class="label">
-          <span class="label-text-alt">Must be between 40 and 100</span>
+          <span class="label-text-alt">Must be between {{ lowThresholdBounds.min }} and {{ lowThresholdBounds.max }}</span>
         </div>
       </label>
       <label class="form-control w-full max-w-xs">
@@ -30,13 +30,13 @@
         <input
           v-model="highThreshold"
           type="number"
-          min="120"
-          max="400"
+          :min="highThresholdBounds.min"
+          :max="highThresholdBounds.max"
           placeholder="Type here"
           class="input input-bordered w-full max-w-xs"
         >
         <div class="label">
-          <span class="label-text-alt">Must be between 120 and 400</span>
+          <span class="label-text-alt">Must be between {{ highThresholdBounds.min }} and {{ highThresholdBounds.max }}</span>
         </div>
       </label>
       <label class="form-control w-full md:col-span-2">
@@ -47,16 +47,16 @@
           <input
             v-model="target"
             type="range"
-            min="80"
-            max="180"
-            step="1"
+            :min="targetBloodGlucoseBounds.min"
+            :max="targetBloodGlucoseBounds.max"
+            :step="useMmol ? 0.1 : 1"
             class="range range-primary grow"
           >
           <input
             v-model="target"
             type="number"
-            min="80"
-            max="180"
+            :min="targetBloodGlucoseBounds.min"
+            :max="targetBloodGlucoseBounds.max"
             placeholder="Type here"
             class="input input-bordered w-full max-w-32"
           >
@@ -107,6 +107,23 @@
       </div>
     </div>
     <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">
+      Display Settings
+    </div>
+    <div class="text-xl underline w-full md:max-w-xl mt-3">
+      Glucose Display Unit
+    </div>
+    <div class="flex flex-row space-x-2 items-center w-full md:max-w-xl mt-2">
+      <input
+        v-model="useMmol"
+        type="checkbox"
+        class="toggle"
+      >
+      <div class="text-lg">
+        {{ unit }}
+      </div>
+    </div>
+    <div class="flex flex-row w-full md:max-w-xl items-center space-x-4" />
+    <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">
       Connections
     </div>
     <div class="flex flex-col w-full max-w-xl mt-4 space-y-4">
@@ -136,7 +153,8 @@
 <script setup lang="ts">
 import { DEFAULT_THRESHOLDS } from '~/types/constants'
 
-const { thresholds, setThresholds } = useThresholds()
+const { highThresholdBounds, lowThresholdBounds, setThresholds, targetBloodGlucoseBounds, thresholds } = useThresholds()
+const { useMmol, unit, getGlucoseValue } = useDisplaySettings()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 
@@ -159,7 +177,7 @@ const tempLow = ref<number | undefined>(undefined)
 const lowThreshold = computed({
   get() {
     if (tempLow.value !== undefined) return tempLow.value
-    return thresholds.value?.low ?? 70
+    return thresholds.value?.low ?? getGlucoseValue(DEFAULT_THRESHOLDS.low)
   },
   set(value) {
     tempLow.value = value
@@ -170,7 +188,7 @@ const tempHigh = ref<number | undefined>(undefined)
 const highThreshold = computed({
   get() {
     if (tempHigh.value !== undefined) return tempHigh.value
-    return thresholds.value?.high ?? 180
+    return thresholds.value?.high ?? getGlucoseValue(DEFAULT_THRESHOLDS.high)
   },
   set(value) {
     tempHigh.value = value
@@ -226,5 +244,7 @@ const saveThresholds = async () => {
 const resetThresholds = () => {
   tempLow.value = undefined
   tempHigh.value = undefined
+  tempTarget.value = undefined
+  tempDailyStreakPercent.value = undefined
 }
 </script>

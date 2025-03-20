@@ -28,7 +28,7 @@
       <VisXYContainer
         v-if="data.length > 0"
         :data="data"
-        :y-domain="[0, 400]"
+        :y-domain="[0, useMmol ? 23 : 400]"
       >
         <VisLine
           v-if="low"
@@ -110,13 +110,15 @@ defineProps<{
 const x = (d: GlucoseRecord) => d.created
 const y = (d: GlucoseRecord) => d.value
 
+const { useMmol, unit } = useDisplaySettings()
+
 const getCleanDate = (d: Date) => {
   return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })
 }
 
 const tickFormat = (d: number) => getCleanDate(new Date(d))
 const crosshairTemplate = (d: GlucoseRecord) => {
-  return `${getCleanDate(d.created)}: ${d.value}mg/dL`
+  return `${getCleanDate(d.created)}: ${d.value.toFixed(2)} ${unit.value}`
 }
 </script>
 
