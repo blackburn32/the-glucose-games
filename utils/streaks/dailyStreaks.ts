@@ -1,3 +1,4 @@
+import parser from 'any-date-parser'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { ScoredDay } from '~/types/scoredDay'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
@@ -109,7 +110,7 @@ const addEmptyScoredDaysForMissingDays = (
     }
     else {
       days.push({
-        date: new Date(currentDate),
+        date: parser.fromAny(currentDate),
         glucoseRecords: [],
         score: 0,
         scoreResult: ScoreCheckResult.Missing,
@@ -118,7 +119,7 @@ const addEmptyScoredDaysForMissingDays = (
         medal: undefined,
       })
     }
-    currentDate = new Date(currentDate.getTime() + ONE_DAY)
+    currentDate = parser.fromAny(currentDate.getTime() + ONE_DAY)
   }
   return days
 }
@@ -144,11 +145,11 @@ export const calculateDailyStreakStats: (
 
   const recordsByDay = groupRecordsByDay(filteredRecords)
   const dateStrings = Object.keys(recordsByDay)
-  const startDate = new Date(dateStrings[0])
+  const startDate = parser.fromAny(dateStrings[0])
   const endDate = new Date()
 
   const scoredDaysWithPotentiallyMissingDates: ScoredDay[] = dateStrings.map((day) => {
-    const date = new Date(day)
+    const date = parser.fromAny(day)
     const glucoseRecords = recordsByDay[day]
     const score = dailyScoringFunction(glucoseRecords)
     const scoreResult = scoreResultCheck(score)

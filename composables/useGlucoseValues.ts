@@ -1,3 +1,4 @@
+import parser from 'any-date-parser'
 import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import type { Thresholds } from '~/types/thresholds'
@@ -7,6 +8,7 @@ import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 
 export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined, thresholdsOverride?: Thresholds | undefined) => {
   const { data: cachedData } = useNuxtData<GlucoseRecord[]>('glucoseData')
+
   const { getGlucoseValue } = useDisplaySettings()
 
   const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
@@ -46,7 +48,7 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
       ...record,
       value: getGlucoseValue(record.value),
       y: getGlucoseValue(record.value),
-      created: new Date(record.created),
+      created: parser.fromAny(record.created),
     })).sort((a, b) => a.created.getTime() - b.created.getTime())
   })
 
