@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
   modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@pinia/nuxt', '@nuxt/image', 'nuxt-aos', '@samk-dev/nuxt-vcalendar', '@sentry/nuxt/module'],
 
@@ -29,10 +30,12 @@ export default defineNuxtConfig({
         { name: 'description', content: 'The games you play with your blood glucose' },
       ],
       link: [
-        { rel: 'icon', type: 'image/png', href: '/favicon.png' },
+        { rel: 'icon', type: 'image/png', href: 'https://glucose.games/favicon.png' },
       ],
     },
   },
+
+  css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
     public: {
@@ -85,6 +88,12 @@ export default defineNuxtConfig({
     // experimental: {
     //   openAPI: true,
     // },
+  },
+
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
   },
 
   eslint: {

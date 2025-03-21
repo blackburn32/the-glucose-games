@@ -133,7 +133,7 @@ const toast = useToast()
 const errorIfNotSignedIn = () => {
   if (!user.value) {
     toast.add({
-      color: 'red',
+      color: 'error',
       title: 'Sign In Required',
       description: 'You must be signed in to access this page.',
     })

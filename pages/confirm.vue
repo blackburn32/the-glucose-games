@@ -6,21 +6,21 @@
     <div class="flex flex-row space-x-4">
       <NuxtLink
         v-if="!hasGlucoseData"
-        class="btn btn-outline"
+        class="btn btn-soft"
         to="/connect"
       >
         Get connected
       </NuxtLink>
       <NuxtLink
         v-if="hasGlucoseData"
-        class="btn btn-outline"
+        class="btn btn-soft"
         to="/current"
       >
         Current Games
       </NuxtLink>
       <NuxtLink
         v-if="hasGlucoseData"
-        class="btn btn-outline"
+        class="btn btn-soft"
         to="/history"
       >
         History

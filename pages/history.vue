@@ -5,19 +5,19 @@
     </div>
     <div class="flex flex-row w-full items-end justify-center space-x-4">
       <NuxtLink
-        class="btn btn-outline"
+        class="btn btn-soft"
         to="/current"
       >
         Current Games
       </NuxtLink>
       <NuxtLink
-        class="btn btn-outline"
+        class="btn btn-soft"
         to="/achievements"
       >
         Achievements
       </NuxtLink>
       <NuxtLink
-        class="btn btn-outline space-x-2"
+        class="btn btn-soft space-x-2"
         to="/account"
       >
         <Icon
@@ -32,7 +32,7 @@
     </div>
     <div v-if="!hasGlucoseData && !glucoseDataLoading">
       <NuxtLink
-        class="btn btn-outline"
+        class="btn btn-soft"
         to="/connect"
       >
         Get Connected to Play

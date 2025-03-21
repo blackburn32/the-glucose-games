@@ -11,31 +11,31 @@
       />
       <DailyStreakBadge
         title="In Range Streak"
-        description="at least 80% in range"
+        :description="`at least ${thresholds.dailyStreakPercentTimeInRange}% in range`"
         unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
       />
       <DailyStreakBadge
         title="Nighttime Streak"
-        description="at least 80% in range"
+        :description="`at least ${thresholds.dailyStreakPercentTimeInRange}% in range`"
         unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForNights"
       />
       <DailyStreakBadge
         title="Morning Streak"
-        description="at least 80% in range"
+        :description="`at least ${thresholds.dailyStreakPercentTimeInRange}% in range`"
         unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForMornings"
       />
       <DailyStreakBadge
         title="Afternoon Streak"
-        description="at least 80% in range"
+        :description="`at least ${thresholds.dailyStreakPercentTimeInRange}% in range`"
         unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons"
       />
       <DailyStreakBadge
         title="Evening Streak"
-        description="at least 80% in range"
+        :description="`at least ${thresholds.dailyStreakPercentTimeInRange}% in range`"
         unit="%"
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
       />

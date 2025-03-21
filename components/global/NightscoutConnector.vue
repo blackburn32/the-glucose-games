@@ -44,40 +44,40 @@
       </div>
     </div>
     <div class="flex flex-col w-full">
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text">Base Url</span>
-        </div>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">
+          Base Url
+        </legend>
         <input
           v-model="baseUrl"
-          class="input input-bordered"
+          class="input input-bordered w-full"
           placeholder="Enter Nightscout URL"
         >
         <div class="flex flex-col w-full px-1 mt-2">
-          <span class="label-text text-xs">Example: https://exampleNightscoutUrl.com</span>
+          <span class="fieldset-label">Example: https://exampleNightscoutUrl.com</span>
           <span
-            class="label-text text-xs"
+            class="fieldset-label text-xs"
             :class="{
               'text-error': baseUrlHasTrailingSlash,
             }"
           >• No trailing slash</span>
           <span
-            class="label-text text-xs"
+            class="fieldset-label text-xs"
             :class="{
               'text-error': baseUrlHasApi,
             }"
           >• No /api/...</span>
           <span
-            class="label-text text-xs"
+            class="fieldset-label text-xs"
             :class="{
               'text-error': baseUrlHasToken,
             }"
           >• No ?token=...</span>
         </div>
-      </label>
-      <label class="form-control w-full mt-2">
-        <div class="label">
-          <span class="label-text">Token</span>
+      </fieldset>
+      <fieldset class="fieldset w-full mt-2">
+        <div class="fieldset-label">
+          Token
         </div>
         <div class="input input-bordered flex items-center gap-2 w-full">
           <input
@@ -94,7 +94,7 @@
           />
         </div>
         <div class="flex flex-col w-full px-1 mt-2">
-          <span class="label-text text-xs">Follow
+          <span class="fieldset-label text-xs">Follow
             <NuxtLink
               to="/aboutNightscout#getting-your-nightscout-access-token"
               target="_blank"
@@ -103,10 +103,10 @@
             directions to create a valid token
           </span>
         </div>
-      </label>
+      </fieldset>
       <div class="flex flex-row w-full items-center space-x-2 mt-4">
         <button
-          class="btn btn-outline grow"
+          class="btn btn-soft grow"
           :class="{
             'btn-disabled': !baseUrlTemp && !tokenTemp,
           }"
@@ -125,7 +125,7 @@
         </button>
         <button
           v-if="hasNightscout"
-          class="btn btn-error"
+          class="btn btn-soft btn-error"
           @click="deleteNightscoutSettings"
         >
           <Icon
@@ -196,7 +196,7 @@ const saveSettings = async () => {
     toast.add({
       title: 'Error',
       description: 'Please enter a valid URL and token',
-      color: 'red',
+      color: 'error',
     })
     return
   }
@@ -210,7 +210,7 @@ const saveSettings = async () => {
   toast.add({
     title: 'Success',
     description: 'Settings saved',
-    color: 'green',
+    color: 'success',
   })
 }
 
