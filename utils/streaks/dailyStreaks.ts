@@ -100,7 +100,7 @@ const addEmptyScoredDaysForMissingDays = (
   endDate: Date,
 ) => {
   const days = []
-  let currentDate = parser.fromAny(startDate)
+  let currentDate = new Date(startDate)
   while (currentDate.getTime() <= endDate.getTime()) {
     const day = scoredDays.find((scoredDay) => {
       return scoredDay.date.toDateString() === currentDate.toDateString()
