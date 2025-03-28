@@ -6,6 +6,8 @@
     :icon="icon"
     :icon-color="iconColor"
     :best="best"
+    :background-override="backgroundOverride"
+    :hide-decorations="hideDecorations"
   >
     <div class="divider my-0" />
     <StreakDaysIndicator
@@ -26,6 +28,8 @@ const props = defineProps<{
   description: string
   unit: string
   streakStats?: DailyStreakStats
+  backgroundOverride?: string | undefined
+  hideDecorations?: boolean | undefined
 }>()
 
 const currentStreakLength = computed(() => {

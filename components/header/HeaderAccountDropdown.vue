@@ -82,7 +82,8 @@ const authenticated = computed(() => {
   return !!user.value
 })
 const supabase = useSupabaseClient()
-const { hasGlucoseData } = useGlucoseValues()
+const nuxtApp = useNuxtApp()
+const hasGlucoseData = nuxtApp.$hasGlucoseData
 
 const label = computed(() => {
   return authenticated.value ? 'Account' : 'Sign In'

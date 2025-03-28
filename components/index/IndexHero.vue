@@ -1,57 +1,32 @@
 <template>
-  <section class="relative">
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="pt-32 md:pt-40 prose">
-        <div class="max-w-3xl mx-auto text-center">
-          <h1
-            class="text-6xl font-hkgrotesk mb-6"
-            data-aos="fade-up"
-          >
-            The Glucose Games
-          </h1>
-          <p
-            class="text-xl mb-10"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            Games you control with your blood glucose. Improve your control, get healthy, and have fun!
-          </p>
-          <div
-            class="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4 not-prose"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <div>
-              <NuxtLink
-                class="btn btn-primary w-full shadow-sm group"
-                to="/login"
-              >
-                Get Started Free <span class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-              </NuxtLink>
-            </div>
-            <div>
-              <NuxtLink
-                class="btn btn-soft w-full shadow-sm"
-                to="/demo"
-              >Check Out a Demo</NuxtLink>
-            </div>
+  <div class="flex flex-col w-full items-center">
+    <div class="flex flex-col md:flex-row w-full md:space-x-8 max-w-6xl">
+      <div class="flex flex-col w-full md:w-2/5">
+        <div class="flex flex-col ml-[40px] mt-[160px] max-w-[400px]">
+          <div class="text-7xl font-bold ">
+            Glucose Games
+          </div>
+          <div class="mt-4">
+            Games you control with your blood glucose.
+          </div>
+          <div>
+            Improve your control, get healthy, and have fun!
+          </div>
+          <div class="flex flex-row space-x-4 mt-4">
+            <NuxtLink
+              to="/login"
+              class="btn btn-primary"
+            >Get started</NuxtLink>
+            <NuxtLink
+              to="/demo"
+              class="btn btn-neutral"
+            >Check out the demo</NuxtLink>
           </div>
         </div>
-
-        <div
-          class="pt-4 md:pt-10 px-4zs"
-          data-aos="fade-up"
-          data-aos-delay="300"
-        >
-          <NuxtImg
-            class="mx-auto md:max-w-xl"
-            src="https://robpsmulkkgavocpifbg.supabase.co/storage/v1/object/public/images//logo.png"
-            height="2856"
-            width="2869"
-            alt="The Glucose Games Logo"
-          />
-        </div>
+      </div>
+      <div class="flex flex-col w-full md:w-3/5">
+        <IndexHowTo class="mt-[80px]" />
       </div>
     </div>
-  </section>
+  </div>
 </template>

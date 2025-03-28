@@ -1,4 +1,4 @@
-import type { GlucoseGeneratorConfig } from '~/utils/generators/config/generatorConfig'
+import { type GlucoseGeneratorConfig, RealisticGeneratorConfig } from '~/utils/generators/config/generatorConfig'
 import { generateTimestamps } from '~/utils/generators/timestamps/timestampGenerator'
 
 const generateStableToHigh = (config: GlucoseGeneratorConfig, previousValue: number) => {
@@ -11,7 +11,7 @@ const generateStableToLow = (config: GlucoseGeneratorConfig, previousValue: numb
   return Math.max(newValue, config.min)
 }
 
-export const generateRandomWalk = (config: GlucoseGeneratorConfig, count: number, minutesBetweenRecords: number = 15) => {
+export const generateRandomWalk = (config: GlucoseGeneratorConfig = RealisticGeneratorConfig, count: number = 1000, minutesBetweenRecords: number = 30) => {
   const values = []
   let previousValue = config.average
   let trend = Math.random() > 0.5

@@ -6,7 +6,7 @@
           Nightscout
         </div>
         <div
-          v-if="hasNightscoutData && !glucoseDataLoading"
+          v-if="hasNightscoutData && !isGlucoseDataLoading"
           class="flex flex-row items-center space-x-2"
         >
           <div>
@@ -20,7 +20,7 @@
           />
         </div>
         <div
-          v-if="hasNightscout && !hasNightscoutData && !glucoseDataLoading"
+          v-if="hasNightscout && !hasNightscoutData && !isGlucoseDataLoading"
           class="flex flex-row items-center space-x-2"
         >
           <div>
@@ -33,7 +33,7 @@
           />
         </div>
         <div
-          v-if="hasNightscout && glucoseDataLoading"
+          v-if="hasNightscout && isGlucoseDataLoading"
           class="flex flex-row items-center space-x-2"
         >
           <div>
@@ -147,10 +147,9 @@ const {
   setNightscoutSettings,
 } = useNightscout()
 
-const {
-  hasNightscoutData,
-  glucoseDataLoading,
-} = useGlucoseValues()
+const nuxtApp = useNuxtApp()
+const hasNightscoutData = nuxtApp.$hasNightscoutData
+const isGlucoseDataLoading = nuxtApp.isGlucoseDataLoading
 
 const baseUrlTemp = ref<string | undefined>(undefined)
 const baseUrl = computed({

@@ -2,7 +2,7 @@
   <div class="indicator w-full">
     <ClientOnly>
       <Icon
-        v-if="icon"
+        v-if="icon && !hideDecorations"
         class="indicator-item"
         :name="icon"
         size="24"
@@ -10,12 +10,15 @@
       />
     </ClientOnly>
     <div
-      v-if="best"
+      v-if="best && !hideDecorations"
       class="badge badge-success indicator-item indicator-bottom bottom-2"
     >
       Best
     </div>
-    <div class="stats w-full h-min overflow-hidden bg-base-300">
+    <div
+      class="stats w-full h-min overflow-hidden"
+      :class="backgroundOverride ? backgroundOverride : 'bg-base-200'"
+    >
       <div class="stat min-w-fit">
         <div class="stat-title text-base">
           {{ title }}
@@ -58,5 +61,7 @@ defineProps<{
   streakStats?: DailyStreakStats
   targetScore?: number
   isPercentage?: boolean
+  backgroundOverride?: string | undefined
+  hideDecorations?: boolean | undefined
 }>()
 </script>

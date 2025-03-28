@@ -1,69 +1,12 @@
-import parser from 'any-date-parser'
 import type { GlucoseRecord } from '~/types/glucoseRecord.ts'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
-import type { Thresholds } from '~/types/thresholds'
-import { getScoredGames } from '~/utils/games/scoredGames'
-import { NIGHTSCOUT_PROVIDER_NAME } from '~/types/constants'
 import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 
-export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined, thresholdsOverride?: Thresholds | undefined) => {
-  const { data: cachedData } = useNuxtData<GlucoseRecord[]>('glucoseData')
+export const useGlucoseValues = () => {
+  const nuxtApp = useNuxtApp()
 
-  const { getGlucoseValue } = useDisplaySettings()
-
-  const glucoseDataRaw = useFetch<GlucoseRecord[]>('/api/data', {
-    key: 'glucoseData',
-    default: () => [],
-    lazy: !!(dataOverride?.value.length || !cachedData.value),
-    retry: 3,
-  })
-
-  const { hasDexcom } = useTokenStatus()
-  watch(hasDexcom, () => {
-    glucoseDataRaw.refresh()
-  })
-
-  const { hasNightscout, nightscoutSettings } = useNightscout()
-  watch(hasNightscout, () => {
-    glucoseDataRaw.refresh()
-  })
-  watch(nightscoutSettings, () => {
-    glucoseDataRaw.refresh()
-  })
-
-  const user = useSupabaseUser()
-  watch(user, () => {
-    glucoseDataRaw.refresh()
-  })
-
-  const glucoseDataLoading = computed(() => {
-    if (dataOverride?.value.length) return false
-    return glucoseDataRaw.status.value === 'pending'
-  })
-
-  const glucoseData: Ref<GlucoseRecord[]> = computed(() => {
-    if (dataOverride?.value.length) return dataOverride.value
-    const data = cachedData.value || glucoseDataRaw.data.value
-    return data.map(record => ({
-      ...record,
-      value: getGlucoseValue(record.value),
-      y: getGlucoseValue(record.value),
-      created: parser.fromAny(record.created),
-    })).sort((a, b) => a.created.getTime() - b.created.getTime())
-  })
-
-  const hasGlucoseData = computed(() => {
-    return glucoseData.value.length > 0
-  })
-
-  const hasNightscoutData = computed(() => {
-    return glucoseData.value.some(record => record.provider === NIGHTSCOUT_PROVIDER_NAME)
-  })
-
-  const { thresholds } = useThresholds()
-  const thresholdsToUse = computed(() => thresholdsOverride || thresholds.value)
-
-  const scoredGames = computed(() => getScoredGames(glucoseData.value, thresholdsToUse.value))
+  const glucoseData = nuxtApp.$glucoseValues
+  const thresholds = nuxtApp.$thresholds
 
   const mostRecentResult = computed(() => glucoseData.value.at(-1))
 
@@ -77,7 +20,7 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
     const today = Date.now()
     const dayAgo = new Date(today - 24 * 60 * 60 * 1000)
     const glucoseValues = glucoseData.value.filter(record => record.created > dayAgo)
-    const percentTimeInRange = glucoseValues.length > 0 ? scoreRecordsByPercentTimeInRange(glucoseValues, thresholdsToUse.value) : undefined
+    const percentTimeInRange = glucoseValues.length > 0 ? scoreRecordsByPercentTimeInRange(glucoseValues, thresholds.value) : undefined
     const cleanPercentTimeInRange = percentTimeInRange ? cleanPercentForDisplay(percentTimeInRange) : 'Unknown'
     return {
       glucoseValues,
@@ -85,10 +28,6 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
       cleanPercentTimeInRange,
     }
   })
-
-  const refreshGlucoseData = () => {
-    return glucoseDataRaw.refresh()
-  }
 
   const mostRecentRecordWithinLastHour = computed(() => {
     const now = Date.now()
@@ -98,15 +37,8 @@ export const useGlucoseValues = (dataOverride?: Ref<GlucoseRecord[]> | undefined
   })
 
   return {
-    glucoseData,
-    glucoseDataLoading,
-    hasGlucoseData,
-    hasNightscoutData,
     mostRecentHour,
     mostRecentRecordWithinLastHour,
-    mostRecentResult,
     previous24Hours,
-    refreshGlucoseData,
-    scoredGames,
   }
 }

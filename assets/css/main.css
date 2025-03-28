@@ -4,33 +4,33 @@
     themes: "dark";
 }
 @plugin "daisyui/theme" {
-    name: "dark";
-    default: true; /* set as default */
+    name: dark;
+    default: true;
 
-    --color-base-100: oklch(18.6873% .010684 268.111713);
-    --color-base-200: oklch(17.3792% .009936 268.111713);
-    --color-base-300: oklch(16.0711% .009188 268.111713);
-    --color-base-content: oklch(83.7375% .002137 268.111713);
-    --color-primary: rgb(51, 245, 129);
-    --color-primary-content: oklch(14.5796% .042233 147.968302);
-    --color-secondary: oklch(64.7127% .177386 44.896881);
-    --color-secondary-content: oklch(12.9425% .035477 44.896881);
-    --color-accent: oklch(92.5483% .008485 56.307193);
-    --color-accent-content: oklch(18.5097% .001697 56.307193);
-    --color-neutral: oklch(92.5483% .008485 56.307193);
-    --color-neutral-content: oklch(18.5097% .001697 56.307193);
-    --color-info: oklch(87.1766% .254719 147.637715);
-    --color-info-content: oklch(17.4353% .050944 147.637715);
-    --color-success: oklch(0.728981 0.211166 147.968);
-    --color-success-content: oklch(17.4353% .050944 147.637715);
-    --color-warning: oklch(71.5889% .150577 48.828867);
-    --color-warning-content: oklch(14.3178% .030115 48.828867);
-    --color-error: oklch(67.9474% .208883 27.716395);
-    --color-error-content: oklch(13.5895% .041777 27.716395);
+    --color-base-100: #111318;
+    --color-base-200: #222530;
+    --color-base-300: #333847;
+    --color-base-content: #D7D7D9;
+    --color-primary: #7594FF;
+    --color-primary-content: #050617;
+    --color-secondary: #B5C9FF;
+    --color-secondary-content: #00040F;
+    --color-accent: #33F581;
+    --color-accent-content: #000F02;
+    --color-neutral: #2A2B3C;
+    --color-neutral-content: #A6A7BB;
+    --color-info: #00B5FF;
+    --color-info-content: #000000;
+    --color-success: #00A96E;
+    --color-success-content: #000000;
+    --color-warning: #FFBE00;
+    --color-warning-content: #000000;
+    --color-error: #FF5861;
+    --color-error-content: #000000;
 
     --radius-selector: 1rem;
     --radius-field: 0.5rem;
-    --radius-box: 0.25rem;
+    --radius-box: 1rem;
 
     --size-selector: 0.225rem;
     --size-field: 0.3rem;

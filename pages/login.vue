@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-col w-full items-center space-y-8 pb-40">
+  <div class="flex flex-col w-full items-center space-y-8 pb-40 h-full">
     <div class="text-4xl font-bold mt-10">
       The Glucose Games
     </div>
     <div
-      class="flex  flex-col max-w-md w-full space-y-4 py-4 px-2 bg-base-300 shadow-md rounded-lg select-none"
+      class="flex  flex-col max-w-md w-full space-y-4 py-4 px-2 bg-base-200 shadow-md rounded-lg select-none"
     >
       <div class="flex flex-col w-full h-full px-2 pb-2">
         <div class="text-4xl font-bold text-center">
@@ -12,9 +12,9 @@
         </div>
         <div
           v-if="!user"
-          class="flex flex-col space-y-4"
+          class="flex flex-col space-y-4 w-full"
         >
-          <div class="flex flex-col">
+          <div class="flex flex-col w-full">
             <div class="fieldset mt-4">
               <fieldset class="label cursor-pointer">
                 <span class="fieldset-label">I accept The Glucose Games'
@@ -24,7 +24,6 @@
                   >Privacy Policy
                   </NuxtLink>
                 </span>
-
                 <input
                   v-model="acceptedPrivacyPolicy"
                   type="checkbox"
@@ -32,7 +31,7 @@
                 >
               </fieldset>
             </div>
-            <div class="fieldset">
+            <div class="fieldset w-full">
               <fieldset class="label cursor-pointer">
                 <span class="fieldset-label">I accept The Glucose Games'
                   <NuxtLink
@@ -57,7 +56,7 @@
             id="email"
             ref="email"
             type="email"
-            class="input input-bordered focus:outline-0"
+            class="input input-bordered focus:outline-0 w-full"
           >
           <button
             class="btn btn-sm btn-primary"
@@ -174,7 +173,7 @@ const getOneTimePasscode = async () => {
   otpSent.value = true
 
   if (error) {
-    toast.add({ title: error.message, color: 'error' })
+    toast.add({ title: error.message, color: 'error', ui: { wrapper: 'absolute' } })
     return
   }
   else {

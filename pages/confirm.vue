@@ -39,10 +39,9 @@ if (redirectCookie.value) {
   await navigateTo(redirectPath)
 }
 
-const {
-  hasGlucoseData,
-  refreshGlucoseData,
-} = useGlucoseValues()
+const nuxtApp = useNuxtApp()
+const hasGlucoseData = nuxtApp.$hasGlucoseData
+const refreshData = nuxtApp.$refreshData
 
-await refreshGlucoseData()
+await refreshData()
 </script>

@@ -40,18 +40,18 @@
           v-if="high"
           :x="x"
           :y="() => high"
-          color="var(--color-secondary)"
+          color="var(--color-warning)"
         />
         <VisLine
           :x="x"
           :y="y"
           :line-width="2.5"
-          color="var(--color-success)"
+          color="var(--color-accent)"
         />
         <VisArea
           :x="x"
           :y="y"
-          color="var(--color-success)"
+          color="var(--color-accent)"
           :opacity="0.1"
         />
 

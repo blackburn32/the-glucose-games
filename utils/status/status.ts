@@ -45,7 +45,7 @@ export const getIconForDailyStreak = (streakLength: number) => {
 
 export const getColorForDailyStreak = (streakLength: number) => {
   if (streakLength >= 10) {
-    return 'text-primary'
+    return 'text-accent'
   }
   if (streakLength >= 5) {
     return 'text-secondary'

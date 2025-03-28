@@ -15,8 +15,8 @@
         >
           <div>{{ getDayLabel(day.date) }}</div>
           <Icon
-            :name="getIconForDay(day).name"
-            :class="getIconForDay(day).color"
+            :name="getIconAndColorForDay(day).name"
+            :class="getIconAndColorForDay(day).color"
             size="16"
           />
         </div>
@@ -52,7 +52,7 @@ const dayIsCurrentDay = (day: ScoredDay) => {
   return day.date.toDateString() === today.toDateString()
 }
 
-const getIconForDay = (day: ScoredDay) => {
+const getIconAndColorForDay = (day: ScoredDay) => {
   if (dayIsCurrentDay(day)) {
     return getIconAndColorForCurrentDay(props.streakStats.currentStreak.currentDayStatus, day)
   }
