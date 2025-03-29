@@ -8,7 +8,7 @@ export const getPercentToDisplay = (percent: string | undefined): string => {
   return percent ? `${percent}%` : 'Unknown'
 }
 
-export const getGlucoseValueToDisplay = (glucoseValue: string | undefined, unit: string | undefined): string => {
+export const getGlucoseValueToDisplay = (glucoseValue: string | undefined, unit: string | undefined = undefined): string => {
   return glucoseValue ? `${glucoseValue} ${unit ?? 'mg/dL'}` : 'Unknown'
 }
 

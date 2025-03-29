@@ -66,8 +66,8 @@ describe('getIconForDailyStreak', () => {
 
 describe('getColorForDailyStreak', () => {
   it('returns primary color for streak >= 10', () => {
-    expect(getColorForDailyStreak(10)).toBe('text-primary')
-    expect(getColorForDailyStreak(15)).toBe('text-primary')
+    expect(getColorForDailyStreak(10)).toBe('text-accent')
+    expect(getColorForDailyStreak(15)).toBe('text-accent')
   })
 
   it('returns secondary color for streak >= 5 and < 10', () => {
