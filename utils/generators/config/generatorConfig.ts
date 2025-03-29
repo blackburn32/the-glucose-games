@@ -12,6 +12,13 @@ export const StableGeneratorConfig: GlucoseGeneratorConfig = {
   maxChange: 5,
 }
 
+export const SmoothButVariableGeneratorConfig = {
+  average: 125,
+  min: 80,
+  max: 170,
+  maxChange: 2,
+}
+
 export const TrendsHighGeneratorConfig: GlucoseGeneratorConfig = {
   average: 150,
   min: 120,

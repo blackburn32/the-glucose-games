@@ -1,10 +1,8 @@
 <template>
   <UApp>
-    <div class="flex flex-col w-full h-full">
-      <NuxtLayout>
-        <NuxtPage />
-      </NuxtLayout>
-    </div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </UApp>
 </template>
 

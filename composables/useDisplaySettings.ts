@@ -81,26 +81,32 @@ export const useDisplaySettings = () => {
     return Math.round(sgv * 10) / 10
   }
 
-  const getGlucoseValue = (sgv: number) => {
+  const getGlucoseValueToDisplay = (sgv: number) => {
     return displaySettings.value.useMmol ? roundToOneDecimal(sgv / MMOL_CONVERSION_FACTOR) : roundToOneDecimal(sgv)
   }
 
   const getCleanGlucoseValue = (sgv: number) => {
-    return `${getGlucoseValue(sgv).toFixed(2)}`
+    return `${getGlucoseValueToDisplay(sgv).toFixed(2)}`
   }
 
-  const getGlucoseValueToDisplay = (sgv: number) => {
-    const value = getGlucoseValue(sgv)
+  const getGlucoseValueWithUnit = (sgv: number) => {
+    const value = getGlucoseValueToDisplay(sgv)
     return `${value.toFixed(1)} ${unit.value}`
+  }
+
+  const withUnit = (value: string | undefined) => {
+    if (value === undefined) return 'Unknown'
+    return `${value} ${unit.value}`
   }
 
   return {
     displaySettings,
     getCleanGlucoseValue,
-    getGlucoseValue,
     getGlucoseValueToDisplay,
+    getGlucoseValueWithUnit,
     setDisplaySettings,
     unit,
     useMmol,
+    withUnit,
   }
 }

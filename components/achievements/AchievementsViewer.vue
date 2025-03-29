@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full items-center space-y-8 px-2">
-    <div class="flex flex-col items-center text-center w-full md:max-w-lg bg-base-300 px-4 py-2 rounded">
+    <div class="flex flex-col items-center text-center w-full md:max-w-lg bg-base-200 px-4 py-2 rounded">
       <fieldset
         class="fieldset w-full"
       >
@@ -42,19 +42,18 @@
 <script setup lang="ts">
 import AchievementRow from '~/components/achievements/AchievementRow.vue'
 import { achievementGroups } from '~/utils/achievements/achievements'
-import type { Thresholds } from '~/types/thresholds'
-import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { AchievementDefinition } from '~/types/achievementDefinition'
+import type { ScoredGlucoseGames } from '~/types/scoredGlucoseGames'
+import type { GlucoseRecord } from '~/types/glucoseRecord'
 
-const props = defineProps<{
-  thresholds?: Thresholds
-  glucoseValues?: Ref<GlucoseRecord[]>
-}>()
-
-const { scoredGames, glucoseData } = useGlucoseValues(props.glucoseValues, props.thresholds)
+const nuxtApp = useNuxtApp()
+const defaultScoredGames = nuxtApp.$scoredGames
+const scoredGames = inject<Ref<ScoredGlucoseGames>>('scoredGamesInjectable', defaultScoredGames)
+const defaultGlucoseValues = nuxtApp.$glucoseValues
+const glucoseValues = inject<Ref<GlucoseRecord[]>>('glucoseValuesInjectable', defaultGlucoseValues)
 
 const scoreAchievement = (achievementDefinition: AchievementDefinition) => {
-  const achievementCompletion = achievementDefinition.condition(scoredGames.value, glucoseData.value)
+  const achievementCompletion = achievementDefinition.condition(scoredGames.value, glucoseValues.value)
   return {
     name: achievementDefinition.name,
     description: achievementDefinition.description,

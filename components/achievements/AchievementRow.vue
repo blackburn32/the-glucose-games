@@ -1,9 +1,6 @@
 <template>
   <div
-    class="flex flex-row items-center w-full md:max-w-lg bg-base-300 px-4 py-2 rounded space-x-4"
-    :class="{
-      'bg-base-200': completedDate,
-    }"
+    class="flex flex-row items-center w-full md:max-w-lg bg-base-200 px-4 py-2 rounded space-x-4"
   >
     <Icon
       :name="icon"

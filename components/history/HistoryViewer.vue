@@ -4,65 +4,65 @@
       title="No Highs or Lows Streaks"
       description="Longest streaks with no highs or lows"
       :streak-stats="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryContiguousStreak
       title="No Highs Streaks"
       description="Longest streaks with no highs"
       :streak-stats="scoredGames.contiguousStreakStats.noHighsStreaks"
-      :high-line="thresholdsToUse.high"
+      :high-line="thresholds.high"
     />
     <HistoryContiguousStreak
       title="No Lows Streaks"
       description="Longest streaks with no lows"
       :streak-stats="scoredGames.contiguousStreakStats.noLowsStreaks"
-      :low-line="thresholdsToUse.low"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="In Range Streak"
-      :description="`Consecutive full days with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
+      :description="`Consecutive full days with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Nighttime Streak"
-      :description="`Consecutive nights with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
+      :description="`Consecutive nights with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForNights"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Morning Streak"
-      :description="`Consecutive mornings with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
+      :description="`Consecutive mornings with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForMornings"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Afternoon Streak"
-      :description="`Consecutive afternoons with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
+      :description="`Consecutive afternoons with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Evening Streak"
-      :description="`Consecutive evenings with at least ${thresholdsToUse.dailyStreakPercentTimeInRange}% time in range`"
+      :description="`Consecutive evenings with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
       :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Full Day Average in Range"
@@ -70,8 +70,8 @@
       score-label="Average Blood Glucose"
       :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Night Average in Range"
@@ -79,8 +79,8 @@
       score-label="Average Blood Glucose"
       :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForNights"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Morning Average in Range"
@@ -88,8 +88,8 @@
       score-label="Average Blood Glucose"
       :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForMornings"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Afternoon Average in Range"
@@ -97,8 +97,8 @@
       score-label="Average Blood Glucose"
       :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForAfternoons"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
     <HistoryDailyStreak
       title="Evening Average in Range"
@@ -106,31 +106,21 @@
       score-label="Average Blood Glucose"
       :score-units="unit"
       :streak-stats="scoredGames.dailyStreakStats.averageInRangeForEvenings"
-      :high-line="thresholdsToUse.high"
-      :low-line="thresholdsToUse.low"
+      :high-line="thresholds.high"
+      :low-line="thresholds.low"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useGlucoseValues } from '~/composables/useGlucoseValues'
-import type { GlucoseRecord } from '~/types/glucoseRecord'
+import type { ScoredGlucoseGames } from '~/types/scoredGlucoseGames'
 import type { Thresholds } from '~/types/thresholds'
 
-const props = defineProps<{
-  thresholds?: Thresholds | undefined
-  glucoseValues?: Ref<GlucoseRecord[]> | undefined
-}>()
-
-const {
-  scoredGames,
-} = useGlucoseValues(props.glucoseValues, props.thresholds)
+const nuxtApp = useNuxtApp()
+const defaultScoredGames = nuxtApp.$scoredGames
+const scoredGames = inject<Ref<ScoredGlucoseGames>>('scoredGamesInjectable', defaultScoredGames)
+const defaultThresholds = nuxtApp.$thresholds
+const thresholds = inject<Ref<Thresholds>>('thresholdsInjectable', defaultThresholds)
 
 const { unit } = useDisplaySettings()
-const { thresholds: storedThresholds } = useThresholds()
-
-const thresholdsToUse = computed(() => {
-  if (props.thresholds) return props.thresholds
-  return storedThresholds.value
-})
 </script>

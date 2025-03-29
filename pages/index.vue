@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full items-center">
-    <IndexHero />
-    <IndexHowTo />
+    <IndexHero class="mb-[100px]" />
+    <IndexCards />
     <IndexCTA />
   </div>
 </template>

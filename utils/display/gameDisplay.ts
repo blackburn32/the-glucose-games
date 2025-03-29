@@ -8,7 +8,7 @@ export const getPercentToDisplay = (percent: string | undefined): string => {
   return percent ? `${percent}%` : 'Unknown'
 }
 
-export const getGlucoseValueToDisplay = (glucoseValue: string | undefined, unit: string | undefined): string => {
+export const getGlucoseValueToDisplay = (glucoseValue: string | undefined, unit: string | undefined = undefined): string => {
   return glucoseValue ? `${glucoseValue} ${unit ?? 'mg/dL'}` : 'Unknown'
 }
 
@@ -58,9 +58,9 @@ export const getIconForScoreResult = (scoreResult: ScoreCheckResult): string => 
 export const getColorForScoreResult = (scoreResult: ScoreCheckResult): string => {
   switch (scoreResult) {
     case ScoreCheckResult.Pass:
-      return 'text-primary'
+      return 'text-accent'
     case ScoreCheckResult.Almost:
-      return 'text-secondary'
+      return 'text-primary'
     default:
       return 'text-error'
   }
@@ -70,7 +70,7 @@ export const getIconAndColorForScoredDay = (day: ScoredDay) => {
   if (scoredDayIsPending(day)) {
     return {
       name: 'ph:clock-fill',
-      color: 'text-secondary',
+      color: 'text-base-content',
     }
   }
   if (day.medal) {
@@ -90,7 +90,7 @@ export const getIconAndColorForCurrentDay = (currentDayStatus: CurrentDayStatus,
     case CurrentDayStatus.Pass:
       return {
         name: 'ph:check-circle-fill',
-        color: 'text-primary',
+        color: 'text-accent',
       }
     case CurrentDayStatus.Fail:
       return {

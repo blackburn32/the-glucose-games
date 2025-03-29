@@ -5,11 +5,12 @@ export const useThresholds = () => {
   const supabase = useSupabaseClient()
   const user = useSupabaseUser()
   const toast = useToast()
-  const { getGlucoseValue, useMmol } = useDisplaySettings()
+  const { getGlucoseValueToDisplay, useMmol } = useDisplaySettings()
+  const { thresholds: demoThresholds, setThresholds: setDemoThresholds } = useDemoThresholds()
 
   const currentThresholds = useAsyncData<Thresholds>('thresholds', async () => {
     if (!user.value) {
-      return DEFAULT_THRESHOLDS
+      return demoThresholds.value
     }
     const { data, error } = await supabase.from('thresholds').select('*').maybeSingle()
     if (error) {
@@ -30,7 +31,7 @@ export const useThresholds = () => {
     }
   }, {
     default: () => {
-      return DEFAULT_THRESHOLDS
+      return demoThresholds.value
     },
   })
 
@@ -89,19 +90,14 @@ export const useThresholds = () => {
       })
       return
     }
-    if (!userId) {
-      toast.add({
-        title: 'Not logged in',
-        description: 'You need to be logged in to save thresholds',
-        color: 'error',
-      })
-      return
-    }
     const valueToSet = {
       ...newThresholds,
       low: useMmol.value ? newThresholds.low * MMOL_CONVERSION_FACTOR : newThresholds.low,
       high: useMmol.value ? newThresholds.high * MMOL_CONVERSION_FACTOR : newThresholds.high,
       target: useMmol.value ? newThresholds.target * MMOL_CONVERSION_FACTOR : newThresholds.target,
+    }
+    if (!userId) {
+      return setDemoThresholds(valueToSet)
     }
     const { error } = await supabase.from('thresholds').upsert({
       low: valueToSet.low,
@@ -124,15 +120,19 @@ export const useThresholds = () => {
     get() {
       return {
         ...currentThresholds.data.value,
-        low: getGlucoseValue(currentThresholds.data.value.low),
-        high: getGlucoseValue(currentThresholds.data.value.high),
-        target: getGlucoseValue(currentThresholds.data.value.target),
+        low: getGlucoseValueToDisplay(currentThresholds.data.value.low),
+        high: getGlucoseValueToDisplay(currentThresholds.data.value.high),
+        target: getGlucoseValueToDisplay(currentThresholds.data.value.target),
       }
     },
     set(value) {
       if (value)
         setThresholds(value)
     },
+  })
+
+  watch(user, () => {
+    currentThresholds.refresh()
   })
 
   return {

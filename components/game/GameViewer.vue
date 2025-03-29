@@ -3,18 +3,8 @@
     class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4"
   >
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-6">
-      <DailyStreakBadge
-        title="Daily Average Streak"
-        description="average within range"
-        :unit="unit"
-        :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
-      />
-      <DailyStreakBadge
-        title="In Range Streak"
-        :description="`at least ${thresholds.dailyStreakPercentTimeInRange}% in range`"
-        unit="%"
-        :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
-      />
+      <GameAverageInRangeDailyStreak />
+      <GamePercentTimeInRangeDailyStreak />
       <DailyStreakBadge
         title="Nighttime Streak"
         :description="`at least ${thresholds.dailyStreakPercentTimeInRange}% in range`"
@@ -74,14 +64,12 @@
 </template>
 
 <script setup lang="ts">
-import type { GlucoseRecord } from '~/types/glucoseRecord'
+import type { ScoredGlucoseGames } from '~/types/scoredGlucoseGames'
 import type { Thresholds } from '~/types/thresholds'
 
-const props = defineProps<{
-  thresholds: Thresholds
-  glucoseValues?: Ref<GlucoseRecord[]> | undefined
-}>()
-
-const { scoredGames } = useGlucoseValues(props.glucoseValues, props.thresholds)
-const { unit } = useDisplaySettings()
+const nuxtApp = useNuxtApp()
+const defaultScoredGames = nuxtApp.$scoredGames
+const scoredGames = inject<Ref<ScoredGlucoseGames>>('scoredGamesInjectable', defaultScoredGames)
+const defaultThresholds = nuxtApp.$thresholds
+const thresholds = inject<Ref<Thresholds>>('thresholdsInjectable', defaultThresholds)
 </script>

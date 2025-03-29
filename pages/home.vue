@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full items-center space-y-4">
+  <div class="flex flex-col w-full items-center space-y-4 mb-10">
     <div class="text-4xl font-bold mt-10">
       Home
     </div>
@@ -60,9 +60,11 @@
 <script setup lang="ts">
 const { thresholds } = useThresholds()
 const { unit } = useDisplaySettings()
+const nuxtApp = useNuxtApp()
+
+const hasGlucoseData = nuxtApp.$hasGlucoseData
 
 const {
-  hasGlucoseData,
   mostRecentRecordWithinLastHour,
   previous24Hours,
 } = useGlucoseValues()

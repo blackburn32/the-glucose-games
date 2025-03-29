@@ -159,7 +159,7 @@ test('getIconAndColorForScoredDay returns correct icon and color for pending day
   const result = getIconAndColorForScoredDay(pendingDay)
   expect(result).toEqual({
     name: 'ph:clock-fill',
-    color: 'text-secondary',
+    color: 'text-base-content',
   })
 })
 
@@ -179,7 +179,7 @@ test('getIconAndColorForScoredDay returns correct icon and color for passing day
   const result = getIconAndColorForScoredDay(passingDay)
   expect(result).toEqual({
     name: 'ph:check-circle-fill',
-    color: 'text-primary',
+    color: 'text-accent',
   })
 })
 

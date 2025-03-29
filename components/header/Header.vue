@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 bg-base-200 border-b border-t border-base-300 z-30">
+  <header class="sticky top-0 border-b border-neutral z-30">
     <div class="px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       <NuxtLink
         class="flex items-center start"

@@ -28,8 +28,10 @@
 </template>
 
 <script setup lang="ts">
+const nuxtApp = useNuxtApp()
+const hasGlucoseData = nuxtApp.$hasGlucoseData
+
 const {
-  hasGlucoseData,
   previous24Hours,
 } = useGlucoseValues()
 const { thresholds } = useThresholds()

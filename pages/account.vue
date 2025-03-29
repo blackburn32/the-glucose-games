@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full items-center px-2">
+  <div class="flex flex-col w-full items-center px-2 mb-10">
     <div class="text-4xl font-bold mt-10">
       Account
     </div>
