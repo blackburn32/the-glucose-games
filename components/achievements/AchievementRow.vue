@@ -46,7 +46,7 @@
           />
           <div class="label pt-1">
             <span class="fieldset-label text-xs">Progress:</span>
-            <span class="fieldset-label-alt text-xs">{{ progress ?? 0 }}/{{ goal }}</span>
+            <span class="fieldset-label-alt text-xs">{{ currentProgress }}/{{ goal }}</span>
           </div>
         </fieldset>
       </div>
@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   name: string
   description: string
   icon: string
@@ -63,4 +63,9 @@ defineProps<{
   progress?: number | undefined
   goal?: number | undefined
 }>()
+
+const currentProgress = computed(() => {
+  const current = props.progress ?? 0
+  return Math.min(current, props.goal ?? 1)
+})
 </script>
