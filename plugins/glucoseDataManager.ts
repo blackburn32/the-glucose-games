@@ -30,6 +30,8 @@ export default defineNuxtPlugin(() => {
     retry: 3,
   })
 
+  rawGlucoseData.execute()
+
   const finalizeGlucoseData = (data: GlucoseRecord[]) => {
     return data.map(record => ({
       ...record,
