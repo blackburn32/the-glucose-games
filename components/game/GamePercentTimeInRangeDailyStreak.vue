@@ -1,6 +1,6 @@
 <template>
   <DailyStreakBadge
-    title="Percent time in range"
+    title="Time in range"
     :description="`at least ${thresholds.dailyStreakPercentTimeInRange}% in range`"
     unit="%"
     :streak-stats="dailyStreakStats"

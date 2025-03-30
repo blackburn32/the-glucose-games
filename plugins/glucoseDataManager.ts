@@ -53,28 +53,7 @@ export default defineNuxtPlugin(() => {
     return allData
   })
 
-  // const rawGlucoseDataFor70DaysBeforeCurrentData = useLazyFetch<GlucoseRecord[]>('/api/data', {
-  //   key: 'glucoseData70Days',
-  //   method: 'POST',
-  //   default: () => [],
-  //   body: {
-  //     start: new Date(Date.now() - durationOfData.value - SEVENTY_DAYS),
-  //     end: new Date(Date.now() - durationOfData.value),
-  //   },
-  //   immediate: false,
-  // })
-
   const rawDemoData = ref(generateRandomWalk())
-  // const rawGlucoseData = useLazyFetch<GlucoseRecord[]>('/api/data', {
-  //   key: 'glucoseData',
-  //   method: 'POST',
-  //   default: () => [],
-  //   body: {},
-  //   immediate: true,
-  //   onResponse: () => {
-  //     rawGlucoseDataFor70DaysBeforeCurrentData.execute()
-  //   },
-  // })
 
   const finalizeGlucoseData = (data: GlucoseRecord[]) => {
     return data.map(record => ({
