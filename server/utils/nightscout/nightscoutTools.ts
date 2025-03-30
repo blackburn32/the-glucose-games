@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { NIGHTSCOUT_PROVIDER_NAME } from '~/types/constants'
+import { NIGHTSCOUT_PROVIDER_NAME, ONE_DAY } from '~/types/constants'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { getTimestampsBetweenDatesUsingDuration } from '~/utils/timing/timeSlicers'
 
@@ -25,14 +25,14 @@ export const nightScoutRecordToGlucoseRecord = (
   }
 }
 
-export const pageThroughNightscoutEGVs = async (baseUrl: string, token: string, countPerRequest: number, since: Date): Promise<GlucoseRecord[]> => {
-  const threeDaysDuration = 1000 * 60 * 60 * 24 * 3
-  const timestamps = getTimestampsBetweenDatesUsingDuration(since, new Date(), threeDaysDuration)
+export const pageThroughNightscoutEGVs = async (baseUrl: string, token: string, countPerRequest: number, start: Date, end: Date): Promise<GlucoseRecord[]> => {
+  const threeDaysDuration = ONE_DAY * 3
+  const timestamps = getTimestampsBetweenDatesUsingDuration(start, end, threeDaysDuration)
   const records: GlucoseRecord[] = []
   const promises: Promise<GlucoseRecord[]>[] = []
   for (let i = 0; i < timestamps.length; i++) {
     const timestamp = timestamps[i]
-    const nextTimestamp = timestamps[i + 1]
+    const nextTimestamp = timestamps[i + 1] ?? end.getTime()
     promises.push(getNightscoutEGVs(baseUrl, token, countPerRequest, timestamp, nextTimestamp))
   }
   const results = await Promise.all(promises)

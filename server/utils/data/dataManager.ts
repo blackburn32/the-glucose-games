@@ -16,15 +16,16 @@ export class DataManager {
   ) {
   }
 
-  public async getNightscoutData() {
+  public async getNightscoutData(start: Date | undefined = undefined, end: Date | undefined = undefined) {
     const nightscoutSettings = await getNightscoutSettings(this.userId, this.supabase)
     if (!nightscoutSettings) {
       console.trace('No Nightscout settings found')
       return []
     }
-    const oneMonthAgo = new Date(Date.now() - ONE_MONTH)
+    const endDateToUse = end ?? new Date()
+    const startDateToUse = start ?? new Date(endDateToUse.getTime() - ONE_MONTH)
     const count = 1000
-    return pageThroughNightscoutEGVs(nightscoutSettings.base_url, nightscoutSettings.token, count, oneMonthAgo)
+    return pageThroughNightscoutEGVs(nightscoutSettings.base_url, nightscoutSettings.token, count, startDateToUse, endDateToUse)
   }
 
   public async getDexcomData() {
