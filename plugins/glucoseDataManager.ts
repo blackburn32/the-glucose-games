@@ -1,9 +1,12 @@
 import parser from 'any-date-parser'
-import { NIGHTSCOUT_PROVIDER_NAME, ONE_MONTH } from '~/types/constants'
+import type { FetchError } from 'ofetch'
+import { NIGHTSCOUT_PROVIDER_NAME, ONE_MONTH, THREE_MONTHS } from '~/types/constants'
 import { generateRandomWalk } from '~/utils/generators/randomWalkGenerator/randomWalkGenerator'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { getScoredGames } from '~/utils/games/scoredGames'
 import { compareGlucoseDates } from '~/utils/data/compareGlucoseDates'
+import { getTimestampsBetweenDatesUsingDuration } from '~/utils/timing/timeSlicers'
+import type { AsyncData } from '#app'
 
 export default defineNuxtPlugin(() => {
   const user = useSupabaseUser()
@@ -11,7 +14,7 @@ export default defineNuxtPlugin(() => {
   const useDemoData = computed(() => {
     return useDemoDataOverride.value || !user.value
   })
-  const durationOfData = ref(ONE_MONTH)
+  const durationOfData = ref(THREE_MONTHS)
 
   const { hasNightscout, nightscoutSettings } = useNightscout()
   const { hasDexcom } = useTokenStatus()
@@ -23,14 +26,34 @@ export default defineNuxtPlugin(() => {
     return useDemoData.value ? demoThresholds.value : storedThresholds.value
   })
 
-  const rawDemoData = ref(generateRandomWalk())
-  const rawGlucoseData = useLazyFetch<GlucoseRecord[]>('/api/data', {
-    key: 'glucoseData',
-    default: () => [],
-    retry: 3,
+  const timestamps = getTimestampsBetweenDatesUsingDuration(new Date(Date.now() - durationOfData.value), new Date(), ONE_MONTH)
+
+  const fetches: Ref<AsyncData<GlucoseRecord[], FetchError<string> | null>[]> = ref([])
+  timestamps.forEach((timestamp, index) => {
+    const nextTimestamp = timestamps[index + 1] ?? Date.now()
+    fetches.value.push(useLazyFetch<GlucoseRecord[], FetchError<string>>('/api/data', {
+      key: `glucoseData${index}`,
+      method: 'POST',
+      default: () => [],
+      body: {
+        start: new Date(timestamp),
+        end: new Date(nextTimestamp),
+      },
+      immediate: true,
+    }))
   })
 
-  rawGlucoseData.execute()
+  const allRawData = computed(() => {
+    const allData: GlucoseRecord[] = []
+    fetches.value.forEach((fetch) => {
+      if (fetch.data.value) {
+        allData.push(...fetch.data.value)
+      }
+    })
+    return allData
+  })
+
+  const rawDemoData = ref(generateRandomWalk())
 
   const finalizeGlucoseData = (data: GlucoseRecord[]) => {
     return data.map(record => ({
@@ -42,8 +65,7 @@ export default defineNuxtPlugin(() => {
   }
 
   const realData = computed(() => {
-    const data = rawGlucoseData.data.value
-    return finalizeGlucoseData(data)
+    return finalizeGlucoseData(allRawData.value)
   })
 
   const demoData = computed(() => {
@@ -59,7 +81,7 @@ export default defineNuxtPlugin(() => {
   })
 
   const refreshData = async () => {
-    await rawGlucoseData.refresh()
+    await fetches.value.at(-1)?.refresh()
   }
 
   const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value))
@@ -67,7 +89,7 @@ export default defineNuxtPlugin(() => {
 
   const isGlucoseDataLoading = computed(() => {
     if (useDemoData.value) return false
-    return rawGlucoseData.status.value === 'pending'
+    return fetches.value.at(-1)?.status.value === 'pending'
   })
 
   const hasGlucoseData = computed(() => {

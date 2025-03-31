@@ -36,7 +36,7 @@ const mockRecordsForSingleDay: GlucoseRecord[] = [
 
 export const getAverageForTimeRange = (records: GlucoseRecord[], startHour: number, endHour: number) => {
   const filteredRecords = records.filter(record => record.created.getHours() >= startHour && record.created.getHours() <= endHour)
-  return Math.round(filteredRecords.reduce((acc, record) => acc + record.value, 0) / filteredRecords.length)
+  return filteredRecords.reduce((acc, record) => acc + record.value, 0) / filteredRecords.length
 }
 
 const mockRecordsForInRangeDay: GlucoseRecord[] = generateSingleValueGlucoseRecords(
@@ -95,7 +95,7 @@ testAverageInRangeStreak(
   averageInRangeForNightsStreak,
   allRecords,
   mockThresholds,
-  Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6).length),
+  mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6).length,
   2,
   1,
   CurrentDayStatus.Pass,
@@ -106,7 +106,7 @@ testAverageInRangeStreak(
   averageInRangeForMorningsStreak,
   allRecords,
   mockThresholds,
-  Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12).length),
+  mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12).length,
   2,
   1,
   CurrentDayStatus.Pass,
@@ -117,7 +117,7 @@ testAverageInRangeStreak(
   averageInRangeForAfternoonsStreak,
   allRecords,
   mockThresholds,
-  Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18).length),
+  mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18).length,
   1,
   0,
   CurrentDayStatus.Fail,
@@ -128,7 +128,7 @@ testAverageInRangeStreak(
   averageInRangeForEveningsStreak,
   allRecords,
   mockThresholds,
-  Math.round(mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).length),
+  mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).length,
   1,
   0,
   CurrentDayStatus.Pending,

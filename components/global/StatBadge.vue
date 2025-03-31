@@ -20,7 +20,7 @@
       :class="backgroundOverride ? backgroundOverride : 'bg-base-200'"
     >
       <div class="stat min-w-fit">
-        <div class="stat-title text-base">
+        <div class="stat-title text-base overflow-hidden">
           {{ title }}
         </div>
         <ClientOnly>
