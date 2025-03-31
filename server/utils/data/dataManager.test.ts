@@ -89,6 +89,7 @@ describe('DataManager', () => {
         mockNightscoutSettings.token,
         1000,
         expect.any(Date),
+        expect.any(Date),
       )
       expect(result).toEqual(mockGlucoseRecords)
     })

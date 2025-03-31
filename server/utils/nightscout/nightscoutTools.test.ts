@@ -209,7 +209,7 @@ describe('nightscoutTools', () => {
         vi.mocked(fetch).mockResolvedValueOnce(createFetchResponse(response))
       })
 
-      const result = await pageThroughNightscoutEGVs(mockBaseUrl, mockToken, mockCountPerRequest, mockSince)
+      const result = await pageThroughNightscoutEGVs(mockBaseUrl, mockToken, mockCountPerRequest, mockSince, new Date())
 
       // Verify getTimestampsBetweenDatesUsingDuration was called correctly
       expect(getTimestampsBetweenDatesUsingDuration).toHaveBeenCalledWith(
@@ -260,7 +260,7 @@ describe('nightscoutTools', () => {
       // Mock empty responses
       vi.mocked(fetch).mockResolvedValueOnce(createFetchResponse([]))
 
-      const result = await pageThroughNightscoutEGVs(mockBaseUrl, mockToken, mockCountPerRequest, mockSince)
+      const result = await pageThroughNightscoutEGVs(mockBaseUrl, mockToken, mockCountPerRequest, mockSince, new Date())
 
       expect(result).toEqual([])
     })
@@ -279,7 +279,7 @@ describe('nightscoutTools', () => {
         .mockResolvedValueOnce(createFetchResponse([{ date: mockTimestamps[0], sgv: 120, type: 'sgv' }]))
         .mockRejectedValueOnce(new Error('Network error'))
 
-      const result = await pageThroughNightscoutEGVs(mockBaseUrl, mockToken, mockCountPerRequest, mockSince)
+      const result = await pageThroughNightscoutEGVs(mockBaseUrl, mockToken, mockCountPerRequest, mockSince, new Date())
 
       // Should still return data from successful request
       expect(result).toHaveLength(1)
@@ -289,7 +289,7 @@ describe('nightscoutTools', () => {
     test('should handle no timestamps', async () => {
       vi.mocked(getTimestampsBetweenDatesUsingDuration).mockReturnValue([])
 
-      const result = await pageThroughNightscoutEGVs(mockBaseUrl, mockToken, mockCountPerRequest, mockSince)
+      const result = await pageThroughNightscoutEGVs(mockBaseUrl, mockToken, mockCountPerRequest, mockSince, new Date())
 
       expect(result).toEqual([])
       expect(fetch).not.toHaveBeenCalled()
