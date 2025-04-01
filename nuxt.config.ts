@@ -75,6 +75,18 @@ export default defineNuxtConfig({
     '/home': {
       ssr: false,
     },
+    '/about': {
+      ssr: false,
+    },
+    '/aboutNightscout': {
+      ssr: false,
+    },
+    '/privacy': {
+      ssr: false,
+    },
+    '/tos': {
+      ssr: false,
+    },
   },
 
   sourcemap: {
