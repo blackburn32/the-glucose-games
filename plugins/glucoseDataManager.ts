@@ -19,12 +19,7 @@ export default defineNuxtPlugin(() => {
   const { hasNightscout, nightscoutSettings } = useNightscout()
   const { hasDexcom } = useTokenStatus()
   const { getGlucoseValueToDisplay } = useDisplaySettings()
-  const { thresholds: storedThresholds } = useThresholds()
-  const { thresholds: demoThresholds } = useDemoThresholds()
-
-  const thresholds = computed(() => {
-    return useDemoData.value ? demoThresholds.value : storedThresholds.value
-  })
+  const { thresholds } = useThresholds()
 
   const timestamps = getTimestampsBetweenDatesUsingDuration(new Date(Date.now() - durationOfData.value), new Date(), ONE_MONTH)
 
@@ -85,7 +80,7 @@ export default defineNuxtPlugin(() => {
   }
 
   const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value))
-  const demoScoredGames = computed(() => getScoredGames(demoData.value, demoThresholds.value))
+  const demoScoredGames = computed(() => getScoredGames(demoData.value, thresholds.value))
 
   const isGlucoseDataLoading = computed(() => {
     if (useDemoData.value) return false
