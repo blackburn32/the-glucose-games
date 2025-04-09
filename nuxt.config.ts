@@ -48,25 +48,13 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/historyDemo': {
-      ssr: false,
-    },
     '/history': {
       ssr: false,
     },
     '/current': {
       ssr: false,
     },
-    '/demo': {
-      ssr: false,
-    },
-    '/currentDemo': {
-      ssr: false,
-    },
     '/achievements': {
-      ssr: false,
-    },
-    '/achievementsDemo': {
       ssr: false,
     },
     '/account': {
@@ -126,14 +114,11 @@ export default defineNuxtConfig({
       login: '/login',
       callback: '/confirm',
       exclude: [
-        '/achievementsDemo',
         '/about',
         '/current',
         '/history',
         '/achievements',
         '/confirm',
-        '/demo',
-        '/historyDemo',
         '/login',
         '/privacy',
         '/tos',
