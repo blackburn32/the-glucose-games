@@ -129,10 +129,16 @@
     <div class="flex flex-col w-full max-w-xl mt-4 space-y-4">
       <NightscoutConnector />
     </div>
-    <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">
+    <div
+      v-if="user"
+      class="text-2xl w-full md:max-w-xl font-semibold mt-8"
+    >
       Danger Zone
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-xl mt-4 gap-4">
+    <div
+      v-if="user"
+      class="grid grid-cols-1 md:grid-cols-2 w-full max-w-xl mt-4 gap-4"
+    >
       <div
         class="btn btn-soft"
         @click="triggerSignOut"
