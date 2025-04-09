@@ -49,9 +49,9 @@
             <li>
               <NuxtLink
                 class="hover:brightness-125 transition"
-                to="/demo"
+                to="/achievements"
               >
-                Demo
+                Achievements
               </NuxtLink>
             </li>
           </ul>

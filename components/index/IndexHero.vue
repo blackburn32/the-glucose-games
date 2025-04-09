@@ -18,9 +18,9 @@
               class="btn btn-primary"
             >Get started</NuxtLink>
             <NuxtLink
-              to="/demo"
+              to="/current"
               class="btn btn-neutral"
-            >Check out the demo</NuxtLink>
+            >Check out the games</NuxtLink>
           </div>
         </div>
       </div>
