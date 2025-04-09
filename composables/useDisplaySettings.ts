@@ -100,6 +100,10 @@ export const useDisplaySettings = () => {
     return `${value} ${unit.value}`
   }
 
+  watch([useDemoData, user], () => {
+    currentDisplaySettings.refresh()
+  })
+
   return {
     displaySettings,
     getCleanGlucoseValue,

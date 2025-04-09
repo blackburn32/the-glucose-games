@@ -135,7 +135,7 @@ export const useThresholds = () => {
     },
   })
 
-  watch(user, () => {
+  watch([user, useDemoData], () => {
     currentThresholds.refresh()
   })
 
