@@ -15,6 +15,7 @@
       <div
         class="flex items-center justify-end space-x-1 md:space-x-3 h-16 -mb-px"
       >
+        <HeaderDemoToggle />
         <HeaderGameDropdown />
         <HeaderHelpDropdown />
         <hr class="w-px h-6 bg-base-content border-none">
