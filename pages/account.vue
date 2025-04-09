@@ -154,7 +154,7 @@
 import { DEFAULT_THRESHOLDS } from '~/types/constants'
 
 const { highThresholdBounds, lowThresholdBounds, setThresholds, targetBloodGlucoseBounds, thresholds } = useThresholds()
-const { useMmol, unit, getGlucoseValue } = useDisplaySettings()
+const { useMmol, unit, getGlucoseValueToDisplay } = useDisplaySettings()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 
@@ -177,7 +177,7 @@ const tempLow = ref<number | undefined>(undefined)
 const lowThreshold = computed({
   get() {
     if (tempLow.value !== undefined) return tempLow.value
-    return thresholds.value?.low ?? getGlucoseValue(DEFAULT_THRESHOLDS.low)
+    return thresholds.value?.low ?? getGlucoseValueToDisplay(DEFAULT_THRESHOLDS.low)
   },
   set(value) {
     tempLow.value = value
@@ -188,7 +188,7 @@ const tempHigh = ref<number | undefined>(undefined)
 const highThreshold = computed({
   get() {
     if (tempHigh.value !== undefined) return tempHigh.value
-    return thresholds.value?.high ?? getGlucoseValue(DEFAULT_THRESHOLDS.high)
+    return thresholds.value?.high ?? getGlucoseValueToDisplay(DEFAULT_THRESHOLDS.high)
   },
   set(value) {
     tempHigh.value = value
