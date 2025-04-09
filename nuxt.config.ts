@@ -128,6 +128,9 @@ export default defineNuxtConfig({
       exclude: [
         '/achievementsDemo',
         '/about',
+        '/current',
+        '/history',
+        '/achievements',
         '/confirm',
         '/demo',
         '/historyDemo',
