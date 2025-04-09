@@ -26,7 +26,7 @@
           class="cursor-pointer hover:scale-105"
         />
         <div class="text-sm">
-          Account
+          Settings
         </div>
       </NuxtLink>
     </div>
