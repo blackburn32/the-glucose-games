@@ -216,7 +216,7 @@ const target = computed({
   },
 })
 
-watch(() => thresholds.value, () => {
+watch(thresholds, () => {
   lowThreshold.value = thresholds.value?.low ?? DEFAULT_THRESHOLDS.low
   highThreshold.value = thresholds.value?.high ?? DEFAULT_THRESHOLDS.high
   target.value = thresholds.value?.target ?? DEFAULT_THRESHOLDS.target
