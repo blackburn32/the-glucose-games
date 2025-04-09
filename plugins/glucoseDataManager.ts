@@ -76,7 +76,7 @@ export default defineNuxtPlugin(() => {
   })
 
   const refreshData = async () => {
-    await fetches.value.at(-1)?.refresh()
+    await Promise.all(fetches.value.map(fetch => fetch.refresh()))
   }
 
   const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value))
