@@ -5,11 +5,13 @@ export const useThresholds = () => {
   const supabase = useSupabaseClient()
   const user = useSupabaseUser()
   const toast = useToast()
+  const nuxtApp = useNuxtApp()
+  const useDemoData = nuxtApp.$useDemoData
   const { getGlucoseValueToDisplay, useMmol } = useDisplaySettings()
   const { thresholds: demoThresholds, setThresholds: setDemoThresholds } = useDemoThresholds()
 
   const currentThresholds = useAsyncData<Thresholds>('thresholds', async () => {
-    if (!user.value) {
+    if (!user.value || useDemoData.value) {
       return demoThresholds.value
     }
     const { data, error } = await supabase.from('thresholds').select('*').maybeSingle()
@@ -96,8 +98,10 @@ export const useThresholds = () => {
       high: useMmol.value ? newThresholds.high * MMOL_CONVERSION_FACTOR : newThresholds.high,
       target: useMmol.value ? newThresholds.target * MMOL_CONVERSION_FACTOR : newThresholds.target,
     }
-    if (!userId) {
-      return setDemoThresholds(valueToSet)
+    if (useDemoData.value || !userId) {
+      setDemoThresholds(valueToSet)
+      await currentThresholds.refresh()
+      return
     }
     const { error } = await supabase.from('thresholds').upsert({
       low: valueToSet.low,
@@ -131,7 +135,7 @@ export const useThresholds = () => {
     },
   })
 
-  watch(user, () => {
+  watch([user, useDemoData], () => {
     currentThresholds.refresh()
   })
 

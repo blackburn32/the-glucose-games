@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full items-center px-2 mb-10">
     <div class="text-4xl font-bold mt-10">
-      Account
+      Account Settings
     </div>
     <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">
       Thresholds
@@ -128,12 +128,17 @@
     </div>
     <div class="flex flex-col w-full max-w-xl mt-4 space-y-4">
       <NightscoutConnector />
-      <DexcomConnector />
     </div>
-    <div class="text-2xl w-full md:max-w-xl font-semibold mt-8">
+    <div
+      v-if="user"
+      class="text-2xl w-full md:max-w-xl font-semibold mt-8"
+    >
       Danger Zone
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-xl mt-4 gap-4">
+    <div
+      v-if="user"
+      class="grid grid-cols-1 md:grid-cols-2 w-full max-w-xl mt-4 gap-4"
+    >
       <div
         class="btn btn-soft"
         @click="triggerSignOut"
@@ -154,7 +159,7 @@
 import { DEFAULT_THRESHOLDS } from '~/types/constants'
 
 const { highThresholdBounds, lowThresholdBounds, setThresholds, targetBloodGlucoseBounds, thresholds } = useThresholds()
-const { useMmol, unit, getGlucoseValue } = useDisplaySettings()
+const { useMmol, unit, getGlucoseValueToDisplay } = useDisplaySettings()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 
@@ -177,7 +182,7 @@ const tempLow = ref<number | undefined>(undefined)
 const lowThreshold = computed({
   get() {
     if (tempLow.value !== undefined) return tempLow.value
-    return thresholds.value?.low ?? getGlucoseValue(DEFAULT_THRESHOLDS.low)
+    return thresholds.value?.low ?? getGlucoseValueToDisplay(DEFAULT_THRESHOLDS.low)
   },
   set(value) {
     tempLow.value = value
@@ -188,7 +193,7 @@ const tempHigh = ref<number | undefined>(undefined)
 const highThreshold = computed({
   get() {
     if (tempHigh.value !== undefined) return tempHigh.value
-    return thresholds.value?.high ?? getGlucoseValue(DEFAULT_THRESHOLDS.high)
+    return thresholds.value?.high ?? getGlucoseValueToDisplay(DEFAULT_THRESHOLDS.high)
   },
   set(value) {
     tempHigh.value = value
@@ -217,7 +222,7 @@ const target = computed({
   },
 })
 
-watch(() => thresholds.value, () => {
+watch(thresholds, () => {
   lowThreshold.value = thresholds.value?.low ?? DEFAULT_THRESHOLDS.low
   highThreshold.value = thresholds.value?.high ?? DEFAULT_THRESHOLDS.high
   target.value = thresholds.value?.target ?? DEFAULT_THRESHOLDS.target

@@ -4,7 +4,6 @@
       Connect to your data
     </div>
     <NightscoutConnector class="max-w-xl" />
-    <DexcomConnector class="max-w-xl" />
   </div>
 </template>
 

@@ -18,7 +18,7 @@ Compete across a broad array of games and contests, including:
 - **Longest Streaks**: Keep track of the longest time you've kept your blood glucose in range without lows, highs, or both. Try to beat your records!
 - **Daily Streaks**: Keep your blood glucose in range during the specified time for as many days in a row as you can.
 
-Check out a demo of the games [here](/demo).
+Check out a demo of the games [here](/current).
 
 ## Track your progress
 

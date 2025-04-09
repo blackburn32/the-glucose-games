@@ -21,9 +21,9 @@
             <div>
               <NuxtLink
                 class="btn btn-neutral shadow-sm group"
-                to="/demo"
+                to="/current"
               >
-                Check out the demo
+                Check out the games
               </NuxtLink>
             </div>
           </div>

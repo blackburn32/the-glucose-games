@@ -51,7 +51,8 @@
         <input
           v-model="baseUrl"
           class="input input-bordered w-full"
-          placeholder="Enter Nightscout URL"
+          :disabled="!user"
+          :placeholder="user ? 'Enter Nightscout URL' : signInString"
         >
         <div class="flex flex-col w-full px-1 mt-2">
           <span class="fieldset-label">Example: https://exampleNightscoutUrl.com</span>
@@ -84,7 +85,8 @@
             v-model="token"
             :type="tokenInputType"
             class="grow"
-            placeholder="Enter Nightscout token"
+            :disabled="!user"
+            :placeholder="user ? `Enter Nightscout token` : signInString"
           >
           <Icon
             :name="showToken ? 'ph:eye' : 'ph:eye-closed'"
@@ -146,6 +148,10 @@ const {
   nightscoutSettings,
   setNightscoutSettings,
 } = useNightscout()
+
+const user = useSupabaseUser()
+
+const signInString = 'Sign in to set this value'
 
 const nuxtApp = useNuxtApp()
 const hasNightscoutData = nuxtApp.$hasNightscoutData

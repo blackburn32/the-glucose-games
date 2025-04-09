@@ -19,12 +19,7 @@ export default defineNuxtPlugin(() => {
   const { hasNightscout, nightscoutSettings } = useNightscout()
   const { hasDexcom } = useTokenStatus()
   const { getGlucoseValueToDisplay } = useDisplaySettings()
-  const { thresholds: storedThresholds } = useThresholds()
-  const { thresholds: demoThresholds } = useDemoThresholds()
-
-  const thresholds = computed(() => {
-    return useDemoData.value ? demoThresholds.value : storedThresholds.value
-  })
+  const { thresholds } = useThresholds()
 
   const timestamps = getTimestampsBetweenDatesUsingDuration(new Date(Date.now() - durationOfData.value), new Date(), ONE_MONTH)
 
@@ -81,11 +76,11 @@ export default defineNuxtPlugin(() => {
   })
 
   const refreshData = async () => {
-    await fetches.value.at(-1)?.refresh()
+    await Promise.all(fetches.value.map(fetch => fetch.refresh()))
   }
 
   const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value))
-  const demoScoredGames = computed(() => getScoredGames(demoData.value, demoThresholds.value))
+  const demoScoredGames = computed(() => getScoredGames(demoData.value, thresholds.value))
 
   const isGlucoseDataLoading = computed(() => {
     if (useDemoData.value) return false
@@ -97,7 +92,7 @@ export default defineNuxtPlugin(() => {
   })
 
   const hasNightscoutData = computed(() => {
-    return glucoseValues.value.some(record => record.provider === NIGHTSCOUT_PROVIDER_NAME)
+    return allRawData.value.some(record => record.provider === NIGHTSCOUT_PROVIDER_NAME)
   })
 
   const randomizeDemoData = () => {
