@@ -92,7 +92,7 @@ export default defineNuxtPlugin(() => {
   })
 
   const hasNightscoutData = computed(() => {
-    return glucoseValues.value.some(record => record.provider === NIGHTSCOUT_PROVIDER_NAME)
+    return allRawData.value.some(record => record.provider === NIGHTSCOUT_PROVIDER_NAME)
   })
 
   const randomizeDemoData = () => {
