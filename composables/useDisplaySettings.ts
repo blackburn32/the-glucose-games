@@ -1,14 +1,18 @@
 import { DEFAULT_DISPLAY_SETTINGS, MMOL_CONVERSION_FACTOR } from '~/types/constants'
 import type { DisplaySettings } from '~/types/displaySettings'
+import { useDemoDisplaySettings } from '~/composables/useDemoDisplaySettings'
 
 export const useDisplaySettings = () => {
   const supabase = useSupabaseClient()
   const user = useSupabaseUser()
   const toast = useToast()
+  const nuxtApp = useNuxtApp()
+  const useDemoData = nuxtApp.$useDemoData
+  const { displaySettings: demoDisplaySettings, setDisplaySettings: setDemoDisplaySettings } = useDemoDisplaySettings()
 
   const currentDisplaySettings = useAsyncData<DisplaySettings>('displaySettings', async () => {
-    if (!user.value) {
-      return DEFAULT_DISPLAY_SETTINGS
+    if (!user.value || useDemoData.value) {
+      return demoDisplaySettings.value
     }
     const { data, error } = await supabase.from('display_settings').select('*').maybeSingle()
     if (error) {
@@ -32,12 +36,9 @@ export const useDisplaySettings = () => {
 
   const setDisplaySettings = async (newDisplaySettings: DisplaySettings) => {
     const userId = user.value?.id
-    if (!userId) {
-      toast.add({
-        title: 'Not logged in',
-        description: 'You need to be logged in to save display settings',
-        color: 'error',
-      })
+    if (!userId || useDemoData.value) {
+      setDemoDisplaySettings(newDisplaySettings)
+      await currentDisplaySettings.refresh()
       return
     }
     const { error } = await supabase.from('display_settings').upsert({
