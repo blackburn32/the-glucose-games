@@ -115,6 +115,7 @@ export default defineNuxtConfig({
       callback: '/confirm',
       exclude: [
         '/about',
+        '/account',
         '/current',
         '/history',
         '/achievements',
