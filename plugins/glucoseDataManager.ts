@@ -99,7 +99,7 @@ export default defineNuxtPlugin(() => {
     rawDemoData.value = generateRandomWalk()
   }
 
-  watch([user, hasDexcom, hasNightscout, nightscoutSettings], () => {
+  watch([() => user, () => hasDexcom, () => hasNightscout, () => nightscoutSettings], () => {
     refreshData()
   })
 

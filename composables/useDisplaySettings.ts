@@ -100,7 +100,7 @@ export const useDisplaySettings = () => {
     return `${value} ${unit.value}`
   }
 
-  watch([useDemoData, user], () => {
+  watch([() => user, () => useDemoData], () => {
     currentDisplaySettings.refresh()
   })
 
