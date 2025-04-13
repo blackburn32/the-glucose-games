@@ -94,6 +94,12 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    test: {
+      coverage: {
+        reporter: ['json', 'json-summary'],
+        reportOnFailure: true,
+      },
+    },
   },
 
   eslint: {
