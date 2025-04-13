@@ -20,6 +20,8 @@ export default defineNuxtConfig({
     },
   },
 
+  ssr: false,
+
   devtools: { enabled: true },
 
   app: {
@@ -45,36 +47,6 @@ export default defineNuxtConfig({
     dexcomClientId: 'This is overridden by .env',
     dexcomClientSecret: 'This is overridden by .env',
     dexcomRedirectUrl: 'http://localhost:3000/api/authorize/dexcom',
-  },
-
-  routeRules: {
-    '/history': {
-      ssr: false,
-    },
-    '/current': {
-      ssr: false,
-    },
-    '/achievements': {
-      ssr: false,
-    },
-    '/account': {
-      ssr: false,
-    },
-    '/home': {
-      ssr: false,
-    },
-    '/about': {
-      ssr: false,
-    },
-    '/aboutNightscout': {
-      ssr: false,
-    },
-    '/privacy': {
-      ssr: false,
-    },
-    '/tos': {
-      ssr: false,
-    },
   },
 
   sourcemap: {
