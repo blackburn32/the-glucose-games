@@ -30,27 +30,8 @@
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
       />
     </div>
-    <LineGraph
-      title="No Lows Streak"
-      :duration="scoredGames.contiguousStreakStats.noLowsStreaks.streakStringToDisplay"
-      :data="scoredGames.contiguousStreakStats.noLowsStreaks.currentStreak"
-      :low="thresholds.low"
-      :best="scoredGames.contiguousStreakStats.noLowsStreaks.longestStreakString"
-    />
-    <LineGraph
-      title="No Highs Streak"
-      :duration="scoredGames.contiguousStreakStats.noHighsStreaks.streakStringToDisplay"
-      :data="scoredGames.contiguousStreakStats.noHighsStreaks.currentStreak"
-      :high="thresholds.high"
-      :best="scoredGames.contiguousStreakStats.noHighsStreaks.longestStreakString"
-    />
-    <LineGraph
-      title="No Highs or Lows Streak"
-      :duration="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks.streakStringToDisplay"
-      :data="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks.currentStreak"
-      :low="thresholds.low"
-      :high="thresholds.high"
-      :best="scoredGames.contiguousStreakStats.noHighsOrLowsStreaks.longestStreakString"
+    <GameContiguousStreaksViewer
+      :scored-games="scoredGames"
     />
     <GameTimeInRangeViewer
       :games="scoredGames"

@@ -29,11 +29,17 @@ const splitRecordsIntoContiguousStreaks = (
 }
 
 export const calculateContiguousStreakStats: (
-  records: GlucoseRecord[],
-  recordIncludedInStreak: (record: GlucoseRecord) => boolean
-) => ContiguousStreakStats = (
+  title: string,
   records: GlucoseRecord[],
   recordIncludedInStreak: (record: GlucoseRecord) => boolean,
+  high?: number | undefined,
+  low?: number | undefined,
+) => ContiguousStreakStats = (
+  title: string,
+  records: GlucoseRecord[],
+  recordIncludedInStreak: (record: GlucoseRecord) => boolean,
+  high?: number | undefined,
+  low?: number | undefined,
 ) => {
   const streaks = splitRecordsIntoContiguousStreaks(records, recordIncludedInStreak)
 
@@ -52,6 +58,9 @@ export const calculateContiguousStreakStats: (
   const streakStringToDisplay = currentlyInStreak ? currentStreakString : 'Not in range'
 
   return {
+    title,
+    high,
+    low,
     longestStreak,
     longestStreakString,
     currentStreak,

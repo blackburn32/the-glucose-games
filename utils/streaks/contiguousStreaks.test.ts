@@ -21,7 +21,7 @@ describe('calculateContiguousStreakStats', () => {
       createRecord(108, new Date('2024-01-01T15:00:00')),
     ]
 
-    const result = calculateContiguousStreakStats(records, record => record.value >= 100)
+    const result = calculateContiguousStreakStats('test', records, record => record.value >= 100)
 
     expect(result.streaks).toHaveLength(2)
     expect(result.longestStreak).toHaveLength(3)
@@ -31,7 +31,7 @@ describe('calculateContiguousStreakStats', () => {
 
   it('should handle empty records', () => {
     const records: GlucoseRecord[] = []
-    const result = calculateContiguousStreakStats(records, record => record.value >= 100)
+    const result = calculateContiguousStreakStats('test', records, record => record.value >= 100)
 
     expect(result.streaks).toHaveLength(0)
     expect(result.longestStreak).toHaveLength(0)
@@ -45,7 +45,7 @@ describe('calculateContiguousStreakStats', () => {
       createRecord(95, new Date('2024-01-01T11:00:00')),
     ]
 
-    const result = calculateContiguousStreakStats(records, record => record.value >= 100)
+    const result = calculateContiguousStreakStats('test', records, record => record.value >= 100)
 
     expect(result.streaks).toHaveLength(0)
     expect(result.longestStreak).toHaveLength(0)
@@ -59,7 +59,7 @@ describe('calculateContiguousStreakStats', () => {
       createRecord(100, new Date('2024-01-01T10:00:00')),
     ]
 
-    const result = calculateContiguousStreakStats(records, record => record.value >= 100)
+    const result = calculateContiguousStreakStats('test', records, record => record.value >= 100)
 
     expect(result.streaks).toHaveLength(1)
     expect(result.longestStreak).toHaveLength(1)

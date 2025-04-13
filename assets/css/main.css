@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@nuxt/ui";
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
     themes: "dark";
@@ -41,4 +42,37 @@
     /* effects */
     --depth: 1;
     --noise: 0;
+}
+
+:root {
+    /* Least prominent text */
+    --ui-text-dimmed: var(--color-base-content);
+    /* Slightly muted text */
+    --ui-text-muted: var(--color-base-content);
+    /* Moderately prominent text */
+    --ui-text-toned: var(--color-base-content);
+    /* Default text color */
+    --ui-text: var(--color-base-content);
+    /*!* Most prominent text *!*/
+    --ui-text-highlighted: var(--color-base-content);
+
+    /* Main background color */
+    --ui-bg: var(--color-base-100);
+    /* Subtle background */
+    --ui-bg-muted: var(--color-base-100);
+    /* Slightly elevated background */
+    --ui-bg-elevated: var(--color-base-200);
+    /* More prominent background */
+    --ui-bg-accented: var(--color-base-300);
+    /*!* Inverted background color *!*/
+    /*--ui-bg-inverted: var(--ui-color-neutral-900);*/
+
+    /* Default border color */
+    --ui-border: var(--color-base-300);
+    /* Subtle border */
+    --ui-border-muted: var(--color-base-300);
+    /* More prominent border */
+    --ui-border-accented: var(--color-base-300);
+    /*!* Inverted border color *!*/
+    /*--ui-border-inverted: var(--color-base-300);*/
 }

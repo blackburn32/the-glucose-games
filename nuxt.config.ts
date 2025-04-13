@@ -20,6 +20,8 @@ export default defineNuxtConfig({
     },
   },
 
+  ssr: false,
+
   devtools: { enabled: true },
 
   app: {
@@ -47,36 +49,6 @@ export default defineNuxtConfig({
     dexcomRedirectUrl: 'http://localhost:3000/api/authorize/dexcom',
   },
 
-  routeRules: {
-    '/history': {
-      ssr: false,
-    },
-    '/current': {
-      ssr: false,
-    },
-    '/achievements': {
-      ssr: false,
-    },
-    '/account': {
-      ssr: false,
-    },
-    '/home': {
-      ssr: false,
-    },
-    '/about': {
-      ssr: false,
-    },
-    '/aboutNightscout': {
-      ssr: false,
-    },
-    '/privacy': {
-      ssr: false,
-    },
-    '/tos': {
-      ssr: false,
-    },
-  },
-
   sourcemap: {
     client: 'hidden',
   },
@@ -94,6 +66,12 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    test: {
+      coverage: {
+        reporter: ['json', 'json-summary'],
+        reportOnFailure: true,
+      },
+    },
   },
 
   eslint: {
