@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full md:max-w-6xl grid grid-cols-1 md:grid-cols-2">
+  <div class="w-full grid grid-cols-1 md:grid-cols-2">
     <div class="flex flex-col p-2">
       <LineGraph
         v-if="streakToDisplay"
@@ -33,8 +33,8 @@
           variant="soft"
           active-variant="outline"
           :ui="{
-            list: 'w-full gap-x-2',
-            item: 'btn btn-primary btn-sm btn-soft w-10',
+            list: 'w-full',
+            item: 'btn btn-primary btn-sm btn-soft',
             first: 'btn btn-sm btn-soft',
             last: 'btn btn-sm btn-soft',
             prev: 'btn btn-sm btn-soft',

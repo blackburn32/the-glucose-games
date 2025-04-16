@@ -7,16 +7,14 @@ import { getScoredGames } from '~/utils/games/scoredGames'
 import { compareGlucoseDates } from '~/utils/data/compareGlucoseDates'
 import { getTimestampsBetweenDatesUsingDuration } from '~/utils/timing/timeSlicers'
 import type { AsyncData } from '#app'
-import { useLocale } from '~/composables/useLocale'
 
 export default defineNuxtPlugin(() => {
   const user = useSupabaseUser()
   const useDemoDataOverride = ref(false)
   const useDemoData = computed(() => {
-    return useDemoDataOverride.value || !user.value
+    return useDemoDataOverride.value || !user.value || !hasNightscoutData.value
   })
   const durationOfData = ref(THREE_MONTHS)
-  const locale = useLocale()
 
   const { hasNightscout, nightscoutSettings } = useNightscout()
   const { hasDexcom } = useTokenStatus()
@@ -55,7 +53,7 @@ export default defineNuxtPlugin(() => {
   const finalizeGlucoseData = (data: GlucoseRecord[]) => {
     const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000
     return data.map((record) => {
-      const tolerantDate = parser.fromAny(record.created, locale.value)
+      const tolerantDate = parser.fromAny(record.created)
       const date = new Date(tolerantDate.getTime() - timezoneOffset)
       return {
         ...record,

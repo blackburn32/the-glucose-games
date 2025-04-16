@@ -8,7 +8,7 @@
           <div class="mb-4">
             <NuxtLink
               class="flex items-center justify-center w-8 h-8"
-              to="/home"
+              to="/"
             >
               <NuxtImg
                 class="w-8 h-8"
@@ -79,14 +79,6 @@
                 Account
               </NuxtLink>
             </li>
-            <li>
-              <NuxtLink
-                class="hover:brightness-125 transition"
-                to="/connect"
-              >
-                Connections
-              </NuxtLink>
-            </li>
           </ul>
         </div>
 
@@ -98,7 +90,7 @@
             <li>
               <NuxtLink
                 class="hover:brightness-125 transition"
-                to="/about"
+                to="/about/general"
               >
                 About
               </NuxtLink>
@@ -106,7 +98,7 @@
             <li>
               <NuxtLink
                 class="hover:brightness-125 transition"
-                to="/tos"
+                to="/about/terms"
               >
                 Terms of Service
               </NuxtLink>
@@ -114,7 +106,7 @@
             <li>
               <NuxtLink
                 class="hover:brightness-125 transition"
-                to="/privacy"
+                to="/about/privacy"
               >
                 Privacy policy
               </NuxtLink>
