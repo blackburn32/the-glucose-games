@@ -3,7 +3,7 @@ title: Terms of Service
 description: The Glucose Games terms of service
 ---
 
-Last revised on 2/23/2025
+Last revised on 4/16/2025
 
 ## Questions
 
@@ -61,7 +61,7 @@ The games can help you understand your strengths and weaknesses, and to help mot
 ### Connecting to your Glucose Data
 
 The games can connect to your blood glucose data, if you have a compatible device and have given permission to connect to it.
-You can disconnect your data at any time by going to the [connections](/connect) page.
+You can disconnect your data at any time by going to the [settings](/account) page.
 
 ### Privacy
 
@@ -129,3 +129,4 @@ Adventure to Infinity LLC may assign its rights under the Agreement without cond
 ## Change Log
 
 - 2/23/2025: Initial version
+- 4/16/2025: Updated "connections" link to "settings" and changed destination

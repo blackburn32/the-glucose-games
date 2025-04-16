@@ -6,7 +6,7 @@
     <div v-if="!hasGlucoseData && !isGlucoseDataLoading">
       <NuxtLink
         class="btn btn-soft"
-        to="/connect"
+        to="/account"
       >
         Get Connected to Play
       </NuxtLink>
