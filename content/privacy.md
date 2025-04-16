@@ -3,7 +3,7 @@ title: Privacy Policy
 description: The Glucose Games privacy policy
 ---
 
-Last revised on 2/22/2025
+Last revised on 4/16/2025
 
 ## Questions
 
@@ -34,7 +34,6 @@ We also collect information automatically as you use the Services:
 We may also get information about you from other sources. For example:
 
 - **Third-Party Login**: If you use a third-party service (such as Google) to create an account or sign in we will receive associated login information like your email, username, and connection token.
-- **Dexcom Data**: If you connect your account to Dexcom, we will collect estimated glucose values and other data from the Dexcom API. We will also store a credential to access the Dexcom API on your behalf.
 - **Nightscout Data**: If you connect your account to a Nightscout instance, we will collect estimated glucose values and other data from the Nightscout API. We will also store a base URL and token to access the Nightscout API on your behalf.
 
 ## How and Why We Use Information
@@ -103,7 +102,6 @@ In the last 12 months, we collected the following categories of personal informa
 - Identifiers (like your name, contact information, and device and online identifiers);
 - Internet or other electronic network activity information (such as your usage of our Services, like the actions you take as an administrator of a site);
 - Geolocation data (such as your location based on your IP address);
-- Estimated glucose values and other data from the Dexcom API.
 - Estimated glucose values and other data from the Nightscout API.
 
 You can find more information about what we collect and sources of that information in the [Information We Collect](#information-we-collect) section above.
@@ -129,6 +127,7 @@ Although most changes are likely to be minor, The Glucose Games may change its P
 
 ## Change Log
 
+- 4/16/2025: Removed references to the Dexcom API which is no longer used. Updated link destinations after moving pages.
 - 2/22/2025: Added Nightscout API usage information.
 - 2/12/2025: Initial version of the Privacy Policy.
 

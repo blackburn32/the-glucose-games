@@ -17,7 +17,6 @@ export default defineNuxtPlugin(() => {
   const durationOfData = ref(THREE_MONTHS)
 
   const { hasNightscout, nightscoutSettings } = useNightscout()
-  const { hasDexcom } = useTokenStatus()
   const { getGlucoseValueToDisplay } = useDisplaySettings()
   const { thresholds } = useThresholds()
 
@@ -104,7 +103,7 @@ export default defineNuxtPlugin(() => {
     rawDemoData.value = generateRandomWalk()
   }
 
-  watch([() => user, () => hasDexcom, () => hasNightscout, () => nightscoutSettings], () => {
+  watch([() => user, () => hasNightscout, () => nightscoutSettings], () => {
     refreshData()
   })
 
