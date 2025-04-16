@@ -98,7 +98,7 @@
         <div class="flex flex-col w-full px-1 mt-2">
           <span class="fieldset-label text-xs">Follow
             <NuxtLink
-              to="/aboutNightscout#getting-your-nightscout-access-token"
+              to="/about/nightscout#getting-your-nightscout-access-token"
               target="_blank"
               class="underline"
             >these</NuxtLink>

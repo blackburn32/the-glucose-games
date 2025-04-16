@@ -1,4 +1,7 @@
-# Terms of Service
+---
+title: Terms of Service
+description: The Glucose Games terms of service
+---
 
 Last revised on 2/23/2025
 
@@ -64,7 +67,7 @@ You can disconnect your data at any time by going to the [connections](/connect)
 
 We take your privacy seriously.
 We do not sell or share your health data.
-You can read our full privacy policy [here](/privacy).
+You can read our full privacy policy [here](/about/privacy).
 
 ### This is not a medical tool
 

@@ -1,4 +1,7 @@
-# Privacy Policy
+---
+title: Privacy Policy
+description: The Glucose Games privacy policy
+---
 
 Last revised on 2/22/2025
 

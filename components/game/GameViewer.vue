@@ -1,8 +1,6 @@
 <template>
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4"
-  >
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-6">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+    <div class="grid grid-cols-1 gap-y-6">
       <GameAverageInRangeDailyStreak />
       <GamePercentTimeInRangeDailyStreak />
       <DailyStreakBadge
@@ -30,17 +28,19 @@
         :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
       />
     </div>
-    <GameContiguousStreaksViewer
-      :scored-games="scoredGames"
-    />
-    <GameTimeInRangeViewer
-      :games="scoredGames"
-      :thresholds="thresholds"
-    />
-    <GameAverageInRangeViewer
-      :games="scoredGames"
-      :thresholds="thresholds"
-    />
+    <div class="md:col-span-2 grid grid-cols-1 gap-4">
+      <GameContiguousStreaksViewer
+        :scored-games="scoredGames"
+      />
+      <GameTimeInRangeViewer
+        :games="scoredGames"
+        :thresholds="thresholds"
+      />
+      <GameAverageInRangeViewer
+        :games="scoredGames"
+        :thresholds="thresholds"
+      />
+    </div>
   </div>
 </template>
 

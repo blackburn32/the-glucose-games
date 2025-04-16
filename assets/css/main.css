@@ -1,6 +1,5 @@
 @import "tailwindcss";
-@import "@nuxt/ui";
-@plugin "@tailwindcss/typography";
+@import "@nuxt/ui-pro";
 @plugin "daisyui" {
     themes: "dark";
 }
@@ -45,6 +44,14 @@
 }
 
 :root {
+
+    --ui-primary: var(--color-primary);
+    --ui-secondary: var(--color-secondary);
+    --ui-success: var(--color-accent);
+    --ui-info: var(--color-info);
+    --ui-warning: var(--color-warning);
+    --ui-error: var(--color-error);
+
     /* Least prominent text */
     --ui-text-dimmed: var(--color-base-content);
     /* Slightly muted text */

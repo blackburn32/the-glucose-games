@@ -1,4 +1,7 @@
-# About The Glucose Games
+---
+title: About The Glucose Games
+description: The games you control with your blood glucose
+---
 
 The Glucose Games are a series of games and contests meant to help people with diabetes optimize their control of blood glucose levels.
 These are the first games of their kind, using your blood glucose to control the experiences.
@@ -9,7 +12,7 @@ Compete with yourself to improve your control over time, or (in the future) comp
 The first step is getting your blood glucose levels hooked up to the games. 
 In order to play the game you will need to have a continuous glucose monitor (CGM), and you will need to be connected to a [Nightscout](https://nightscout.github.io/) instance.
 The games will pull your blood glucose data from the Nightscout API.
-You can learn more about connecting to Nightscout [here](/aboutNightscout).
+You can learn more about connecting to Nightscout [here](/about/nightscout).
 
 ## The games
 
@@ -24,13 +27,13 @@ Check out a demo of the games [here](/current).
 
 As you compete in the games, you'll be able to track your progress over time.
 See how your control has improved, and where you might need to focus more attention.
-You can see a demo of the progress tracking in action [here](/historyDemo).
+You can see a demo of the progress tracking in action [here](/history).
 
 ## Earn achievements
 
 As you play the games, you'll earn achievements for reaching milestones and completing challenges. 
 Keep track of your achievements and see how many you can earn! 
-Check out a demo of the available achievements [here](/achievementsDemo). 
+Check out a demo of the available achievements [here](/achievements). 
 
 ## The community (Coming Soon)
 
@@ -40,7 +43,7 @@ Use your avatar to represent yourself, and unlock new avatars and looks as you c
 
 ## Data privacy
 
-We take your privacy seriously. Check out our [privacy policy](/privacy) to see how we handle your data.
+We take your privacy seriously. Check out our [privacy policy](/about/privacy) to see how we handle your data.
 
 ## Status
 
@@ -55,7 +58,7 @@ You can also contact us with any questions at [support@glucose.games](mailto:sup
 
 ## Attributions
 
-The [privacy policy](/privacy) for The Glucose Games is based  upon the [Automattic Privacy Policy](https://automattic.com/privacy/) and is licensed under [Creative Commons Attribution Share-Alike License 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+The [privacy policy](/about/privacy) for The Glucose Games is based  upon the [Automattic Privacy Policy](https://automattic.com/privacy/) and is licensed under [Creative Commons Attribution Share-Alike License 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
 ## Collaborating
 

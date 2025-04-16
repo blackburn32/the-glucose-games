@@ -1,12 +1,12 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@pinia/nuxt', '@nuxt/image', 'nuxt-aos', '@samk-dev/nuxt-vcalendar', '@sentry/nuxt/module'],
+  modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui-pro', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@nuxt/image', '@samk-dev/nuxt-vcalendar', '@sentry/nuxt/module'],
 
   $production: {
     runtimeConfig: {
       public: {
-        authCallbackUrl: 'https://glucose.games/confirm',
+        authCallbackUrl: 'https://glucose.games/current',
         supabase: {
           url: 'https://robpsmulkkgavocpifbg.supabase.co',
           key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvYnBzbXVsa2tnYXZvY3BpZmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5Nzg5NjYsImV4cCI6MjA1MjU1NDk2Nn0.EMfcKeCxgwVdTqDDt67BNADc82ZMNKLpaJRVK_uo-mA',
@@ -39,9 +39,21 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  router: {
+    options: {
+      scrollBehaviorType: 'smooth',
+    },
+  },
+
+  content: {
+    preview: {
+      api: 'https://api.nuxt.studio',
+    },
+  },
+
   runtimeConfig: {
     public: {
-      authCallbackUrl: 'http://localhost:3000/confirm',
+      authCallbackUrl: 'http://localhost:3000/current',
     },
     dexcomBaseUrl: 'https://sandbox-api.dexcom.com',
     dexcomClientId: 'This is overridden by .env',
@@ -57,9 +69,6 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'cloudflare-pages',
-    // experimental: {
-    //   openAPI: true,
-    // },
   },
 
   vite: {
@@ -90,20 +99,17 @@ export default defineNuxtConfig({
   supabase: {
     redirectOptions: {
       login: '/login',
-      callback: '/confirm',
+      callback: '/current',
       exclude: [
-        '/about',
+        '/about/*',
         '/account',
         '/current',
         '/history',
         '/achievements',
-        '/confirm',
         '/login',
-        '/privacy',
-        '/tos',
         '/',
       ],
-      cookieRedirect: true,
+      saveRedirectToCookie: true,
     },
   },
 })

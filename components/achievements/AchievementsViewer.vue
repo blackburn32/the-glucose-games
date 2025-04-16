@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col w-full items-center space-y-8 px-2">
     <div class="flex flex-col items-center text-center w-full md:max-w-lg bg-base-200 px-4 py-2 rounded">
+      <div class="w-full font-bold">
+        All Achievements
+      </div>
       <fieldset
         class="fieldset w-full"
       >

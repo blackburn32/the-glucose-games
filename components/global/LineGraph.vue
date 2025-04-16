@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full">
     <ClientOnly>
-      <div class="flex flex-col w-full ml-8">
+      <div class="flex flex-col w-full pl-8">
         <div class="text-2xl font-semibold leading-tight max-w-full">
           {{ title }}
         </div>

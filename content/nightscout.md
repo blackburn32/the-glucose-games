@@ -1,4 +1,7 @@
-# Connecting to Nightscout
+---
+title: Nightscout
+description: Connect to Nightscout to play the Glucose Games
+---
 
 In order to play the games, you will need to have a continuous glucose monitor (CGM) and be connected to a [Nightscout](https://nightscout.github.io/) instance.
 

@@ -3,8 +3,12 @@
     <IndexHero class="mb-[100px]" />
     <IndexCards />
     <IndexCTA />
+    <Footer class="w-full" />
   </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'marketing',
+})
 </script>

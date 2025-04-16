@@ -1,14 +1,152 @@
 <template>
-  <div class="flex overflow-hidden h-[100vh] w-screen">
-    <div class="relative flex flex-1 flex-col h-full max-w-full">
-      <Header />
-      <div class="flex flex-1 flex-col h-full max-w-full overflow-y-auto overflow-x-hidden">
-        <slot />
-        <Footer />
-      </div>
-    </div>
-  </div>
+  <UDashboardGroup>
+    <UDashboardSidebar
+      id="default"
+      v-model:open="open"
+      collapsible
+      resizable
+      class="bg-(--ui-bg-elevated)/25"
+      :ui="{ footer: 'lg:border-t lg:border-(--ui-border)' }"
+    >
+      <template #header="{ collapsed }">
+        <div class="flex items-center">
+          <NuxtLink
+            to="/"
+            class="shrink-0"
+          >
+            <NuxtImg
+              class="w-8 h-8"
+              src="/favicon.png"
+              width="128"
+              height="128"
+            />
+          </NuxtLink>
+          <div
+            v-if="!collapsed"
+            class="text-xl font-bold ml-2"
+          >
+            Glucose Games
+          </div>
+        </div>
+      </template>
+      <template #default="{ collapsed }">
+        <UDashboardSearchButton
+          :collapsed="collapsed"
+          class="bg-transparent ring-(--ui-border)"
+        />
+
+        <UNavigationMenu
+          :collapsed="collapsed"
+          :items="links"
+          orientation="vertical"
+        />
+        <SidebarDemoModeController
+          class="mt-auto"
+          :collapsed="collapsed"
+        />
+      </template>
+      <template #footer="{ collapsed }">
+        <UNavigationMenu
+          :collapsed="collapsed"
+          :items="aboutLinks"
+          orientation="vertical"
+        />
+      </template>
+    </UDashboardSidebar>
+    <UDashboardSearch
+      :groups="groups"
+      :color-mode="false"
+    />
+    <slot />
+  </UDashboardGroup>
 </template>
 
 <script setup lang="ts">
+const route = useRoute()
+
+const open = ref(false)
+
+const aboutLinks = [
+  {
+    label: 'Information',
+    to: '/about/general',
+    icon: 'i-ph-info-fill',
+    children: [
+      {
+        label: 'About',
+        to: '/about/general',
+        icon: 'i-ph-info-fill',
+        onSelect: () => {
+          open.value = false
+        },
+      }, {
+        label: 'Nightscout',
+        to: '/about/nightscout',
+        icon: 'i-ph-chart-line-fill',
+        onSelect: () => {
+          open.value = false
+        },
+      }, {
+        label: 'Privacy Policy',
+        to: '/about/privacy',
+        icon: 'i-ph-shield-check-fill',
+        onSelect: () => {
+          open.value = false
+        },
+      }, {
+        label: 'Terms of Service',
+        to: '/about/terms',
+        icon: 'i-ph-file-text-fill',
+        onSelect: () => {
+          open.value = false
+        },
+      },
+    ],
+  },
+]
+
+const links = [{
+  label: 'Dashboard',
+  icon: 'i-ph-house-fill',
+  to: '/current',
+  onSelect: () => {
+    open.value = false
+  },
+}, {
+  label: 'Records',
+  icon: 'i-ph-user-fill',
+  to: '/history',
+  onSelect: () => {
+    open.value = false
+  },
+}, {
+  label: 'Achievements',
+  icon: 'i-ph-trophy-fill',
+  to: '/achievements',
+  onSelect: () => {
+    open.value = false
+  },
+}, {
+  label: 'Settings',
+  to: '/account',
+  icon: 'i-ph-gear-fill',
+}]
+
+const groups = computed(() => [
+  {
+    id: 'links',
+    label: 'Go to',
+    items: links.flat(),
+  }, {
+    id: 'code',
+    label: 'Code',
+    items: [{
+      id: 'source',
+      label: 'View page source',
+      icon: 'i-simple-icons-github',
+      to: `https://github.com/blackburn32/the-glucose-games/tree/master/pages${route.path === '/' ? '/index' : route.path}.vue`,
+      target: '_blank',
+    }],
+  },
+])
 </script>
