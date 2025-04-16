@@ -128,5 +128,5 @@ Adventure to Infinity LLC may assign its rights under the Agreement without cond
 
 ## Change Log
 
-- 2/23/2025: Initial version
 - 4/16/2025: Updated "connections" link to "settings" and changed destination
+- 2/23/2025: Initial version

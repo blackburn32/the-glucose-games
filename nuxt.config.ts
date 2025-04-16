@@ -15,8 +15,6 @@ export default defineNuxtConfig({
       supabase: {
         serviceKey: 'This is overridden by .env',
       },
-      dexcomBaseUrl: 'https://sandbox-api.dexcom.com', // Will update once approved by Dexcom for limited access
-      dexcomRedirectUrl: 'https://glucose.games/api/authorize/dexcom',
     },
   },
 
@@ -55,10 +53,6 @@ export default defineNuxtConfig({
     public: {
       authCallbackUrl: 'http://localhost:3000/current',
     },
-    dexcomBaseUrl: 'https://sandbox-api.dexcom.com',
-    dexcomClientId: 'This is overridden by .env',
-    dexcomClientSecret: 'This is overridden by .env',
-    dexcomRedirectUrl: 'http://localhost:3000/api/authorize/dexcom',
   },
 
   sourcemap: {

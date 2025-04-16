@@ -25,11 +25,9 @@ export default defineEventHandler(async (event) => {
     const startDate = start ? new Date(start) : undefined
 
     const supabase = serverSupabaseServiceRole<Database>(event)
-    const runtimeConfig = useRuntimeConfig(event)
-    const dataManager = new DataManager(user.id, supabase, runtimeConfig)
+    const dataManager = new DataManager(user.id, supabase)
 
     const egvsFromAllProviders = await Promise.all([
-      dataManager.getDexcomData(),
       dataManager.getNightscoutData(startDate, endDate),
     ])
 
