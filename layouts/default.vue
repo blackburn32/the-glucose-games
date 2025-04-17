@@ -136,7 +136,11 @@ const groups = computed(() => [
   {
     id: 'links',
     label: 'Go to',
-    items: links.flat(),
+    items: [...links.flat()],
+  }, {
+    id: 'information',
+    label: 'Information',
+    items: [...aboutLinks.map(link => link.children).flat()],
   }, {
     id: 'code',
     label: 'Code',
