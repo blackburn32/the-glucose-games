@@ -10,7 +10,7 @@ export const useDisplaySettings = () => {
   const useDemoData = nuxtApp.$useDemoData
   const { displaySettings: demoDisplaySettings, setDisplaySettings: setDemoDisplaySettings } = useDemoDisplaySettings()
 
-  const currentDisplaySettings = useAsyncData<DisplaySettings>('displaySettings', async () => {
+  const currentDisplaySettings = useLazyAsyncData<DisplaySettings>('displaySettings', async () => {
     if (!user.value || useDemoData.value) {
       return demoDisplaySettings.value
     }
@@ -32,6 +32,7 @@ export const useDisplaySettings = () => {
     default: () => {
       return DEFAULT_DISPLAY_SETTINGS
     },
+    immediate: true,
   })
 
   const setDisplaySettings = async (newDisplaySettings: DisplaySettings) => {

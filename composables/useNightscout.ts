@@ -4,14 +4,14 @@ export const useNightscout = () => {
   const supabase = useSupabaseClient<Database>()
   const supabaseUser = useSupabaseUser()
 
-  const nightscoutSettingsRequest = useAsyncData('nightscout_settings', async () => {
+  const nightscoutSettingsRequest = useLazyAsyncData('nightscout_settings', async () => {
     if (!supabaseUser.value) return null
     const { data } = await supabase.from('nightscout_settings')
       .select('*')
       .eq('user_id', supabaseUser.value.id)
       .maybeSingle()
     return data
-  })
+  }, { immediate: true })
 
   const nightscoutSettings = computed(() => nightscoutSettingsRequest.data.value)
 

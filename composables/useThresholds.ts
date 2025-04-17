@@ -10,7 +10,7 @@ export const useThresholds = () => {
   const { getGlucoseValueToDisplay, useMmol } = useDisplaySettings()
   const { thresholds: demoThresholds, setThresholds: setDemoThresholds } = useDemoThresholds()
 
-  const currentThresholds = useAsyncData<Thresholds>('thresholds', async () => {
+  const currentThresholds = useLazyAsyncData<Thresholds>('thresholds', async () => {
     if (!user.value || useDemoData.value) {
       return demoThresholds.value
     }
@@ -35,6 +35,7 @@ export const useThresholds = () => {
     default: () => {
       return demoThresholds.value
     },
+    immediate: true,
   })
 
   const highThresholdBounds = computed(() => {

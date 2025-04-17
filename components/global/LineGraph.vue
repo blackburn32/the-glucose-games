@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col w-full">
     <ClientOnly>
-      <div class="flex flex-col w-full pl-8">
+      <div
+        v-if="isReady"
+        class="flex flex-col w-full pl-8"
+      >
         <div class="text-2xl font-semibold leading-tight max-w-full">
           {{ title }}
         </div>
@@ -19,14 +22,14 @@
       </div>
       <div
         v-if="data.length == 0"
-        class="skeleton flex items-center justify-center min-h-[292px] w-full mt-2"
+        class="skeleton flex items-center justify-center min-h-[292px] w-full"
       >
         <div class="text-2xl">
           No data available
         </div>
       </div>
       <VisXYContainer
-        v-if="data.length > 0"
+        v-if="data.length > 0 && isReady"
         :data="data"
         :y-domain="[0, useMmol ? 23 : 400]"
       >
@@ -72,7 +75,7 @@
           color="var(--color-primary)"
         />
       </VisXYContainer>
-      <template #fallback>
+      <div v-if="!isReady">
         <div class="flex flex-col w-full ml-8">
           <div class="text-2xl font-semibold leading-tight max-w-full">
             {{ title }}
@@ -89,8 +92,8 @@
             </div>
           </div>
         </div>
-        <div class="skeleton min-h-[292px] w-full mt-2" />
-      </template>
+        <div class="skeleton min-h-[292px] w-full" />
+      </div>
     </ClientOnly>
   </div>
 </template>
@@ -98,6 +101,8 @@
 <script setup lang="ts">
 import { VisAxis, VisXYContainer, VisLine, VisArea, VisCrosshair, VisTooltip } from '@unovis/vue'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
+
+const isReady = ref(false)
 
 defineProps<{
   data: GlucoseRecord[]
@@ -120,6 +125,17 @@ const tickFormat = (d: number) => getCleanDate(new Date(d))
 const crosshairTemplate = (d: GlucoseRecord) => {
   return `${getCleanDate(d.created)}: ${d.value.toFixed(2)} ${unit.value}`
 }
+
+// Delay rendering until after page transition to make things snappier
+onMounted(() => {
+  // Use nextTick to ensure DOM is updated
+  nextTick(() => {
+    // Add a small delay to ensure transition is complete
+    setTimeout(() => {
+      isReady.value = true
+    }, 10)
+  })
+})
 </script>
 
 <style scoped>
