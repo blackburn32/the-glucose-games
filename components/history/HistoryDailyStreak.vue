@@ -23,6 +23,7 @@
       <div class="flex flex-row space-x-4">
         <ClientOnly>
           <VDatePicker
+            v-if="isReady"
             v-model="selectedDate"
             class="mt-2"
             :min-date="minDate"
@@ -53,6 +54,8 @@ const selectedDate = ref(new Date())
 const cleanSelectedDate = computed(() => {
   return selectedDate.value.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
 })
+
+const isReady = ref(false)
 
 const props = defineProps<{
   title: string
@@ -96,6 +99,17 @@ const attrs = computed(() => {
       },
       dates: streak,
     }
+  })
+})
+
+// Delay rendering until after page transition to make things snappier
+onMounted(() => {
+  // Use nextTick to ensure DOM is updated
+  nextTick(() => {
+    // Add a small delay to ensure transition is complete
+    setTimeout(() => {
+      isReady.value = true
+    }, 10)
   })
 })
 </script>
