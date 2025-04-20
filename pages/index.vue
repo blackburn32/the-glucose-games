@@ -1,9 +1,8 @@
 <template>
-  <div class="flex flex-col w-full items-center">
-    <IndexHero class="mb-[100px]" />
+  <div class="flex flex-col w-full max-w-[1440px] items-center mx-auto">
+    <IndexHero class="mb-[40px]" />
     <IndexCards />
     <IndexCTA />
-    <Footer class="w-full" />
   </div>
 </template>
 

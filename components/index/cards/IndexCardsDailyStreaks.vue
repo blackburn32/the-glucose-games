@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center w-full h-full relative">
+  <div class="flex items-center justify-center w-full h-full relative min-h-[300px]">
     <GamePercentTimeInRangeDailyStreak
       class="absolute -top-4 -left-8 scale-60 max-w-[300px]"
       :scored-games-override="worstGames"

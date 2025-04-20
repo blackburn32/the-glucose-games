@@ -10,23 +10,17 @@
           </div>
         </div>
 
-        <div class="text-center not-prose">
-          <div class="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <div>
-              <NuxtLink
-                class="btn btn-primary w-full shadow-sm"
-                to="/login"
-              >Get started</NuxtLink>
-            </div>
-            <div>
-              <NuxtLink
-                class="btn btn-neutral shadow-sm group"
-                to="/current"
-              >
-                Check out the games
-              </NuxtLink>
-            </div>
-          </div>
+        <div class="flex flex-row items-center justify-center space-x-4">
+          <NuxtLink
+            class="btn btn-primary shadow-sm"
+            to="/login"
+          >Get started</NuxtLink>
+          <NuxtLink
+            class="btn shadow-sm group"
+            to="/current"
+          >
+            Check out the games
+          </NuxtLink>
         </div>
       </div>
     </div>
