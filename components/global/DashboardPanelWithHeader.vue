@@ -3,7 +3,7 @@
     :id="id"
   >
     <template #header>
-      <UDashboardNavbar :title="title">
+      <UDashboardNavbar>
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>

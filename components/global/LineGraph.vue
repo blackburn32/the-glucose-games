@@ -62,10 +62,14 @@
           type="x"
           :x="x"
           :tick-format="tickFormat"
+          :grid-line="false"
         />
         <VisAxis
           :y="y"
           type="y"
+          :num-ticks="4"
+          :grid-line="false"
+          :tick-line="true"
         />
         <VisTooltip />
         <VisCrosshair
