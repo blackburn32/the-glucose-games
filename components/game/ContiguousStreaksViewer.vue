@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full space-y-2">
+  <div class="flex flex-col w-full space-y-2 bg-base-200 rounded-2xl p-4">
     <LineGraph
       :data="currentGames.currentStreak"
       :title="currentGames.title"
