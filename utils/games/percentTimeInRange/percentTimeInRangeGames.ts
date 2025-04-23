@@ -3,10 +3,11 @@ import type { Thresholds } from '~/types/thresholds'
 import { filterRecordsByTimePeriod } from '~/utils/filters/timePeriod/filterByTimePeriod'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import type { ScoredDay } from '~/types/scoredDay'
-import { CurrentDayStatus } from '~/types/constants'
+import { CurrentDayStatus, WeeklyTimePeriods } from '~/types/constants'
 import { calculateDailyStreakStats } from '~/utils/streaks/dailyStreaks'
 import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 import { ScoreCheckResult } from '~/types/scoreCheckResult'
+import type { TimeBasedDailyStreaks } from '~/types/timeBasedDailyStreaks'
 
 export const percentTimeInRangeGame = (
   records: GlucoseRecord[],
@@ -52,6 +53,22 @@ export const percentTimeInRangeGame = (
     getCurrentDayStatus,
     cleanPercentForDisplay,
   )
+}
+
+export const percentTimeInRangeForEveryFourHourPeriod = (
+  records: GlucoseRecord[],
+  thresholds: Thresholds,
+): TimeBasedDailyStreaks => {
+  return Object.fromEntries(WeeklyTimePeriods.map((period) => {
+    return [period.name, percentTimeInRangeGame(
+      records,
+      thresholds,
+      period.startHour,
+      period.startMinutes,
+      period.endHour,
+      period.endMinutes,
+    )]
+  }))
 }
 
 export const percentTimeInRangeForFullDayStreak = (

@@ -1,5 +1,6 @@
 import type { ContiguousStreakStats } from '~/types/contiguousStreakStats'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
+import type { TimeBasedDailyStreaks } from '~/types/timeBasedDailyStreaks'
 
 export type ScoredGlucoseGames = {
   dailyStreakStats: {
@@ -13,7 +14,7 @@ export type ScoredGlucoseGames = {
     percentTimeInRangeForFullDay: DailyStreakStats
     percentTimeInRangeForMornings: DailyStreakStats
     percentTimeInRangeForNights: DailyStreakStats
-    // trendControl: AllTimingsAndTiersDailyStreakGame
+    percentTimeInRangeEveryFourHourPeriod: TimeBasedDailyStreaks
   }
   contiguousStreakStats: {
     noHighsStreaks: ContiguousStreakStats

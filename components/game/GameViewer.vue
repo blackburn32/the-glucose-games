@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-    <div class="grid grid-cols-1 gap-y-6">
+    <div class="flex flex-col space-y-6">
       <GameAverageInRangeDailyStreak />
       <GamePercentTimeInRangeDailyStreak />
       <DailyStreakBadge
@@ -40,6 +40,7 @@
         :games="scoredGames"
         :thresholds="thresholds"
       />
+      <ViewerWeeklyStreaks />
     </div>
   </div>
 </template>
