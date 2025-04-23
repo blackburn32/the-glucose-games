@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col bg-base-200 rounded-2xl p-8">
     <div class="text-2xl font-medium">
-      Week's time in range
+      This Week's time in range
     </div>
     <div class="flex flex-row space-x-4 items-center mt-[10px]">
       <div class="flex flex-row space space-x-1 items-center">

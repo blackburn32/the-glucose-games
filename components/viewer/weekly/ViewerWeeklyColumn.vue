@@ -67,19 +67,22 @@ const includeCurrentDay = computed(() => {
 })
 
 const daysToShow = computed(() => {
-  return currentDayOfWeek.value + (includeCurrentDay.value ? 1 : 0)
+  return currentDayOfWeek.value + 1
 })
 
 const scoredDays = computed(() => {
-  return props.dailyStreakStats.scoredDays.slice(0, daysToShow.value)
+  return props.dailyStreakStats.scoredDays.toReversed().slice((includeCurrentDay.value ? 0 : 1), daysToShow.value).toReversed()
 })
 
 const remainingDaysInWeek = computed(() => {
-  return 7 - daysToShow.value
+  return 7 - (daysToShow.value - (includeCurrentDay.value ? 0 : 1))
 })
 
 const getDayTooltip = (day: ScoredDay) => {
   const date = day.date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+  if (day.date.getDay() === currentDayOfWeek.value && !includeCurrentDay.value) {
+    return `${date}: Unknown`
+  }
   return `${date}: ${day.scoreForDisplay}${props.unit}`
 }
 </script>
