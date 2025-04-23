@@ -13,11 +13,15 @@
             <NuxtLink
               to="/login"
               class="btn btn-primary"
-            >Get started</NuxtLink>
+            >
+              Get started
+            </NuxtLink>
             <NuxtLink
               to="/current"
               class="btn"
-            >Check out the games</NuxtLink>
+            >
+              Check out the games
+            </NuxtLink>
           </div>
         </div>
       </div>

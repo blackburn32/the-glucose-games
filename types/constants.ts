@@ -36,3 +36,30 @@ export enum MedalType {
   Silver,
   Gold,
 }
+
+export type WeeklyTimePeriod = {
+  startHour: number
+  startMinutes: number
+  endHour: number
+  endMinutes: number
+  name: string
+}
+
+export const WeeklyTimePeriods: WeeklyTimePeriod[] = [
+  { startHour: 0, startMinutes: 0, endHour: 4, endMinutes: 0, name: '12 AM' },
+  { startHour: 4, startMinutes: 0, endHour: 8, endMinutes: 0, name: '4 AM' },
+  { startHour: 8, startMinutes: 0, endHour: 12, endMinutes: 0, name: '8 AM' },
+  { startHour: 12, startMinutes: 0, endHour: 16, endMinutes: 0, name: '12 PM' },
+  { startHour: 16, startMinutes: 0, endHour: 20, endMinutes: 0, name: '4 PM' },
+  { startHour: 20, startMinutes: 0, endHour: 24, endMinutes: 0, name: '8 PM' },
+]
+
+export const DaysOfWeek = [
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+]

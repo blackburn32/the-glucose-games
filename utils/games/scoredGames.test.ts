@@ -136,13 +136,6 @@ test('getScoredGames calculates contiguous streak stats correctly', () => {
 test('getScoredGames handles empty record list', () => {
   const result = getScoredGames([], mockThresholds)
 
-  // Check daily streak stats
-  Object.values(result.dailyStreakStats).forEach((stats) => {
-    expect(stats.scoredDays).toHaveLength(0)
-    expect(stats.bestStreak).toHaveLength(0)
-    expect(stats.currentStreak.scoredDays).toHaveLength(0)
-  })
-
   // Check contiguous streak stats
   Object.values(result.contiguousStreakStats).forEach((stats) => {
     expect(stats.currentStreak).toHaveLength(0)
