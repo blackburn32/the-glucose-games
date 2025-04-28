@@ -49,8 +49,7 @@ export default defineNuxtPlugin(() => {
 
   const rawDemoData = ref(generateRandomWalk())
 
-  const finalizeGlucoseData = (data: GlucoseRecord[]) => {
-    const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000
+  const finalizeGlucoseData = (data: GlucoseRecord[], timezoneOffset = 0) => {
     return data.map((record) => {
       const tolerantDate = parser.fromAny(record.created)
       const date = new Date(tolerantDate.getTime() - timezoneOffset)
@@ -64,7 +63,7 @@ export default defineNuxtPlugin(() => {
   }
 
   const realData = computed(() => {
-    return finalizeGlucoseData(allRawData.value)
+    return finalizeGlucoseData(allRawData.value, new Date().getTimezoneOffset() * 60 * 1000)
   })
 
   const demoData = computed(() => {

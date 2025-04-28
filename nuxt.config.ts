@@ -1,7 +1,7 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui-pro', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@nuxt/image', '@samk-dev/nuxt-vcalendar', '@sentry/nuxt/module'],
+  modules: ['@morev/vue-transitions/nuxt', '@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui-pro', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@nuxt/image', '@samk-dev/nuxt-vcalendar', '@sentry/nuxt/module'],
 
   $production: {
     runtimeConfig: {

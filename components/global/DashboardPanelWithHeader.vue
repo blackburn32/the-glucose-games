@@ -27,7 +27,14 @@
       </UDashboardNavbar>
     </template>
     <template #body>
-      <slot />
+      <TransitionSlide
+        appear
+        :offset="[-100, 0]"
+      >
+        <div v-if="mounted">
+          <slot />
+        </div>
+      </TransitionSlide>
     </template>
   </UDashboardPanel>
 </template>
@@ -39,4 +46,12 @@ defineProps<{
 }>()
 
 const user = useSupabaseUser()
+
+const mounted = ref(false)
+onMounted(() => {
+  mounted.value = true
+})
+onUnmounted(() => {
+  mounted.value = false
+})
 </script>
