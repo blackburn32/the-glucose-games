@@ -3,14 +3,20 @@
     <UDashboardSidebar
       id="default"
       v-model:open="open"
-      collapsible
-      resizable
       class="bg-(--ui-bg-elevated)/25"
-      :ui="{ footer: 'lg:border-t lg:border-(--ui-border)' }"
+      collapsible
+      :ui="{ footer: 'lg:border-t lg:border-(--ui-border)', root: 'w-fit max-w-[280px]' }"
     >
       <template #header="{ collapsed }">
-        <div class="flex items-center">
+        <div
+          class="flex items-center justify-center"
+          :class="{
+            'space-x-2': !collapsed,
+          }"
+        >
+          <UDashboardSidebarCollapse icon="ph-list" />
           <NuxtLink
+            v-if="!collapsed"
             to="/"
             class="shrink-0"
           >
@@ -23,7 +29,7 @@
           </NuxtLink>
           <div
             v-if="!collapsed"
-            class="text-xl font-bold ml-2"
+            class="text-xl font-bold"
           >
             Glucose Games
           </div>

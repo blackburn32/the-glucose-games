@@ -4,20 +4,27 @@
   >
     <template #header>
       <UDashboardNavbar>
-        <template #leading>
-          <UDashboardSidebarCollapse />
-        </template>
         <template
-          v-if="!user"
           #right
         >
           <NuxtLink
+            v-if="user"
+            to="/account"
+          >
+            <Icon
+              name="ph-user-circle"
+              size="32"
+            />
+          </NuxtLink>
+          <NuxtLink
+            v-if="!user"
             class="btn btn-sm"
             to="/about/general"
           >
             About
           </NuxtLink>
           <NuxtLink
+            v-if="!user"
             class="btn btn-sm btn-primary"
             to="/login"
           >

@@ -3,7 +3,7 @@ import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
 
 export const contiguousStreakWithNoLows = (records: GlucoseRecord[], thresholds: Thresholds) => calculateContiguousStreakStats(
-  'No Lows',
+  'No Lows Streak',
   records,
   record => record.value >= thresholds.low,
   undefined,
@@ -11,7 +11,7 @@ export const contiguousStreakWithNoLows = (records: GlucoseRecord[], thresholds:
 )
 
 export const contiguousStreakWithNoHighs = (records: GlucoseRecord[], thresholds: Thresholds) => calculateContiguousStreakStats(
-  'No Highs',
+  'No Highs Streak',
   records,
   record => record.value <= thresholds.high,
   thresholds.high,
@@ -19,7 +19,7 @@ export const contiguousStreakWithNoHighs = (records: GlucoseRecord[], thresholds
 )
 
 export const contiguousStreakWithNoLowsOrHighs = (records: GlucoseRecord[], thresholds: Thresholds) => calculateContiguousStreakStats(
-  'No Lows or Highs',
+  'No Lows or Highs Streak',
   records,
   record => record.value >= thresholds.low && record.value <= thresholds.high,
   thresholds.high,
