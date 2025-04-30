@@ -23,7 +23,9 @@
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-13 gap-2 mt-8">
+    <div
+      class="grid grid-cols-13 gap-2 mt-8"
+    >
       <ViewerWeeklyDaysColumn />
       <ViewerWeeklyColumn
         v-for="[timeKey, stats] in everyFourHourPeriod"

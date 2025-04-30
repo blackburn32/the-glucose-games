@@ -39,6 +39,7 @@ export const useGlucoseValues = () => {
   return {
     mostRecentHour,
     mostRecentRecordWithinLastHour,
+    mostRecentResult,
     previous24Hours,
   }
 }

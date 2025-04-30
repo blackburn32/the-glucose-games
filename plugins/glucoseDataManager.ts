@@ -1,6 +1,7 @@
 import parser from 'any-date-parser'
 import type { FetchError } from 'ofetch'
-import { NIGHTSCOUT_PROVIDER_NAME, ONE_MONTH, THREE_MONTHS } from '~/types/constants'
+import { useInterval } from '@vueuse/shared'
+import { FIVE_MINUTES, NIGHTSCOUT_PROVIDER_NAME, ONE_MONTH, THIRTY_SECONDS, THREE_MONTHS } from '~/types/constants'
 import { generateRandomWalk } from '~/utils/generators/randomWalkGenerator/randomWalkGenerator'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { getScoredGames } from '~/utils/games/scoredGames'
@@ -20,18 +21,19 @@ export default defineNuxtPlugin(() => {
   const { getGlucoseValueToDisplay } = useDisplaySettings()
   const { thresholds } = useThresholds()
 
-  const timestamps = getTimestampsBetweenDatesUsingDuration(new Date(Date.now() - durationOfData.value), new Date(), ONE_MONTH)
+  const generateTimestamps = () => getTimestampsBetweenDatesUsingDuration(new Date(Date.now() - durationOfData.value), new Date(), ONE_MONTH)
+  const timestamps = ref(generateTimestamps())
 
   const fetches: Ref<AsyncData<GlucoseRecord[], FetchError<string> | null>[]> = ref([])
-  timestamps.forEach((timestamp, index) => {
-    const nextTimestamp = timestamps[index + 1] ?? Date.now()
+  timestamps.value.forEach((timestamp, index) => {
+    const nextTimestamp = timestamps.value[index + 1]
     fetches.value.push(useLazyFetch<GlucoseRecord[], FetchError<string>>('/api/data', {
       key: `glucoseData${index}`,
       method: 'POST',
       default: () => [],
       body: {
         start: new Date(timestamp),
-        end: new Date(nextTimestamp),
+        end: nextTimestamp ? new Date(nextTimestamp) : undefined,
       },
       immediate: true,
     }))
@@ -81,6 +83,9 @@ export default defineNuxtPlugin(() => {
   const refreshData = async () => {
     await Promise.all(fetches.value.map(fetch => fetch.refresh()))
   }
+  const refreshMostRecentData = async () => {
+    await fetches.value.at(-1)?.refresh()
+  }
 
   const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value))
   const demoScoredGames = computed(() => getScoredGames(demoData.value, thresholds.value))
@@ -104,6 +109,26 @@ export default defineNuxtPlugin(() => {
 
   watch([() => user, () => hasNightscout, () => nightscoutSettings], () => {
     refreshData()
+  })
+
+  const latestResult = computed(() => {
+    return glucoseValues.value.at(-1)
+  })
+  const timeSinceLatestResult = computed(() => {
+    if (!latestResult.value) return FIVE_MINUTES
+    const now = new Date()
+    return now.getTime() - latestResult.value.created.getTime()
+  })
+
+  const refreshMostRecentDataIfSignedIn = () => {
+    if (user.value) {
+      if (timeSinceLatestResult.value >= FIVE_MINUTES) {
+        refreshMostRecentData()
+      }
+    }
+  }
+  useInterval(THIRTY_SECONDS, {
+    callback: refreshMostRecentDataIfSignedIn,
   })
 
   return {

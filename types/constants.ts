@@ -3,6 +3,7 @@ import type { DisplaySettings } from '~/types/displaySettings'
 
 export const NIGHTSCOUT_PROVIDER_NAME = 'nightscout'
 
+export const THIRTY_SECONDS = 30 * 1000
 export const FIVE_MINUTES = 5 * 60 * 1000
 export const ONE_DAY = 24 * 60 * 60 * 1000
 export const ONE_WEEK = 7 * ONE_DAY
