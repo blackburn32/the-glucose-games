@@ -20,16 +20,16 @@
       :class="backgroundOverride ? backgroundOverride : 'bg-base-200'"
     >
       <div class="stat min-w-fit">
-        <div class="stat-title text-base overflow-hidden">
+        <div class="stat-title text-sm text-base overflow-hidden text-base-content">
           {{ title }}
         </div>
         <ClientOnly>
           <div
-            class="stat-value"
+            class="stat-value text-2xl text-base-content"
           >
             {{ value }}
           </div>
-          <div class="stat-desc">
+          <div class="stat-desc text-xs text-base-content">
             {{ description }}
           </div>
           <template #fallback>
