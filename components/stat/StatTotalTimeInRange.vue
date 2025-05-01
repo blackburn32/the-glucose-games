@@ -3,7 +3,7 @@
     title="Total time in range"
     :value="prettyMilliseconds(totalStreakDurationMs + Number(timeSinceLastResultMs), { secondsDecimalDigits: 0 })"
     icon-color="text-accent"
-    description="during selected duration"
+    description="throughout selected duration"
   />
 </template>
 
