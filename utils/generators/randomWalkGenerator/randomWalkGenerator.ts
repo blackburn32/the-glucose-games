@@ -11,7 +11,7 @@ const generateStableToLow = (config: GlucoseGeneratorConfig, previousValue: numb
   return Math.max(newValue, config.min)
 }
 
-export const generateRandomWalk = (config: GlucoseGeneratorConfig = RealisticGeneratorConfig, count: number = 1000, minutesBetweenRecords: number = 30) => {
+export const generateRandomWalk = (config: GlucoseGeneratorConfig = RealisticGeneratorConfig, count: number = 4500, minutesBetweenRecords: number = 30) => {
   const values = []
   let previousValue = config.average
   let trend = Math.random() > 0.5

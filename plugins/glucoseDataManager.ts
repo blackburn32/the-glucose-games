@@ -16,6 +16,10 @@ export default defineNuxtPlugin(() => {
     return useDemoDataOverride.value || !user.value || !hasNightscoutData.value
   })
   const durationOfData = ref(THREE_MONTHS)
+  const fetchRecordsSince = computed(() => {
+    const now = new Date()
+    return new Date(now.getTime() - durationOfData.value)
+  })
 
   const { hasNightscout, nightscoutSettings } = useNightscout()
   const { getGlucoseValueToDisplay } = useDisplaySettings()
@@ -74,10 +78,11 @@ export default defineNuxtPlugin(() => {
   })
 
   const glucoseValues: Ref<GlucoseRecord[]> = computed(() => {
+    const start = fetchRecordsSince.value
     if (useDemoData.value) {
-      return demoData.value
+      return demoData.value.filter(record => record.created >= start)
     }
-    return realData.value
+    return realData.value.filter(record => record.created >= start)
   })
 
   const refreshData = async () => {
