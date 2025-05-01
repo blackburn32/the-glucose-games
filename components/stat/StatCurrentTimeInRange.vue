@@ -10,17 +10,12 @@
 </template>
 
 <script setup lang="ts">
-import prettyMilliseconds from 'pretty-ms'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
+import { useTimeUntilEndOfDay } from '~/composables/useTimeUntilEndOfDay'
 
 const nuxtApp = useNuxtApp()
 const scoredGames = nuxtApp.$scoredGames
 const timeInRangeDailyStreakStats: Ref<DailyStreakStats> = computed(() => scoredGames.value.dailyStreakStats.percentTimeInRangeForFullDay)
 const currentDayStat = computed(() => timeInRangeDailyStreakStats.value.currentScoredDayWithFallback)
-const timeUntilEndOfDay = computed(() => {
-  const now = new Date()
-  const endOfDay = new Date(now)
-  endOfDay.setHours(23, 59, 59, 999)
-  return prettyMilliseconds(endOfDay.getTime() - now.getTime(), { secondsDecimalDigits: 0, compact: true })
-})
+const timeUntilEndOfDay = useTimeUntilEndOfDay()
 </script>
