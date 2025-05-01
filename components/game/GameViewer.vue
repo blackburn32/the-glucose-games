@@ -8,6 +8,8 @@
       <GameAverageInRangeDailyStreak />
       <GamePercentTimeInRangeDailyStreak />
       <StatTotalTimeInRange />
+      <StatTotalAverage />
+      <StatTotalPercentTimeInRange />
     </div>
     <div class="md:col-span-2 grid grid-cols-1 gap-4">
       <ViewerWeeklyStreaks />
