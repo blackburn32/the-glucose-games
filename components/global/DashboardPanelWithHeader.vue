@@ -7,6 +7,14 @@
         <template
           #right
         >
+          <USelect
+            v-model="durationOfData"
+            :items="durationOptions"
+            option-label="label"
+            option-value="value"
+            size="xl"
+            class="min-w-[120px]"
+          />
           <NuxtLink
             v-if="user"
             to="/account"
@@ -47,12 +55,24 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { ONE_MONTH, ONE_WEEK, THREE_MONTHS } from '~/types/constants'
+
+const nuxtApp = useNuxtApp()
+const durationOfData = nuxtApp.$durationOfData
+
 defineProps<{
   id: string
   title: string
 }>()
 
 const user = useSupabaseUser()
+
+const durationOptions = [
+  { label: 'Week', value: ONE_WEEK },
+  { label: 'Month', value: ONE_MONTH },
+  { label: '3 Months', value: THREE_MONTHS },
+]
 
 const mounted = ref(false)
 onMounted(() => {
