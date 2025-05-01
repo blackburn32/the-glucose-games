@@ -3,7 +3,7 @@
     title="Total % time in range"
     :value="value"
     icon-color="text-accent"
-    description="across all data"
+    description="throughout selected duration"
     is-percentage
   />
 </template>

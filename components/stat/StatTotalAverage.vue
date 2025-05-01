@@ -3,7 +3,7 @@
     title="Total average"
     :value="value"
     icon-color="text-accent"
-    description="across all data"
+    description="throughout selected duration"
   />
 </template>
 
