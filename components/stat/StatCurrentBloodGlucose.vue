@@ -3,7 +3,7 @@
     v-if="mostRecentResult"
     title="Current blood glucose"
     :value="`${mostRecentResult.value.toString()} ${unit}`"
-    :description="timeSinceMostRecentResult"
+    :description="timeSinceMostRecentResult.toString()"
     :icon="mostRecentResultIsInRange ? 'ph:check-circle' : undefined"
     icon-color="text-accent"
   />
@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import prettyMilliseconds from 'pretty-ms'
-import { useInterval } from '@vueuse/shared'
+import { useTimeSince } from '~/composables/useTimeSince'
 import { useGlucoseValues } from '~/composables/useGlucoseValues'
 
 const { mostRecentResult } = useGlucoseValues()
@@ -23,15 +23,8 @@ const mostRecentResultIsInRange = computed(() => {
   return mostRecentResult.value.value > thresholds.value.low && mostRecentResult.value.value < thresholds.value.high
 })
 
-const calculateTimeSinceMostRecentResult = () => {
-  if (!mostRecentResult.value) return ''
-  const now = new Date()
-  const ms = now.getTime() - mostRecentResult.value.created.getTime()
-  return `${prettyMilliseconds(ms, { secondsDecimalDigits: 0 })} ago`
-}
-
-const timeSinceMostRecentResult = ref(calculateTimeSinceMostRecentResult())
-useInterval(1000, {
-  callback: () => timeSinceMostRecentResult.value = calculateTimeSinceMostRecentResult(),
+const mostRecentResultDate = computed(() => mostRecentResult.value?.created)
+const timeSinceMostRecentResult = useTimeSince(mostRecentResultDate, {
+  formatter: ms => ms > 0 ? `${String(prettyMilliseconds(ms, { secondsDecimalDigits: 0 }))} ago` : '',
 })
 </script>
