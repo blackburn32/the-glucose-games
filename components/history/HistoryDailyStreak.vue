@@ -52,7 +52,7 @@ import type { DailyStreakStats } from '~/types/dailyStreakStats'
 
 const selectedDate = ref(new Date())
 const cleanSelectedDate = computed(() => {
-  return selectedDate.value.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+  return selectedDate.value?.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
 })
 
 const isReady = ref(false)

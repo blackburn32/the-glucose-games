@@ -55,6 +55,14 @@ export default defineNuxtConfig({
     },
   },
 
+  routeRules: {
+    '/**': {
+      headers: {
+        'Document-Policy': 'js-profiling',
+      },
+    },
+  },
+
   sourcemap: {
     client: 'hidden',
   },

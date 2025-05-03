@@ -19,8 +19,22 @@
             class="flex flex-col space-y-4 w-full"
           >
             <div class="flex flex-col w-full">
+              <div class="text-xl font-semibold">
+                Email
+              </div>
+              <input
+                id="email"
+                ref="email"
+                type="email"
+                class="input input-bordered focus:outline-0 w-full"
+              >
               <div class="fieldset mt-4">
                 <fieldset class="label cursor-pointer">
+                  <input
+                    v-model="acceptedPrivacyPolicy"
+                    type="checkbox"
+                    class="checkbox checkbox-primary"
+                  >
                   <span class="fieldset-label">I accept The Glucose Games'
                     <NuxtLink
                       class="text-primary underline"
@@ -29,40 +43,26 @@
                       Privacy Policy
                     </NuxtLink>
                   </span>
-                  <input
-                    v-model="acceptedPrivacyPolicy"
-                    type="checkbox"
-                    class="checkbox checkbox-primary"
-                  >
                 </fieldset>
               </div>
               <div class="fieldset w-full">
                 <fieldset class="label cursor-pointer">
-                  <span class="fieldset-label">I accept The Glucose Games'
-                    <NuxtLink
-                      class="text-primary underline"
-                      to="/about/terms"
-                    >Terms of Service
-                    </NuxtLink>
-                  </span>
-
                   <input
                     v-model="acceptedTermsOfService"
                     type="checkbox"
                     class="checkbox checkbox-primary"
                   >
+                  <span class="fieldset-label">I accept The Glucose Games'
+                    <NuxtLink
+                      class="text-primary underline"
+                      to="/about/terms"
+                    >
+                      Terms of Service
+                    </NuxtLink>
+                  </span>
                 </fieldset>
               </div>
             </div>
-            <div class="text-xl font-semibold">
-              Email
-            </div>
-            <input
-              id="email"
-              ref="email"
-              type="email"
-              class="input input-bordered focus:outline-0 w-full"
-            >
             <button
               class="btn btn-sm btn-primary"
               :class="{

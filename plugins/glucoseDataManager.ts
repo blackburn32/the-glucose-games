@@ -114,7 +114,7 @@ export default defineNuxtPlugin(() => {
 
   watch([() => user, () => hasNightscout, () => nightscoutSettings], () => {
     refreshData()
-  })
+  }, { deep: true })
 
   const latestResult = computed(() => {
     return glucoseValues.value.at(-1)
