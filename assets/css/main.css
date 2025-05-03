@@ -1,8 +1,10 @@
 @import "tailwindcss";
 @import "@nuxt/ui-pro";
+
 @plugin "daisyui" {
     themes: "dark";
 }
+
 @plugin "daisyui/theme" {
     name: dark;
     default: true;
@@ -82,4 +84,5 @@
     --ui-border-accented: var(--color-base-300);
     /*!* Inverted border color *!*/
     /*--ui-border-inverted: var(--color-base-300);*/
+    --ui-container: 1440px;
 }

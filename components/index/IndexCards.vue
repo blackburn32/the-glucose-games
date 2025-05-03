@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col w-full space-y-4 md:space-y-0 md:flex-row md:space-x-8 px-[40px]">
+  <div class="flex flex-col w-full space-y-4 md:space-y-0 md:flex-row md:space-x-8">
     <div class="card bg-primary w-full md:w-1/3">
-      <div class="card-body ">
+      <div class="card-body p-[32px]">
         <div class="card-title text-primary-content text-xl font-semibold">
           Connect your data
         </div>
@@ -16,7 +16,7 @@
       </figure>
     </div>
     <div class="card bg-primary w-full md:w-1/3">
-      <div class="card-body">
+      <div class="card-body p-[32px]">
         <div class="card-title text-primary-content text-xl font-semibold">
           Play the games
         </div>
@@ -30,7 +30,7 @@
       </figure>
     </div>
     <div class="card bg-primary w-full md:w-1/3">
-      <div class="card-body">
+      <div class="card-body p-[32px]">
         <div class="card-title text-primary-content text-xl font-semibold">
           Improve your control
         </div>

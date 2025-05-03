@@ -1,5 +1,10 @@
 <template>
-  <UHeader :toggle="false">
+  <UHeader
+    :toggle="false"
+    :ui="{
+      container: '2xl:px-0',
+    }"
+  >
     <template #title>
       <NuxtLink to="/">
         <NuxtImg
