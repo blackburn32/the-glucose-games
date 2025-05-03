@@ -28,57 +28,15 @@
           No data available
         </div>
       </div>
-      <VisXYContainer
+      <div
         v-if="data.length > 0 && isReady"
-        :data="data"
-        :y-domain="[0, useMmol ? 23 : 400]"
+        class="w-full min-h-[292px]"
       >
-        <VisLine
-          v-if="low"
-          :x="x"
-          :y="() => low"
-          color="red"
+        <Line
+          :data="chartData"
+          :options="chartOptions"
         />
-        <VisLine
-          v-if="high"
-          :x="x"
-          :y="() => high"
-          color="var(--color-warning)"
-        />
-        <VisLine
-          :x="x"
-          :y="y"
-          :line-width="2.5"
-          color="var(--color-accent)"
-        />
-        <VisArea
-          :x="x"
-          :y="y"
-          color="var(--color-accent)"
-          :opacity="0.1"
-        />
-
-        <VisAxis
-          type="x"
-          :x="x"
-          :tick-format="tickFormat"
-          :grid-line="false"
-        />
-        <VisAxis
-          :y="y"
-          type="y"
-          :num-ticks="4"
-          :grid-line="false"
-          :tick-line="true"
-        />
-        <VisTooltip />
-        <VisCrosshair
-          :x="x"
-          :y="y"
-          :template="crosshairTemplate"
-          color="var(--color-primary)"
-        />
-      </VisXYContainer>
+      </div>
       <div v-if="!isReady">
         <div class="flex flex-col w-full ml-8">
           <div class="text-2xl font-semibold leading-tight max-w-full">
@@ -103,12 +61,32 @@
 </template>
 
 <script setup lang="ts">
-import { VisAxis, VisXYContainer, VisLine, VisArea, VisCrosshair, VisTooltip } from '@unovis/vue'
+import { Line } from 'vue-chartjs'
+import type {
+  ChartData,
+  ChartDataset,
+  ChartOptions,
+  TooltipItem } from 'chart.js'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Filler,
+  TimeScale,
+} from 'chart.js'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
+import 'chartjs-adapter-date-fns'
+
+ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale, Filler, TimeScale)
 
 const isReady = ref(false)
 
-defineProps<{
+const props = defineProps<{
   data: GlucoseRecord[]
   title: string
   duration?: string | undefined
@@ -116,8 +94,6 @@ defineProps<{
   high?: number | undefined
   best?: string | undefined
 }>()
-const x = (d: GlucoseRecord) => d.created
-const y = (d: GlucoseRecord) => d.value
 
 const { useMmol, unit } = useDisplaySettings()
 
@@ -125,28 +101,122 @@ const getCleanDate = (d: Date) => {
   return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })
 }
 
-const tickFormat = (d: number) => getCleanDate(new Date(d))
-const crosshairTemplate = (d: GlucoseRecord) => {
-  return `${getCleanDate(d.created)}: ${d.value.toFixed(2)} ${unit.value}`
-}
+const chartData: Ref<ChartData<'line', { x: number, y: number }[], number>> = computed(() => {
+  const mainData = props.data.map(d => ({ x: new Date(d.created).getTime(), y: d.value }))
+  const datasets: ChartDataset<'line', { x: number, y: number }[]>[] = [
+    {
+      label: props.title,
+      data: mainData,
+      borderColor: '#33F581',
+      backgroundColor: '#33F581',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 0,
+      borderWidth: 2,
+      fill: {
+        target: 'origin',
+        above: 'rgba(51, 245, 129, 0.1)',
+      },
+      parsing: false,
+    },
+  ]
+  if (props.low !== undefined) {
+    datasets.push({
+      label: 'Low',
+      data: props.data.map(d => ({ x: new Date(d.created).getTime(), y: props.low as number })),
+      borderColor: 'red',
+      backgroundColor: 'red',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 0,
+      borderWidth: 2,
+      fill: false,
+      parsing: false,
+    })
+  }
+  if (props.high !== undefined) {
+    datasets.push({
+      label: 'High',
+      data: props.data.map(d => ({ x: new Date(d.created).getTime(), y: props.high as number })),
+      borderColor: '#FFBE00',
+      backgroundColor: '#FFBE00',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 0,
+      borderWidth: 2,
+      fill: false,
+      parsing: false,
+    })
+  }
+  return {
+    datasets,
+  }
+})
 
-// Delay rendering until after page transition to make things snappier
+const chartOptions: Ref<ChartOptions<'line'>> = computed(() => ({
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      intersect: false,
+      callbacks: {
+        label: (context: TooltipItem<'line'>) => {
+          if (context.dataset.label === props.title) {
+            return `${context.parsed.y.toFixed(2)} ${unit.value}`
+          }
+          return `${context.dataset.label}: ${context.parsed.y}`
+        },
+        title: (items: TooltipItem<'line'>[]) => items[0]?.parsed.x ? getCleanDate(new Date(items[0].parsed.x)) : '',
+      },
+    },
+    title: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      type: 'time',
+      time: {
+        tooltipFormat: 'MMM d, yyyy, h:mm a',
+        displayFormats: {
+          minute: 'MMM d, h:mm a',
+          hour: 'MMM d, h a',
+          day: 'MMM d',
+        },
+      },
+      grid: {
+        color: '#333847',
+        tickColor: '#333847',
+        drawTicks: true,
+      },
+      ticks: {
+        includeBounds: true,
+        autoSkip: true,
+        maxRotation: 0,
+        autoSkipPadding: 20,
+      },
+    },
+    y: {
+      min: 0,
+      max: useMmol.value ? 23 : 400,
+      grid: {
+        display: false,
+      },
+      ticks: {
+        stepSize: useMmol.value ? 5 : 100,
+      },
+    },
+  },
+}))
+
 onMounted(() => {
-  // Use nextTick to ensure DOM is updated
   nextTick(() => {
-    // Add a small delay to ensure transition is complete
     setTimeout(() => {
       isReady.value = true
     }, 10)
   })
 })
 </script>
-
-<style scoped>
-.unovis-xy-container {
-    --vis-tooltip-background-color: oklch(0.243535 0 0);
-    --vis-tooltip-text-color: #fff;
-    --vis-axis-grid-line-width: 0.5px;
-    --vis-axis-grid-color: #fff;
-}
-</style>

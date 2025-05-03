@@ -1,6 +1,6 @@
 <template>
   <div class="bg-base-200 bg-opacity-60 rounded-2xl overflow-hidden max-w-2xl">
-    <div class="flex flex-col w-full py-8 pr-6 pl-2">
+    <div class="flex flex-col w-full py-8">
       <GameTimeInRangeViewer />
     </div>
   </div>
