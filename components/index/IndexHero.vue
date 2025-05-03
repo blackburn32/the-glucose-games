@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col w-full items-center">
-    <div class="flex flex-col md:flex-row w-full md:space-x-8 max-w-6xl">
+    <div class="flex flex-col md:flex-row w-full md:space-x-8 items-center space-y-8">
       <div class="flex flex-col w-full md:w-2/5">
-        <div class="flex flex-col ml-[24px] md:ml-[40px] mt-[40px] md:mt-[160px] max-w-[400px]">
-          <div class="text-7xl font-bold ">
+        <div class="flex flex-col md:mx-0 max-w-[400px]">
+          <div class="text-5xl md:text-7xl font-bold ">
             Glucose Games
           </div>
           <div class="mt-4">
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="flex flex-col w-full md:w-3/5">
-        <IndexHowTo class="mt-[80px] mx-10" />
+        <IndexHowTo />
       </div>
     </div>
   </div>

@@ -1,11 +1,11 @@
 <template>
-  <section class="relative border-base-200 w-full">
+  <section class="relative w-full">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="py-12 md:py-20">
         <div
           class="max-w-3xl mx-auto text-center pb-[24px]"
         >
-          <div class="text-4xl">
+          <div class="text-2xl md:text-4xl">
             Join the open beta!
           </div>
         </div>
