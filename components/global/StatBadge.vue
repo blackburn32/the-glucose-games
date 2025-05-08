@@ -1,48 +1,39 @@
 <template>
-  <div class="indicator w-full">
-    <ClientOnly>
-      <Icon
-        v-if="icon && !hideDecorations"
-        class="indicator-item"
-        :name="icon"
-        size="24"
-        :class="iconColor"
-      />
-    </ClientOnly>
-    <div
-      v-if="best && !hideDecorations"
-      class="badge badge-success indicator-item indicator-bottom bottom-2"
-    >
-      Best
-    </div>
-    <div
-      class="stats w-full h-min overflow-hidden"
-      :class="backgroundOverride ? backgroundOverride : 'bg-base-200'"
-    >
-      <div class="stat min-w-fit">
-        <div class="stat-title text-sm text-base overflow-hidden text-base-content">
+  <div
+    class="stats w-full overflow-hidden"
+    :class="backgroundOverride ? backgroundOverride : 'bg-base-200'"
+  >
+    <div class="stat min-w-fit p-[24px]">
+      <div class="stat-title justify-between flex flex-row">
+        <div class="overflow-hidden text-sm text-base-content font-normal opacity-70">
           {{ title }}
         </div>
-        <ClientOnly>
-          <div
-            class="stat-value text-2xl text-base-content"
-          >
-            {{ value }}
-          </div>
-          <div class="stat-desc text-xs text-base-content">
-            {{ description }}
-          </div>
-          <template #fallback>
-            <div class="stat-value text-lg">
-              Loading...
-            </div>
-            <div class="stat-desc">
-              Loading...
-            </div>
-          </template>
-        </ClientOnly>
-        <slot />
+        <div
+          v-if="best"
+          class="badge badge-accent text-sm py-0 h-[20px]"
+        >
+          Best
+        </div>
       </div>
+      <ClientOnly>
+        <div
+          class="stat-value text-2xl text-base-content"
+        >
+          {{ value }}
+        </div>
+        <div class="stat-desc text-xs text-base-content opacity-70 mt-[2px]">
+          {{ description }}
+        </div>
+        <template #fallback>
+          <div class="stat-value text-lg">
+            Loading...
+          </div>
+          <div class="stat-desc">
+            Loading...
+          </div>
+        </template>
+      </ClientOnly>
+      <slot />
     </div>
   </div>
 </template>

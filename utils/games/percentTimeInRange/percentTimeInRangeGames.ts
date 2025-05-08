@@ -3,7 +3,7 @@ import type { Thresholds } from '~/types/thresholds'
 import { filterRecordsByTimePeriod } from '~/utils/filters/timePeriod/filterByTimePeriod'
 import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInRange/percentTimeInRange'
 import type { ScoredDay } from '~/types/scoredDay'
-import { CurrentDayStatus, WeeklyTimePeriods } from '~/types/constants'
+import { CurrentDayStatus, SemanticPeriods, WeeklyTimePeriods } from '~/types/constants'
 import { calculateDailyStreakStats } from '~/utils/streaks/dailyStreaks'
 import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 import { ScoreCheckResult } from '~/types/scoreCheckResult'
@@ -17,8 +17,7 @@ export const percentTimeInRangeGame = (
   endHour: number,
   endMinutes: number,
 ) => {
-  const tenPercentMargin = thresholds.dailyStreakPercentTimeInRange * 0.1
-
+  const tenPercentMargin = 10
   const filterFunction = (records: GlucoseRecord[]) => {
     return filterRecordsByTimePeriod(records, startHour, startMinutes, endHour, endMinutes)
   }
@@ -71,37 +70,18 @@ export const percentTimeInRangeForEveryFourHourPeriod = (
   }))
 }
 
-export const percentTimeInRangeForFullDayStreak = (
+export const percentTimeInRangeForSemanticPeriods = (
   records: GlucoseRecord[],
   thresholds: Thresholds,
-) => {
-  return percentTimeInRangeGame(records, thresholds, 0, 0, 23, 59)
-}
-
-export const percentTimeInRangeForNightsStreak = (
-  records: GlucoseRecord[],
-  thresholds: Thresholds,
-) => {
-  return percentTimeInRangeGame(records, thresholds, 0, 0, 5, 59)
-}
-
-export const percentTimeInRangeForMorningsStreak = (
-  records: GlucoseRecord[],
-  thresholds: Thresholds,
-) => {
-  return percentTimeInRangeGame(records, thresholds, 6, 0, 11, 59)
-}
-
-export const percentTimeInRangeForAfternoonsStreak = (
-  records: GlucoseRecord[],
-  thresholds: Thresholds,
-) => {
-  return percentTimeInRangeGame(records, thresholds, 12, 0, 17, 59)
-}
-
-export const percentTimeInRangeForEveningsStreak = (
-  records: GlucoseRecord[],
-  thresholds: Thresholds,
-) => {
-  return percentTimeInRangeGame(records, thresholds, 18, 0, 23, 59)
+): TimeBasedDailyStreaks => {
+  return Object.fromEntries(SemanticPeriods.map((period) => {
+    return [period.id, percentTimeInRangeGame(
+      records,
+      thresholds,
+      period.startHour,
+      period.startMinutes,
+      period.endHour,
+      period.endMinutes,
+    )]
+  }))
 }

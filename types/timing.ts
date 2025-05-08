@@ -7,6 +7,7 @@ export type Timing = {
   endHour: number
   endMinutes: number
   formattedStartTime: string
+  badgeTitle: string
 }
 
 export const FullDayTiming: Timing = {
@@ -18,6 +19,7 @@ export const FullDayTiming: Timing = {
   endHour: 23,
   endMinutes: 59,
   formattedStartTime: '12AM',
+  badgeTitle: 'Today\'s ',
 }
 
 export const NightTiming: Timing = {
@@ -29,6 +31,7 @@ export const NightTiming: Timing = {
   endHour: 5,
   endMinutes: 59,
   formattedStartTime: '12AM',
+  badgeTitle: 'Last night\'s ',
 }
 
 export const MorningTiming: Timing = {
@@ -40,6 +43,7 @@ export const MorningTiming: Timing = {
   endHour: 11,
   endMinutes: 59,
   formattedStartTime: '6AM',
+  badgeTitle: 'This morning\'s ',
 }
 
 export const AfternoonTiming: Timing = {
@@ -51,6 +55,7 @@ export const AfternoonTiming: Timing = {
   endHour: 17,
   endMinutes: 59,
   formattedStartTime: '12PM',
+  badgeTitle: 'This afternoon\'s ',
 }
 
 export const EveningTiming: Timing = {
@@ -62,6 +67,7 @@ export const EveningTiming: Timing = {
   endHour: 23,
   endMinutes: 59,
   formattedStartTime: '6PM',
+  badgeTitle: 'This evening\'s ',
 }
 
 export const AllTimings: Timing[] = [

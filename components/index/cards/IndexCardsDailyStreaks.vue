@@ -24,6 +24,7 @@
 import { generateRandomWalk } from '~/utils/generators/randomWalkGenerator/randomWalkGenerator'
 import { RealisticGeneratorConfig, StableGeneratorConfig, TrendsHighGeneratorConfig } from '~/utils/generators/config/generatorConfig'
 import { getScoredGames } from '~/utils/games/scoredGames'
+import { FullDayTiming } from '~/types/timing'
 
 const nuxtApp = useNuxtApp()
 const thresholds = nuxtApp.$thresholds
@@ -36,5 +37,5 @@ const worstGames = getScoredGames(worstControl.value, thresholds.value)
 const averageGames = getScoredGames(averageControl.value, thresholds.value)
 const bestGames = getScoredGames(bestControl.value, thresholds.value)
 
-bestGames.dailyStreakStats.percentTimeInRangeForFullDay.bestStreak = bestGames.dailyStreakStats.percentTimeInRangeForFullDay.currentStreak.scoredDays
+bestGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[FullDayTiming.id].bestStreak = bestGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[FullDayTiming.id].currentStreak.scoredDays
 </script>

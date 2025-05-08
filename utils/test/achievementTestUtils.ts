@@ -1,8 +1,12 @@
 import type { ContiguousStreakStats } from '~/types/contiguousStreakStats'
 import { CurrentDayStatus } from '~/types/constants'
 import type { ScoredDay } from '~/types/scoredDay'
+import { ScoreCheckResult } from '~/types/scoreCheckResult'
+import type { DailyStreakStats } from '~/types/dailyStreakStats'
+import { AllTimings } from '~/types/timing'
 
 export const createEmptyContiguousStreakStats = (): ContiguousStreakStats => ({
+  title: '',
   longestStreak: [],
   longestStreakString: '0 minutes',
   currentStreak: [],
@@ -36,6 +40,8 @@ export const createScoredDay = (date: Date, score: number, passesThreshold: bool
   score,
   scoreForDisplay: `${score}%`,
   passesThreshold,
+  scoreResult: ScoreCheckResult.Missing,
+  medal: undefined,
 })
 
 export const createDailyStreakStatsWithDay = (scoredDay: ScoredDay) => ({
@@ -78,19 +84,19 @@ export const createDailyStreakStatsWithTwoDays = (firstDay: ScoredDay, secondDay
 
 export const createEmptyScoredGames = () => ({
   dailyStreakStats: {
-    averageInRangeForFullDay: createEmptyDailyStreakStats(),
-    averageInRangeForMornings: createEmptyDailyStreakStats(),
-    averageInRangeForAfternoons: createEmptyDailyStreakStats(),
-    averageInRangeForEvenings: createEmptyDailyStreakStats(),
-    averageInRangeForNights: createEmptyDailyStreakStats(),
-    percentTimeInRangeForFullDay: createEmptyDailyStreakStats(),
-    percentTimeInRangeForMornings: createEmptyDailyStreakStats(),
-    percentTimeInRangeForAfternoons: createEmptyDailyStreakStats(),
-    percentTimeInRangeForEvenings: createEmptyDailyStreakStats(),
-    percentTimeInRangeForNights: createEmptyDailyStreakStats(),
+    averageInRangeForSemanticPeriods: createEmptyDailyStreakStatsForAllSemanticPeriods(),
+    percentTimeInRangeForSemanticPeriods: createEmptyDailyStreakStatsForAllSemanticPeriods(),
+    percentTimeInRangeEveryFourHourPeriod: createEmptyDailyStreakStatsForAllSemanticPeriods(),
   },
   contiguousStreakStats: createEmptyStreakStats(),
 })
+
+const createEmptyDailyStreakStatsForAllSemanticPeriods = (): Record<number, DailyStreakStats> => {
+  return AllTimings.reduce((acc, timing) => {
+    acc[timing.id] = createEmptyDailyStreakStats()
+    return acc
+  }, {} as Record<number, DailyStreakStats>)
+}
 
 /**
  * Creates daily streak stats with multiple days. The days don't need to be consecutive.

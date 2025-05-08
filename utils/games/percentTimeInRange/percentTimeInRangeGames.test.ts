@@ -1,10 +1,6 @@
 import { test, expect, vi, beforeAll } from 'vitest'
 import {
-  percentTimeInRangeForFullDayStreak,
-  percentTimeInRangeForNightsStreak,
-  percentTimeInRangeForMorningsStreak,
-  percentTimeInRangeForAfternoonsStreak,
-  percentTimeInRangeForEveningsStreak,
+  percentTimeInRangeForSemanticPeriods,
 } from './percentTimeInRangeGames'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
@@ -12,7 +8,7 @@ import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/tes
 import { CurrentDayStatus, DEFAULT_THRESHOLDS } from '~/types/constants'
 import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValue/singleValueGenerator'
 import type { ScoredDay } from '~/types/scoredDay'
-import type { DailyStreakStats } from '~/types/dailyStreakStats'
+import { FullDayTiming, NightTiming, MorningTiming, AfternoonTiming, EveningTiming } from '~/types/timing'
 
 const mockThresholds: Thresholds = DEFAULT_THRESHOLDS
 
@@ -62,7 +58,7 @@ beforeAll(() => {
 
 const testPercentTimeInRangeStreak = (
   testName: string,
-  streakFunction: (records: GlucoseRecord[], thresholds: Thresholds, streakFilterValue: number) => DailyStreakStats,
+  periodId: number,
   records: GlucoseRecord[],
   thresholds: Thresholds,
   streakFilterValue: number,
@@ -72,93 +68,81 @@ const testPercentTimeInRangeStreak = (
   expectedCurrentDayStatus: CurrentDayStatus,
 ) => {
   test(testName, () => {
-    const result = streakFunction(records, thresholds, streakFilterValue)
-
-    // Check the score for our custom day
+    const result = percentTimeInRangeForSemanticPeriods(records, thresholds)[periodId]
     const customDay = result.scoredDays.find((day: ScoredDay) => day.date.toDateString() === midnight.toDateString())
     expect(customDay?.score).toBe(expectedPercentForCustomDay)
-
-    // Check best streak
     if (result.bestStreak.length > 0) {
       expect(result.bestStreak.length, 'best streak length wrong').toBe(expectedBestStreakLength)
       expect(result.bestStreak[0].score, 'best streak first score wrong').toBe(100)
       expect(result.bestStreak[0].passesThreshold, 'best streak first day should be passing').toBe(true)
     }
-
-    // Check current streak
     expect(result.currentStreak.scoredDays.length, 'expected current streak length wrong').toBe(expectedCurrentStreakLength)
     expect(result.currentStreak.currentDayStatus, 'expected current day status wrong').toBe(expectedCurrentDayStatus)
   })
 }
 
-// Test full day streak
 testPercentTimeInRangeStreak(
   'percentTimeInRangeForFullDayStreak processes records correctly',
-  percentTimeInRangeForFullDayStreak,
+  FullDayTiming.id,
   allRecords,
   mockThresholds,
-  70, // 70% threshold
-  (6 / 9) * 100, // 6 in-range values out of 9 total for the custom day, exact value
-  1, // Best streak of 1 day (yesterday only, day before is out of range)
-  0, // Current streak of 1 day
+  70,
+  (6 / 9) * 100,
+  1,
+  0,
   CurrentDayStatus.Pending,
 )
 
-// Test nights streak (00:00-05:59)
 testPercentTimeInRangeStreak(
   'percentTimeInRangeForNightsStreak processes records correctly',
-  percentTimeInRangeForNightsStreak,
+  NightTiming.id,
   allRecords,
   mockThresholds,
   70,
-  100, // All night values are in range
+  100,
   2,
   1,
   CurrentDayStatus.Pass,
 )
 
-// Test mornings streak (06:00-11:59)
 testPercentTimeInRangeStreak(
   'percentTimeInRangeForMorningsStreak processes records correctly',
-  percentTimeInRangeForMorningsStreak,
+  MorningTiming.id,
   allRecords,
   mockThresholds,
   70,
-  100, // All morning values are in range
+  100,
   2,
   1,
   CurrentDayStatus.Pass,
 )
 
-// Test afternoons streak (12:00-17:59)
 testPercentTimeInRangeStreak(
   'percentTimeInRangeForAfternoonsStreak processes records correctly',
-  percentTimeInRangeForAfternoonsStreak,
+  AfternoonTiming.id,
   allRecords,
   mockThresholds,
   70,
-  50, // 1 in range (boundary), 1 out of range
+  50,
   1,
   0,
   CurrentDayStatus.Fail,
 )
 
-// Test evenings streak (18:00-23:59)
 testPercentTimeInRangeStreak(
   'percentTimeInRangeForEveningsStreak processes records correctly',
-  percentTimeInRangeForEveningsStreak,
+  EveningTiming.id,
   allRecords,
   mockThresholds,
   70,
-  0, // All evening values are out of range
+  0,
   1,
-  0, // Current streak only includes yesterday, not today
-  CurrentDayStatus.Pending, // Not past end time (23:59) yet
+  0,
+  CurrentDayStatus.Pending,
 )
 
-// Test edge cases
 test('percentTimeInRangeGame handles empty record list', () => {
-  const result = percentTimeInRangeForFullDayStreak([], mockThresholds)
+  const result = percentTimeInRangeForSemanticPeriods([], mockThresholds)[FullDayTiming.id]
   expect(result.scoredDays).toHaveLength(0)
   expect(result.bestStreak).toHaveLength(0)
   expect(result.currentStreak.scoredDays).toHaveLength(0)
@@ -166,10 +150,10 @@ test('percentTimeInRangeGame handles empty record list', () => {
 
 test('percentTimeInRangeGame handles single record', () => {
   const singleRecord = [getMockGlucoseRecord(midnight, 100)]
-  const result = percentTimeInRangeForFullDayStreak(singleRecord, mockThresholds)
+  const result = percentTimeInRangeForSemanticPeriods(singleRecord, mockThresholds)[FullDayTiming.id]
   expect(result.scoredDays).toHaveLength(1)
   expect(result.scoredDays[0].score).toBe(100)
-  expect(result.currentStreak.scoredDays).toHaveLength(0) // Current day doesn't count in streaks
+  expect(result.currentStreak.scoredDays).toHaveLength(0)
 })
 
 test('percentTimeInRangeGame handles boundary values', () => {
@@ -177,6 +161,6 @@ test('percentTimeInRangeGame handles boundary values', () => {
     getMockGlucoseRecord(midnight, mockThresholds.low),
     getMockGlucoseRecord(oneAm, mockThresholds.high),
   ]
-  const result = percentTimeInRangeForFullDayStreak(boundaryRecords, mockThresholds)
-  expect(result.scoredDays[0].score).toBe(100) // Both values should be considered in range
+  const result = percentTimeInRangeForSemanticPeriods(boundaryRecords, mockThresholds)[FullDayTiming.id]
+  expect(result.scoredDays[0].score).toBe(100)
 })

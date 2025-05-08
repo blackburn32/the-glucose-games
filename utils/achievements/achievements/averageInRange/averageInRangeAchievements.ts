@@ -1,4 +1,6 @@
 import type { AchievementDefinition, AchievementGroup } from '~/types/achievementDefinition'
+import { FullDayTiming, MorningTiming, AfternoonTiming, EveningTiming } from '~/types/timing'
+import type { ScoredDay } from '~/types/scoredDay'
 
 export const oneDayAverageInRangeAchievement: AchievementDefinition = {
   id: 'oneDayAverageInRange',
@@ -6,9 +8,9 @@ export const oneDayAverageInRangeAchievement: AchievementDefinition = {
   description: 'Score one day with your average in range.',
   icon: 'ph:number-square-one',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
-    const daysInRange = averageInRangeStats.streaks.map(streak => streak.streak).flat()
-    const earliestDayInRange = daysInRange.sort((a, b) => a.date.getTime() - b.date.getTime()).at(0)
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
+    const daysInRange = averageInRangeStats.streaks.map((streak: { streak: ScoredDay[] }) => streak.streak).flat()
+    const earliestDayInRange = daysInRange.sort((a: ScoredDay, b: ScoredDay) => a.date.getTime() - b.date.getTime()).at(0)
     return {
       completed: earliestDayInRange?.date,
       progress: Math.min(1, daysInRange.length),
@@ -23,8 +25,8 @@ export const fiveDaysAverageInRangeAchievement: AchievementDefinition = {
   description: 'Score five days with your average in range.',
   icon: 'ph:number-square-five',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
-    const validDaysInOrder = averageInRangeStats.streaks.flatMap(streak => streak.streak)
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
+    const validDaysInOrder = averageInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const fifthDayInRange = validDaysInOrder.at(4)
     return {
       completed: fifthDayInRange?.date,
@@ -40,8 +42,8 @@ export const tenDaysAverageInRangeAchievement: AchievementDefinition = {
   description: 'Score ten days with your average in range.',
   icon: 'ph:trend-up',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
-    const validDaysInOrder = averageInRangeStats.streaks.flatMap(streak => streak.streak)
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
+    const validDaysInOrder = averageInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const tenthDayInRange = validDaysInOrder.at(9)
     return {
       completed: tenthDayInRange?.date,
@@ -57,8 +59,8 @@ export const twentyFiveDaysAverageInRangeAchievement: AchievementDefinition = {
   description: 'Score twenty-five days with your average in range.',
   icon: 'ph:medal',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
-    const validDaysInOrder = averageInRangeStats.streaks.flatMap(streak => streak.streak)
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
+    const validDaysInOrder = averageInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const twentyFifthDayInRange = validDaysInOrder.at(24)
     return {
       completed: twentyFifthDayInRange?.date,
@@ -74,8 +76,8 @@ export const oneHundredDaysAverageInRangeAchievement: AchievementDefinition = {
   description: 'Score one hundred days with your average in range.',
   icon: 'ph:medal',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
-    const validDaysInOrder = averageInRangeStats.streaks.flatMap(streak => streak.streak)
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
+    const validDaysInOrder = averageInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const hundredthDayInRange = validDaysInOrder.at(99)
     return {
       completed: hundredthDayInRange?.date,
@@ -91,9 +93,9 @@ export const twoDayAverageInRangeStreakAchievement: AchievementDefinition = {
   description: 'Score two days in a row with your average in range.',
   icon: 'ph:number-square-two',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
     const bestStreak = averageInRangeStats.bestStreak
-    const twoDayStreaks = averageInRangeStats.streaks.filter(streak => streak.streak.length >= 2)
+    const twoDayStreaks = averageInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 2)
     return {
       completed: twoDayStreaks.at(0)?.streak.at(1)?.date,
       progress: bestStreak.length,
@@ -108,9 +110,9 @@ export const fiveDayAverageInRangeStreakAchievement: AchievementDefinition = {
   description: 'Score five days in a row with your average in range.',
   icon: 'ph:number-square-five',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
     const bestStreak = averageInRangeStats.bestStreak
-    const fiveDayStreaks = averageInRangeStats.streaks.filter(streak => streak.streak.length >= 5)
+    const fiveDayStreaks = averageInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 5)
     return {
       completed: fiveDayStreaks.at(0)?.streak.at(4)?.date,
       progress: bestStreak.length,
@@ -125,9 +127,9 @@ export const tenDayAverageInRangeStreakAchievement: AchievementDefinition = {
   description: 'Score ten days in a row with your average in range.',
   icon: 'ph:trend-up',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
     const bestStreak = averageInRangeStats.bestStreak
-    const tenDayStreaks = averageInRangeStats.streaks.filter(streak => streak.streak.length >= 10)
+    const tenDayStreaks = averageInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 10)
     return {
       completed: tenDayStreaks.at(0)?.streak.at(9)?.date,
       progress: bestStreak.length,
@@ -142,9 +144,9 @@ export const thirtyDayAverageInRangeStreakAchievement: AchievementDefinition = {
   description: 'Score thirty days in a row with your average in range.',
   icon: 'ph:calendar-check',
   condition: (scoredGames) => {
-    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForFullDay
+    const averageInRangeStats = scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]
     const bestStreak = averageInRangeStats.bestStreak
-    const thirtyDayStreaks = averageInRangeStats.streaks.filter(streak => streak.streak.length >= 30)
+    const thirtyDayStreaks = averageInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 30)
     return {
       completed: thirtyDayStreaks.at(0)?.streak.at(29)?.date,
       progress: bestStreak.length,
@@ -176,9 +178,9 @@ export const oneMorningInRangeAchievement: AchievementDefinition = {
   description: 'Score one morning with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
-    const morningsInRange = timeInRangeStats.streaks.flatMap(streak => streak.streak)
-    const earliestMorningInRange = morningsInRange.sort((a, b) => a.date.getTime() - b.date.getTime()).at(0)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
+    const morningsInRange = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
+    const earliestMorningInRange = morningsInRange.sort((a: ScoredDay, b: ScoredDay) => a.date.getTime() - b.date.getTime()).at(0)
     return {
       completed: earliestMorningInRange?.date,
       progress: Math.min(1, morningsInRange.length),
@@ -193,8 +195,8 @@ export const fiveMorningsInRangeAchievement: AchievementDefinition = {
   description: 'Score five mornings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
-    const validMorningsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
+    const validMorningsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const fifthMorningInRange = validMorningsInOrder.at(4)
     return {
       completed: fifthMorningInRange?.date,
@@ -210,8 +212,8 @@ export const tenMorningsInRangeAchievement: AchievementDefinition = {
   description: 'Score ten mornings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
-    const validMorningsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
+    const validMorningsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const tenthMorningInRange = validMorningsInOrder.at(9)
     return {
       completed: tenthMorningInRange?.date,
@@ -227,8 +229,8 @@ export const twentyFiveMorningsInRangeAchievement: AchievementDefinition = {
   description: 'Score twenty-five mornings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
-    const validMorningsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
+    const validMorningsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const twentyFifthMorningInRange = validMorningsInOrder.at(24)
     return {
       completed: twentyFifthMorningInRange?.date,
@@ -244,8 +246,8 @@ export const oneHundredMorningsInRangeAchievement: AchievementDefinition = {
   description: 'Score one hundred mornings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
-    const validMorningsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
+    const validMorningsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const oneHundredthMorningInRange = validMorningsInOrder.at(99)
     return {
       completed: oneHundredthMorningInRange?.date,
@@ -261,9 +263,9 @@ export const twoMorningStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score two consecutive mornings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const twoMorningStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 2)
+    const twoMorningStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 2)
     return {
       completed: twoMorningStreaks.at(0)?.streak.at(1)?.date,
       progress: Math.min(2, bestStreak.length),
@@ -278,9 +280,9 @@ export const fiveMorningStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score five consecutive mornings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const fiveMorningStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 5)
+    const fiveMorningStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 5)
     return {
       completed: fiveMorningStreaks.at(0)?.streak.at(4)?.date,
       progress: Math.min(5, bestStreak.length),
@@ -295,9 +297,9 @@ export const tenMorningStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score ten consecutive mornings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const tenMorningStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 10)
+    const tenMorningStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 10)
     return {
       completed: tenMorningStreaks.at(0)?.streak.at(9)?.date,
       progress: Math.min(10, bestStreak.length),
@@ -312,9 +314,9 @@ export const thirtyMorningStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score thirty consecutive mornings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-dim',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForMornings
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const thirtyMorningStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 30)
+    const thirtyMorningStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 30)
     return {
       completed: thirtyMorningStreaks.at(0)?.streak.at(29)?.date,
       progress: Math.min(30, bestStreak.length),
@@ -346,9 +348,9 @@ export const oneAfternoonInRangeAchievement: AchievementDefinition = {
   description: 'Score one afternoon with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
-    const afternoonsInRange = timeInRangeStats.streaks.flatMap(streak => streak.streak)
-    const earliestAfternoonInRange = afternoonsInRange.sort((a, b) => a.date.getTime() - b.date.getTime()).at(0)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
+    const afternoonsInRange = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
+    const earliestAfternoonInRange = afternoonsInRange.sort((a: ScoredDay, b: ScoredDay) => a.date.getTime() - b.date.getTime()).at(0)
     return {
       completed: earliestAfternoonInRange?.date,
       progress: Math.min(1, afternoonsInRange.length),
@@ -363,8 +365,8 @@ export const fiveAfternoonsInRangeAchievement: AchievementDefinition = {
   description: 'Score five afternoons with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
-    const validAfternoonsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
+    const validAfternoonsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const fifthAfternoonInRange = validAfternoonsInOrder.at(4)
     return {
       completed: fifthAfternoonInRange?.date,
@@ -380,8 +382,8 @@ export const tenAfternoonsInRangeAchievement: AchievementDefinition = {
   description: 'Score ten afternoons with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
-    const validAfternoonsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
+    const validAfternoonsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const tenthAfternoonInRange = validAfternoonsInOrder.at(9)
     return {
       completed: tenthAfternoonInRange?.date,
@@ -397,8 +399,8 @@ export const twentyFiveAfternoonsInRangeAchievement: AchievementDefinition = {
   description: 'Score twenty-five afternoons with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
-    const validAfternoonsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
+    const validAfternoonsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const twentyFifthAfternoonInRange = validAfternoonsInOrder.at(24)
     return {
       completed: twentyFifthAfternoonInRange?.date,
@@ -414,8 +416,8 @@ export const oneHundredAfternoonsInRangeAchievement: AchievementDefinition = {
   description: 'Score one hundred afternoons with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
-    const validAfternoonsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
+    const validAfternoonsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const oneHundredthAfternoonInRange = validAfternoonsInOrder.at(99)
     return {
       completed: oneHundredthAfternoonInRange?.date,
@@ -431,9 +433,9 @@ export const twoAfternoonStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score two consecutive afternoons with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const twoAfternoonStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 2)
+    const twoAfternoonStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 2)
     return {
       completed: twoAfternoonStreaks.at(0)?.streak.at(1)?.date,
       progress: Math.min(2, bestStreak.length),
@@ -448,9 +450,9 @@ export const fiveAfternoonStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score five consecutive afternoons with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const fiveAfternoonStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 5)
+    const fiveAfternoonStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 5)
     return {
       completed: fiveAfternoonStreaks.at(0)?.streak.at(4)?.date,
       progress: Math.min(5, bestStreak.length),
@@ -465,9 +467,9 @@ export const tenAfternoonStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score ten consecutive afternoons with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const tenAfternoonStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 10)
+    const tenAfternoonStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 10)
     return {
       completed: tenAfternoonStreaks.at(0)?.streak.at(9)?.date,
       progress: Math.min(10, bestStreak.length),
@@ -482,9 +484,9 @@ export const thirtyAfternoonStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score thirty consecutive afternoons with your blood glucose at least 80% in range.',
   icon: 'ph:sun',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const thirtyAfternoonStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 30)
+    const thirtyAfternoonStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 30)
     return {
       completed: thirtyAfternoonStreaks.at(0)?.streak.at(29)?.date,
       progress: Math.min(30, bestStreak.length),
@@ -516,9 +518,9 @@ export const oneEveningInRangeAchievement: AchievementDefinition = {
   description: 'Score one evening with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
-    const eveningsInRange = timeInRangeStats.streaks.flatMap(streak => streak.streak)
-    const earliestEveningInRange = eveningsInRange.sort((a, b) => a.date.getTime() - b.date.getTime()).at(0)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
+    const eveningsInRange = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
+    const earliestEveningInRange = eveningsInRange.sort((a: ScoredDay, b: ScoredDay) => a.date.getTime() - b.date.getTime()).at(0)
     return {
       completed: earliestEveningInRange?.date,
       progress: Math.min(1, eveningsInRange.length),
@@ -533,8 +535,8 @@ export const fiveEveningsInRangeAchievement: AchievementDefinition = {
   description: 'Score five evenings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
-    const validEveningsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
+    const validEveningsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const fifthEveningInRange = validEveningsInOrder.at(4)
     return {
       completed: fifthEveningInRange?.date,
@@ -550,8 +552,8 @@ export const tenEveningsInRangeAchievement: AchievementDefinition = {
   description: 'Score ten evenings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
-    const validEveningsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
+    const validEveningsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const tenthEveningInRange = validEveningsInOrder.at(9)
     return {
       completed: tenthEveningInRange?.date,
@@ -567,8 +569,8 @@ export const twentyFiveEveningsInRangeAchievement: AchievementDefinition = {
   description: 'Score twenty-five evenings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
-    const validEveningsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
+    const validEveningsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const twentyFifthEveningInRange = validEveningsInOrder.at(24)
     return {
       completed: twentyFifthEveningInRange?.date,
@@ -584,8 +586,8 @@ export const oneHundredEveningsInRangeAchievement: AchievementDefinition = {
   description: 'Score one hundred evenings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
-    const validEveningsInOrder = timeInRangeStats.streaks.flatMap(streak => streak.streak)
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
+    const validEveningsInOrder = timeInRangeStats.streaks.flatMap((streak: { streak: ScoredDay[] }) => streak.streak)
     const oneHundredthEveningInRange = validEveningsInOrder.at(99)
     return {
       completed: oneHundredthEveningInRange?.date,
@@ -601,9 +603,9 @@ export const twoEveningStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score two consecutive evenings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const twoEveningStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 2)
+    const twoEveningStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 2)
     return {
       completed: twoEveningStreaks.at(0)?.streak.at(1)?.date,
       progress: Math.min(2, bestStreak.length),
@@ -618,9 +620,9 @@ export const fiveEveningStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score five consecutive evenings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const fiveEveningStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 5)
+    const fiveEveningStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 5)
     return {
       completed: fiveEveningStreaks.at(0)?.streak.at(4)?.date,
       progress: Math.min(5, bestStreak.length),
@@ -635,9 +637,9 @@ export const tenEveningStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score ten consecutive evenings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const tenEveningStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 10)
+    const tenEveningStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 10)
     return {
       completed: tenEveningStreaks.at(0)?.streak.at(9)?.date,
       progress: Math.min(10, bestStreak.length),
@@ -652,9 +654,9 @@ export const thirtyEveningStreakInRangeAchievement: AchievementDefinition = {
   description: 'Score thirty consecutive evenings with your blood glucose at least 80% in range.',
   icon: 'ph:sun-horizon',
   condition: (scoredGames) => {
-    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForEvenings
+    const timeInRangeStats = scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]
     const bestStreak = timeInRangeStats.bestStreak
-    const thirtyEveningStreaks = timeInRangeStats.streaks.filter(streak => streak.streak.length >= 30)
+    const thirtyEveningStreaks = timeInRangeStats.streaks.filter((streak: { streak: ScoredDay[] }) => streak.streak.length >= 30)
     return {
       completed: thirtyEveningStreaks.at(0)?.streak.at(29)?.date,
       progress: Math.min(30, bestStreak.length),

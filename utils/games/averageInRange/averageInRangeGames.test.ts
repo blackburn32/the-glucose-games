@@ -1,11 +1,11 @@
 import { test, expect, vi, beforeAll } from 'vitest'
-import { averageInRangeForFullDayStreak, averageInRangeForNightsStreak, averageInRangeForMorningsStreak, averageInRangeForAfternoonsStreak, averageInRangeForEveningsStreak } from '~/utils/games/averageInRange/averageInRangeGames'
+import { averageInRangeForSemanticPeriods } from '~/utils/games/averageInRange/averageInRangeGames'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
 import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/testUtils'
 import { CurrentDayStatus, DEFAULT_THRESHOLDS } from '~/types/constants'
 import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValue/singleValueGenerator'
-import type { DailyStreakStats } from '~/types/dailyStreakStats'
+import { FullDayTiming, NightTiming, MorningTiming, AfternoonTiming, EveningTiming } from '~/types/timing'
 
 const mockThresholds = DEFAULT_THRESHOLDS
 
@@ -57,7 +57,7 @@ beforeAll(() => {
 
 const testAverageInRangeStreak = (
   testName: string,
-  streakFunction: (records: GlucoseRecord[], thresholds: Thresholds) => DailyStreakStats,
+  periodId: number,
   records: GlucoseRecord[],
   thresholds: Thresholds,
   expectedAverageForCustomDay: number,
@@ -66,7 +66,7 @@ const testAverageInRangeStreak = (
   expectedCurrentDayStatus: CurrentDayStatus,
 ) => {
   test(testName, () => {
-    const result = streakFunction(records, thresholds)
+    const result = averageInRangeForSemanticPeriods(records, thresholds)[periodId]
     const customDay = result.scoredDays.find(day => day.date.toDateString() === midnight.toDateString())
     expect(customDay?.score).toBe(expectedAverageForCustomDay)
     if (result.bestStreak.length > 0) {
@@ -81,7 +81,7 @@ const testAverageInRangeStreak = (
 
 testAverageInRangeStreak(
   'averageInRangeForFullDayStreak should process records for multiple days',
-  averageInRangeForFullDayStreak,
+  FullDayTiming.id,
   allRecords,
   mockThresholds,
   getAverageForTimeRange(mockRecordsForSingleDay, 0, 23),
@@ -92,7 +92,7 @@ testAverageInRangeStreak(
 
 testAverageInRangeStreak(
   'averageInRangeForNightsStreak should process records for multiple days',
-  averageInRangeForNightsStreak,
+  NightTiming.id,
   allRecords,
   mockThresholds,
   mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 0 && record.created.getHours() < 6).length,
@@ -103,7 +103,7 @@ testAverageInRangeStreak(
 
 testAverageInRangeStreak(
   'averageInRangeForMorningsStreak should process records for multiple days',
-  averageInRangeForMorningsStreak,
+  MorningTiming.id,
   allRecords,
   mockThresholds,
   mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 6 && record.created.getHours() < 12).length,
@@ -114,7 +114,7 @@ testAverageInRangeStreak(
 
 testAverageInRangeStreak(
   'averageInRangeForAfternoonsStreak should process records for multiple days',
-  averageInRangeForAfternoonsStreak,
+  AfternoonTiming.id,
   allRecords,
   mockThresholds,
   mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 12 && record.created.getHours() < 18).length,
@@ -125,7 +125,7 @@ testAverageInRangeStreak(
 
 testAverageInRangeStreak(
   'averageInRangeForEveningsStreak should process records for multiple days',
-  averageInRangeForEveningsStreak,
+  EveningTiming.id,
   allRecords,
   mockThresholds,
   mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).reduce((acc, record) => acc + record.value, 0) / mockRecordsForSingleDay.filter(record => record.created.getHours() >= 18 && record.created.getHours() < 24).length,

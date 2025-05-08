@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row w-full justify-evenly">
+  <div class="grid grid-cols-7 gap-2 w-full">
     <ClientOnly>
       <UTooltip
         v-for="(day, index) in mostRecentScoredDays"
@@ -11,14 +11,10 @@
         }"
       >
         <div
-          class="flex flex-col items-center"
+          class="rounded-full w-full flex items-center justify-center text-xs font-semibold"
+          :class="getDayColor(day)"
         >
-          <div>{{ getDayLabel(day.date) }}</div>
-          <Icon
-            :name="getIconAndColorForDay(day).name"
-            :class="getIconAndColorForDay(day).color"
-            size="16"
-          />
+          {{ getDayLabel(day.date) }}
         </div>
       </UTooltip>
       <template #fallback>
@@ -32,8 +28,9 @@
 
 <script setup lang="ts">
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
+import { ScoreCheckResult } from '~/types/scoreCheckResult'
 import type { ScoredDay } from '~/types/scoredDay'
-import { getIconAndColorForCurrentDay, getIconAndColorForScoredDay } from '~/utils/display/gameDisplay'
+import { scoredDayIsPending } from '~/utils/display/gameDisplay'
 
 const props = defineProps<{
   streakStats: DailyStreakStats
@@ -47,18 +44,6 @@ const mostRecentScoredDays = computed(() => {
   return props.streakStats.scoredDays.slice(-daysToDisplay, props.streakStats.scoredDays.length)
 })
 
-const today = new Date()
-const dayIsCurrentDay = (day: ScoredDay) => {
-  return day.date.toDateString() === today.toDateString()
-}
-
-const getIconAndColorForDay = (day: ScoredDay) => {
-  if (dayIsCurrentDay(day)) {
-    return getIconAndColorForCurrentDay(props.streakStats.currentStreak.currentDayStatus, day)
-  }
-  return getIconAndColorForScoredDay(day)
-}
-
 const getDayLabel = (date: Date) => {
   try {
     const d = new Date(date)
@@ -68,6 +53,22 @@ const getDayLabel = (date: Date) => {
   catch {
     return ''
   }
+}
+
+const getDayColor = (day: ScoredDay) => {
+  if (scoredDayIsPending(day)) {
+    return 'bg-base-300'
+  }
+  if (day.scoreResult === ScoreCheckResult.Pass) {
+    return 'bg-success text-success-content'
+  }
+  if (day.scoreResult === ScoreCheckResult.Fail) {
+    return 'bg-error text-error-content'
+  }
+  if (day.scoreResult === ScoreCheckResult.Almost) {
+    return 'bg-warning text-warning-content'
+  }
+  return 'bg-base-300'
 }
 
 const getDayTooltip = (day: ScoredDay) => {

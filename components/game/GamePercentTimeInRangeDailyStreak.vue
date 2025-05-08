@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import type { ScoredGlucoseGames } from '~/types/scoredGlucoseGames'
 import type { Thresholds } from '~/types/thresholds'
+import { FullDayTiming } from '~/types/timing'
 
 const nuxtApp = useNuxtApp()
 const defaultScoredGames = nuxtApp.$scoredGames
@@ -28,6 +29,6 @@ const props = defineProps<{
 const scoredGames = computed(() => props.scoredGamesOverride ?? injectedScoredGames.value)
 
 const dailyStreakStats = computed(
-  () => scoredGames.value.dailyStreakStats.percentTimeInRangeForFullDay,
+  () => scoredGames.value.dailyStreakStats.percentTimeInRangeForSemanticPeriods[FullDayTiming.id],
 )
 </script>

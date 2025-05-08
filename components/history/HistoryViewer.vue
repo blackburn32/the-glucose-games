@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 xl:grid-cols-2 w-full items-center gap-4">
+  <div class="grid grid-cols-1 xl:grid-cols-2 w-full items-center gap-4  pt-[64px] p-[24px]">
     <HistoryContiguousStreak
       title="No Highs or Lows Streaks"
       description="Longest streaks with no highs or lows"
@@ -24,7 +24,7 @@
       :description="`Consecutive full days with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForFullDay"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[FullDayTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -33,7 +33,7 @@
       :description="`Consecutive nights with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForNights"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[NightTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -42,7 +42,7 @@
       :description="`Consecutive mornings with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForMornings"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -51,7 +51,7 @@
       :description="`Consecutive afternoons with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForAfternoons"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -60,7 +60,7 @@
       :description="`Consecutive evenings with at least ${thresholds.dailyStreakPercentTimeInRange}% time in range`"
       score-label="Time in range"
       score-units="%"
-      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForEvenings"
+      :streak-stats="scoredGames.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -69,7 +69,7 @@
       description="Average glucose within range"
       score-label="Average Blood Glucose"
       :score-units="unit"
-      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForFullDay"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -78,7 +78,7 @@
       description="Night time average glucose within range"
       score-label="Average Blood Glucose"
       :score-units="unit"
-      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForNights"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[NightTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -87,7 +87,7 @@
       description="Morning average glucose within range"
       score-label="Average Blood Glucose"
       :score-units="unit"
-      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForMornings"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[MorningTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -96,7 +96,7 @@
       description="Afternoon average glucose within range"
       score-label="Average Blood Glucose"
       :score-units="unit"
-      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForAfternoons"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[AfternoonTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -105,7 +105,7 @@
       description="Evening average glucose within range"
       score-label="Average Blood Glucose"
       :score-units="unit"
-      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForEvenings"
+      :streak-stats="scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[EveningTiming.id]"
       :high-line="thresholds.high"
       :low-line="thresholds.low"
     />
@@ -115,6 +115,7 @@
 <script setup lang="ts">
 import type { ScoredGlucoseGames } from '~/types/scoredGlucoseGames'
 import type { Thresholds } from '~/types/thresholds'
+import { FullDayTiming, NightTiming, MorningTiming, AfternoonTiming, EveningTiming } from '~/types/timing'
 
 const nuxtApp = useNuxtApp()
 const defaultScoredGames = nuxtApp.$scoredGames

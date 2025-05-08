@@ -4,6 +4,8 @@ import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
 import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/testUtils'
 import { CurrentDayStatus, DEFAULT_THRESHOLDS } from '~/types/constants'
+import { FullDayTiming, NightTiming, MorningTiming, AfternoonTiming, EveningTiming } from '~/types/timing'
+import type { ScoredDay } from '~/types/scoredDay'
 
 const mockThresholds: Thresholds = DEFAULT_THRESHOLDS
 
@@ -63,16 +65,16 @@ test('getScoredGames returns correctly structured results', () => {
   expect(result).toHaveProperty('contiguousStreakStats')
 
   // Check daily streak stats structure
-  expect(result.dailyStreakStats).toHaveProperty('averageInRangeForAfternoons')
-  expect(result.dailyStreakStats).toHaveProperty('averageInRangeForEvenings')
-  expect(result.dailyStreakStats).toHaveProperty('averageInRangeForFullDay')
-  expect(result.dailyStreakStats).toHaveProperty('averageInRangeForMornings')
-  expect(result.dailyStreakStats).toHaveProperty('averageInRangeForNights')
-  expect(result.dailyStreakStats).toHaveProperty('percentTimeInRangeForAfternoons')
-  expect(result.dailyStreakStats).toHaveProperty('percentTimeInRangeForEvenings')
-  expect(result.dailyStreakStats).toHaveProperty('percentTimeInRangeForFullDay')
-  expect(result.dailyStreakStats).toHaveProperty('percentTimeInRangeForMornings')
-  expect(result.dailyStreakStats).toHaveProperty('percentTimeInRangeForNights')
+  expect(result.dailyStreakStats).toHaveProperty('averageInRangeForSemanticPeriods')
+  expect(result.dailyStreakStats).toHaveProperty('percentTimeInRangeForSemanticPeriods')
+  expect(result.dailyStreakStats).toHaveProperty('percentTimeInRangeEveryFourHourPeriod')
+
+  // Check that semantic period keys exist
+  const semanticKeys = [FullDayTiming.id, NightTiming.id, MorningTiming.id, AfternoonTiming.id, EveningTiming.id]
+  semanticKeys.forEach((key) => {
+    expect(result.dailyStreakStats.averageInRangeForSemanticPeriods).toHaveProperty(String(key))
+    expect(result.dailyStreakStats.percentTimeInRangeForSemanticPeriods).toHaveProperty(String(key))
+  })
 
   // Check contiguous streak stats structure
   expect(result.contiguousStreakStats).toHaveProperty('noHighsStreaks')
@@ -84,32 +86,32 @@ test('getScoredGames calculates daily streak stats correctly', () => {
   const result = getScoredGames(allRecords, mockThresholds)
 
   // Test full day stats
-  expect(result.dailyStreakStats.averageInRangeForFullDay.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pending)
-  expect(result.dailyStreakStats.percentTimeInRangeForFullDay.scoredDays.find(day =>
+  expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id].currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pending)
+  expect(result.dailyStreakStats.percentTimeInRangeForSemanticPeriods[FullDayTiming.id].scoredDays.find((day: ScoredDay) =>
     day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe((6 / 9) * 100)
 
   // Test night stats (00:00-05:59)
-  expect(result.dailyStreakStats.averageInRangeForNights.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pass)
-  expect(result.dailyStreakStats.percentTimeInRangeForNights.scoredDays.find(day =>
+  expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[NightTiming.id].currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pass)
+  expect(result.dailyStreakStats.percentTimeInRangeForSemanticPeriods[NightTiming.id].scoredDays.find((day: ScoredDay) =>
     day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(100) // All night values are in range
 
   // Test morning stats (06:00-11:59)
-  expect(result.dailyStreakStats.averageInRangeForMornings.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pass)
-  expect(result.dailyStreakStats.percentTimeInRangeForMornings.scoredDays.find(day =>
+  expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[MorningTiming.id].currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pass)
+  expect(result.dailyStreakStats.percentTimeInRangeForSemanticPeriods[MorningTiming.id].scoredDays.find((day: ScoredDay) =>
     day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(100) // All morning values are in range
 
   // Test afternoon stats (12:00-17:59)
-  expect(result.dailyStreakStats.averageInRangeForAfternoons.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Fail)
-  expect(result.dailyStreakStats.percentTimeInRangeForAfternoons.scoredDays.find(day =>
+  expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[AfternoonTiming.id].currentStreak.currentDayStatus).toBe(CurrentDayStatus.Fail)
+  expect(result.dailyStreakStats.percentTimeInRangeForSemanticPeriods[AfternoonTiming.id].scoredDays.find((day: ScoredDay) =>
     day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(50) // 1 in range (boundary), 1 out of range
 
   // Test evening stats (18:00-23:59)
-  expect(result.dailyStreakStats.averageInRangeForEvenings.currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pending)
-  expect(result.dailyStreakStats.percentTimeInRangeForEvenings.scoredDays.find(day =>
+  expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[EveningTiming.id].currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pending)
+  expect(result.dailyStreakStats.percentTimeInRangeForSemanticPeriods[EveningTiming.id].scoredDays.find((day: ScoredDay) =>
     day.date.toDateString() === midnight.toDateString(),
   )?.score).toBe(0) // All evening values are out of range
 })
@@ -120,7 +122,7 @@ test('getScoredGames calculates contiguous streak stats correctly', () => {
   // Test no highs streaks
   expect(result.contiguousStreakStats.noHighsStreaks.currentlyInStreak).toBe(false)
   expect(result.contiguousStreakStats.noHighsStreaks.currentStreak).toHaveLength(0)
-  expect(result.contiguousStreakStats.noHighsStreaks.longestStreak).toHaveLength(6) // First 6 values of mockRecordsForSingleDay
+  expect(result.contiguousStreakStats.noHighsStreaks.longestStreak).toHaveLength(6)
 
   // Test no lows streaks
   expect(result.contiguousStreakStats.noLowsStreaks.currentlyInStreak).toBe(true)
@@ -149,12 +151,15 @@ test('getScoredGames handles single record', () => {
   const result = getScoredGames(singleRecord, mockThresholds)
 
   // Check daily streak stats for the time period containing the record (night)
-  expect(result.dailyStreakStats.averageInRangeForNights.scoredDays).toHaveLength(1)
-  expect(result.dailyStreakStats.averageInRangeForNights.scoredDays[0].score).toBe(100)
-  expect(result.dailyStreakStats.percentTimeInRangeForNights.scoredDays).toHaveLength(1)
-  expect(result.dailyStreakStats.percentTimeInRangeForNights.scoredDays[0].score).toBe(100)
+  expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[NightTiming.id].scoredDays).toHaveLength(1)
+  expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[NightTiming.id].scoredDays[0].score).toBe(100)
+  expect(result.dailyStreakStats.percentTimeInRangeForSemanticPeriods[NightTiming.id].scoredDays).toHaveLength(1)
+  expect(result.dailyStreakStats.percentTimeInRangeForSemanticPeriods[NightTiming.id].scoredDays[0].score).toBe(100)
 
   // Check contiguous streak stats
+  expect(result.contiguousStreakStats.noHighsStreaks.currentlyInStreak).toBe(true)
+  expect(result.contiguousStreakStats.noLowsStreaks.currentlyInStreak).toBe(true)
+  expect(result.contiguousStreakStats.noHighsOrLowsStreaks.currentlyInStreak).toBe(true)
   expect(result.contiguousStreakStats.noHighsStreaks.currentStreak).toHaveLength(1)
   expect(result.contiguousStreakStats.noLowsStreaks.currentStreak).toHaveLength(1)
   expect(result.contiguousStreakStats.noHighsOrLowsStreaks.currentStreak).toHaveLength(1)

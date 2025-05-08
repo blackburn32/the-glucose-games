@@ -3,6 +3,8 @@ import type { GameDisplayStats } from '~/types/gameDisplayStats'
 import type { ScoredDay } from '~/types/scoredDay'
 import { CurrentDayStatus, MedalType } from '~/types/constants'
 import { ScoreCheckResult } from '~/types/scoreCheckResult'
+import type { Timing } from '~/types/timing'
+import type { TimeBasedDailyStreaks } from '~/types/timeBasedDailyStreaks'
 
 export const getPercentToDisplay = (percent: string | undefined): string => {
   return percent ? `${percent}%` : 'Unknown'
@@ -19,6 +21,11 @@ export const getDailyStreakGameDisplayStats = (title: string, streak: DailyStrea
     description: scoreHandler(streak.currentScoredDayWithFallback?.scoreForDisplay),
     best: scoreHandler(streak.bestDay?.scoreForDisplay),
   }
+}
+
+export const getDailyStreakGameDisplayStatsForSemanticPeriod = (semanticPeriod: Timing, streaks: TimeBasedDailyStreaks, scoreHandler: (score: string | undefined) => string): GameDisplayStats => {
+  const streak = streaks[semanticPeriod.id]
+  return getDailyStreakGameDisplayStats(semanticPeriod.badgeTitle, streak, scoreHandler)
 }
 
 export const scoredDayIsPending = (scoredDay: ScoredDay): boolean => {

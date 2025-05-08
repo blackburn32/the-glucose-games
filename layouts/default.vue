@@ -36,11 +36,6 @@
         </div>
       </template>
       <template #default="{ collapsed }">
-        <UDashboardSearchButton
-          :collapsed="collapsed"
-          class="bg-transparent ring-(--ui-border)"
-        />
-
         <UNavigationMenu
           :collapsed="collapsed"
           :items="links"

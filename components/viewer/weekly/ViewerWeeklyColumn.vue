@@ -10,9 +10,9 @@
       }"
     >
       <div
-        class="flex h-8 w-full rounded-full items-center justify-center"
+        class="flex h-[40px] w-full rounded-xl items-center justify-center"
         :class="{
-          'bg-accent': scoredDay.scoreResult === ScoreCheckResult.Pass,
+          'bg-success': scoredDay.scoreResult === ScoreCheckResult.Pass,
           'bg-warning': scoredDay.scoreResult === ScoreCheckResult.Almost,
           'bg-error': scoredDay.scoreResult === ScoreCheckResult.Fail,
           'bg-base-300': scoredDay.scoreResult === ScoreCheckResult.Missing,
@@ -28,10 +28,10 @@
     <div
       v-for="i in [...Array(remainingDaysInWeek).keys()]"
       :key="i"
-      class="h-8 w-full rounded-full bg-base-100"
+      class="w-full rounded-xl h-[40px] bg-base-100"
     />
     <div
-      class="text-xs font-medium text-center"
+      class="text-xs font-medium text-center overflow-ellipsis whitespace-nowrap h-[20px] "
     >
       {{ timeKey }}
     </div>
