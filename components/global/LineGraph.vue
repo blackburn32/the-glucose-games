@@ -3,7 +3,7 @@
     <ClientOnly>
       <div
         v-if="isReady"
-        class="flex flex-col w-full pl-8"
+        class="flex flex-col w-full min-h-[48px] justify-center mb-[24px] space-y-1"
       >
         <div class="text-2xl font-semibold leading-tight max-w-full">
           {{ title }}
@@ -22,7 +22,7 @@
       </div>
       <div
         v-if="data.length == 0"
-        class="skeleton flex items-center justify-center min-h-[292px] w-full"
+        class="skeleton flex items-center justify-center h-[270px] w-full"
       >
         <div class="text-2xl">
           No data available
@@ -30,7 +30,7 @@
       </div>
       <div
         v-if="data.length > 0 && isReady"
-        class="w-full min-h-[292px]"
+        class="w-full h-[270px]"
       >
         <Line
           :data="chartData"
@@ -66,23 +66,9 @@ import type {
   ChartData,
   ChartDataset,
   ChartOptions,
-  TooltipItem } from 'chart.js'
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Filler,
-  TimeScale,
+  TooltipItem,
 } from 'chart.js'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
-import 'chartjs-adapter-date-fns'
-
-ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale, Filler, TimeScale)
 
 const isReady = ref(false)
 
@@ -153,7 +139,7 @@ const chartData: Ref<ChartData<'line', { x: number, y: number }[], number>> = co
   }
 })
 
-const chartOptions: Ref<ChartOptions<'line'>> = computed(() => ({
+const chartOptions = computed<ChartOptions<'line'>>(() => ({
   responsive: true,
   maintainAspectRatio: false,
   plugins: {

@@ -24,6 +24,7 @@ import {
 import { createDate, getDayBefore, createConsecutiveDays } from '~/utils/test/testUtils'
 import { createEmptyScoredGames, createScoredDay, createDailyStreakStatsWithDay, createDailyStreakStatsWithTwoDays, createDailyStreakStatsWithMultipleDays, createDailyStreakStatsWithMultipleDaysStreak } from '~/utils/test/achievementTestUtils'
 import type { AchievementDefinition } from '~/types/achievementDefinition'
+import { FullDayTiming, NightTiming } from '~/types/timing'
 
 const today = createDate(12) // noon today
 const yesterday = getDayBefore(today)
@@ -37,13 +38,9 @@ const createMockScoredGamesWithDays = (days: Date[], score: number, isForNight: 
       ? createDailyStreakStatsWithTwoDays(scoredDays[0], scoredDays[1])
       : createDailyStreakStatsWithMultipleDays(scoredDays)
 
-  return {
-    ...createEmptyScoredGames(),
-    dailyStreakStats: {
-      ...createEmptyScoredGames().dailyStreakStats,
-      [isForNight ? 'percentTimeInRangeForNights' : 'percentTimeInRangeForFullDay']: stats,
-    },
-  }
+  const games = createEmptyScoredGames()
+  games.dailyStreakStats.percentTimeInRangeForSemanticPeriods[isForNight ? NightTiming.id : FullDayTiming.id] = stats
+  return games
 }
 
 // Helper function to create mock scored games with streak
@@ -51,13 +48,9 @@ const createMockScoredGamesWithStreak = (days: Date[], score: number, isForNight
   const scoredDays = days.map(day => createScoredDay(day, score, true))
   const stats = createDailyStreakStatsWithMultipleDaysStreak(scoredDays)
 
-  return {
-    ...createEmptyScoredGames(),
-    dailyStreakStats: {
-      ...createEmptyScoredGames().dailyStreakStats,
-      [isForNight ? 'percentTimeInRangeForNights' : 'percentTimeInRangeForFullDay']: stats,
-    },
-  }
+  const games = createEmptyScoredGames()
+  games.dailyStreakStats.percentTimeInRangeForSemanticPeriods[isForNight ? NightTiming.id : FullDayTiming.id] = stats
+  return games
 }
 
 // Helper function to test achievement with no data

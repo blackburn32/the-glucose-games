@@ -9,9 +9,9 @@
     :background-override="backgroundOverride"
     :hide-decorations="hideDecorations"
   >
-    <div class="divider my-0" />
     <StreakDaysIndicator
       v-if="props.streakStats"
+      class="mt-[12px]"
       :streak-stats="props.streakStats"
       :title="props.title"
       :unit="props.unit"

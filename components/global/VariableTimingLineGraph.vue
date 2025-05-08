@@ -1,14 +1,17 @@
 <template>
-  <div class="flex flex-col w-full space-y-2 bg-base-200 rounded-2xl p-4">
+  <div class="flex flex-col w-full space-y-2 bg-base-200 rounded-2xl p-[24px]">
     <LineGraph
       :data="currentData.data"
-      :title="currentData.title"
-      :duration="currentData.description"
-      :best="currentData.best"
+      :title="currentData.title + titleSuffix"
+      :duration="stats ? currentData.description : ''"
+      :best="stats ? currentData.best : ''"
       :low="low"
       :high="high"
     />
-    <div class="flex flex-row w-full space-x-4 items-center">
+    <div
+      v-if="providedTiming === undefined"
+      class="flex flex-row w-full space-x-4 items-center"
+    >
       <div class="flex flex-row space-x-2 items-center ml-8">
         <Icon
           v-for="t in AllTimings"
@@ -30,35 +33,26 @@
 </template>
 
 <script setup lang="ts">
-import { FullDayTiming, AllTimings, EveningTiming, NightTiming, MorningTiming, AfternoonTiming } from '~/types/timing'
-import type { GameDisplayStats } from '~/types/gameDisplayStats'
+import { FullDayTiming, AllTimings } from '~/types/timing'
+import type { TimeBasedDailyStreaks } from '~/types/timeBasedDailyStreaks'
+import { getDailyStreakGameDisplayStatsForSemanticPeriod, getPercentToDisplay } from '~/utils/display/gameDisplay'
 
 const props = defineProps<{
-  fullDay: GameDisplayStats
-  night: GameDisplayStats
-  morning: GameDisplayStats
-  afternoon: GameDisplayStats
-  evening: GameDisplayStats
+  stats: boolean
+  semanticPeriods: TimeBasedDailyStreaks
+  titleSuffix: string
   low?: number | undefined
   high?: number | undefined
+  providedTiming?: number | undefined
 }>()
 
 const currentTiming = ref(FullDayTiming.id)
-const timing = computed(() => AllTimings.find(timing => timing.id === currentTiming.value))
+const timing = computed(() => {
+  const timingToUseId = props.providedTiming ?? currentTiming.value
+  return AllTimings.find(timing => timing.id === timingToUseId) ?? FullDayTiming
+})
 
 const currentData = computed(() => {
-  if (currentTiming.value === NightTiming.id) {
-    return props.night
-  }
-  else if (currentTiming.value === MorningTiming.id) {
-    return props.morning
-  }
-  else if (currentTiming.value === AfternoonTiming.id) {
-    return props.afternoon
-  }
-  else if (currentTiming.value === EveningTiming.id) {
-    return props.evening
-  }
-  return props.fullDay
+  return getDailyStreakGameDisplayStatsForSemanticPeriod(timing.value, props.semanticPeriods, getPercentToDisplay)
 })
 </script>

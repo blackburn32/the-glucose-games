@@ -3,7 +3,7 @@ import type { Thresholds } from '~/types/thresholds'
 import { scoreRecordsByAverageGlucose } from '~/utils/scoring/averageGlucoseValue/averageGlucoseValue'
 import { filterRecordsByTimePeriod } from '~/utils/filters/timePeriod/filterByTimePeriod'
 import type { ScoredDay } from '~/types/scoredDay'
-import { CurrentDayStatus } from '~/types/constants'
+import { CurrentDayStatus, SemanticPeriods } from '~/types/constants'
 import { calculateDailyStreakStats } from '~/utils/streaks/dailyStreaks'
 import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 import { ScoreCheckResult } from '~/types/scoreCheckResult'
@@ -61,37 +61,11 @@ export const averageInRangeGame = (
   )
 }
 
-export const averageInRangeForFullDayStreak = (
+export const averageInRangeForSemanticPeriods = (
   records: GlucoseRecord[],
   thresholds: Thresholds,
 ) => {
-  return averageInRangeGame(records, thresholds, 0, 0, 23, 59)
-}
-
-export const averageInRangeForNightsStreak = (
-  records: GlucoseRecord[],
-  thresholds: Thresholds,
-) => {
-  return averageInRangeGame(records, thresholds, 0, 0, 5, 59)
-}
-
-export const averageInRangeForMorningsStreak = (
-  records: GlucoseRecord[],
-  thresholds: Thresholds,
-) => {
-  return averageInRangeGame(records, thresholds, 6, 0, 11, 59)
-}
-
-export const averageInRangeForAfternoonsStreak = (
-  records: GlucoseRecord[],
-  thresholds: Thresholds,
-) => {
-  return averageInRangeGame(records, thresholds, 12, 0, 17, 59)
-}
-
-export const averageInRangeForEveningsStreak = (
-  records: GlucoseRecord[],
-  thresholds: Thresholds,
-) => {
-  return averageInRangeGame(records, thresholds, 18, 0, 23, 59)
+  return Object.fromEntries(SemanticPeriods.map((period) => {
+    return [period.id, averageInRangeGame(records, thresholds, period.startHour, period.startMinutes, period.endHour, period.endMinutes)]
+  }))
 }
