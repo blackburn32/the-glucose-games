@@ -6,6 +6,7 @@
     :streak-stats="dailyStreakStats"
     :background-override="backgroundOverride"
     :hide-decorations="hideDecorations"
+    :best="dailyStreakStats.bestStreakIncludesToday"
   />
 </template>
 

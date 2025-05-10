@@ -3,7 +3,8 @@
     title="Daily Average Streak"
     description="average within range"
     :unit="unit"
-    :streak-stats="scoredGames.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id]"
+    :streak-stats="dailyStreakStats"
+    :best="dailyStreakStats.bestStreakIncludesToday"
   />
 </template>
 
@@ -15,4 +16,8 @@ const nuxtApp = useNuxtApp()
 const defaultScoredGames = nuxtApp.$scoredGames
 const scoredGames = inject<Ref<ScoredGlucoseGames>>('scoredGamesInjectable', defaultScoredGames)
 const { unit } = useDisplaySettings()
+
+const dailyStreakStats = computed(
+  () => scoredGames.value.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id],
+)
 </script>

@@ -1,8 +1,8 @@
 <template>
   <StatBadge
     v-if="currentDayStat"
-    :title="`${timing?.badgeTitle ?? 'Today\'s '} time in range`"
-    :value="`${currentDayStat.scoreForDisplay}%`"
+    :title="`Distinct highs and lows`"
+    :value="`${currentDayStat.scoreForDisplay}`"
     :description="timeUntilEndOfSemanticPeriod"
     :icon="currentDayStat.passesThreshold ? 'ph:check-circle' : undefined"
     :best="currentDayIsBestDayOrTie"
@@ -21,15 +21,15 @@ const props = defineProps<{
 const nuxtApp = useNuxtApp()
 const timingToUse = computed(() => props.selectedTiming ?? FullDayTiming.id)
 const timing = computed(() => AllTimings.find(t => t.id === timingToUse.value) ?? FullDayTiming)
-const scoredGames = nuxtApp.$scoredGames
-const timeInRangeDailyStreakStats: Ref<DailyStreakStats> = computed(() => scoredGames.value.dailyStreakStats.percentTimeInRangeForSemanticPeriods[timingToUse.value])
-const currentDayStat = computed(() => timeInRangeDailyStreakStats.value.currentScoredDayWithFallback)
 const currentDayIsBestDayOrTie = computed(() => {
-  const bestDay = timeInRangeDailyStreakStats.value.bestDay
+  const bestDay = outOfRangeTransitionsDailyStreakStats.value.bestDay
   if (!bestDay || !currentDayStat.value) {
     return false
   }
-  return currentDayStat.value.score >= bestDay.score
+  return currentDayStat.value.score <= bestDay.score
 })
+const scoredGames = nuxtApp.$scoredGames
+const outOfRangeTransitionsDailyStreakStats: Ref<DailyStreakStats> = computed(() => scoredGames.value.dailyStreakStats.outOfRangeTransitionsForSemanticPeriods[timingToUse.value])
+const currentDayStat = computed(() => outOfRangeTransitionsDailyStreakStats.value.currentScoredDayWithFallback)
 const timeUntilEndOfSemanticPeriod = useTimeUntilEndOfSemanticPeriod(timing)
 </script>
