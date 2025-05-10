@@ -3,6 +3,7 @@
     title="Current streak"
     :value="value"
     :description="description"
+    :best="currentStreakIsBestStreakOrTie"
   />
 </template>
 
@@ -32,5 +33,12 @@ const description = computed(() => {
     return 'in range'
   }
   return ''
+})
+const currentStreakIsBestStreakOrTie = computed(() => {
+  const bestStreak = streakStats.value.longestStreak
+  if (!bestStreak || !streakStats.value.currentlyInStreak) {
+    return false
+  }
+  return streakStats.value.currentStreak.length >= bestStreak.length
 })
 </script>

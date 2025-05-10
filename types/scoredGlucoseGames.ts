@@ -6,6 +6,7 @@ export type ScoredGlucoseGames = {
     averageInRangeForSemanticPeriods: TimeBasedDailyStreaks
     percentTimeInRangeForSemanticPeriods: TimeBasedDailyStreaks
     percentTimeInRangeEveryFourHourPeriod: TimeBasedDailyStreaks
+    outOfRangeTransitionsForSemanticPeriods: TimeBasedDailyStreaks
   }
   contiguousStreakStats: {
     noHighsStreaks: ContiguousStreakStats

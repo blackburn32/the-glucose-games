@@ -14,7 +14,7 @@
         <div class="flex flex-row space space-x-1 items-center">
           <div class="bg-warning rounded-full w-4 h-4" />
           <div class="text-xs text-neutral-content">
-            10% margin of passing
+            {{ defaultThresholds.dailyStreakPercentTimeInRange - 10 }}% in range
           </div>
         </div>
         <div class="flex flex-row space space-x-1 items-center">
