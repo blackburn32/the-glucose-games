@@ -9,7 +9,8 @@
       <UDashboardNavbar>
         <template #left>
           <UDashboardSearchButton
-            class="bg-transparent ring-(--ui-border) min-w-[200px]"
+            class="bg-transparent ring-(--ui-border) min-w-[200px] rounded-xl"
+            :kbds="[]"
           />
         </template>
         <template
@@ -21,7 +22,7 @@
           >
             <Icon
               name="ph-user-circle"
-              size="32"
+              size="48"
             />
           </NuxtLink>
           <NuxtLink
