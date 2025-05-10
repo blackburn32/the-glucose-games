@@ -8,11 +8,13 @@
     </div>
     <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
       <div class="flex flex-col md:w-1/3 space-y-4 h-full justify-between">
-        <StatCurrentBloodGlucose />
         <StatCurrentTimeInRange
           :selected-timing="timeOfDay"
         />
         <StatCurrentDailyAverage
+          :selected-timing="timeOfDay"
+        />
+<StatCurrentOutOfRangeTransitions
           :selected-timing="timeOfDay"
         />
       </div>
