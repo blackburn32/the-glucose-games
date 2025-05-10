@@ -6,10 +6,11 @@
       </div>
       <DurationDropdown v-model="durationOfData" />
     </div>
-    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 overflow-x-auto">
       <StatTotalTimeInRange />
       <StatTotalPercentTimeInRange />
       <StatTotalAverage />
+      <StatTotalOutOfRangeTransitions />
     </div>
     <GraphsAllTime />
   </div>

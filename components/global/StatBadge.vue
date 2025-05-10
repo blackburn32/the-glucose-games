@@ -1,6 +1,6 @@
 <template>
   <div
-    class="stats w-full overflow-hidden"
+    class="stats w-full overflow-hidden min-w-fit"
     :class="backgroundOverride ? backgroundOverride : 'bg-base-200'"
   >
     <div class="stat min-w-fit p-[24px]">
