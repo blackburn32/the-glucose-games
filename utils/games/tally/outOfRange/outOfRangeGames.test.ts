@@ -50,7 +50,7 @@ test('countOutOfRangeTransitions handles boundary values', () => {
   ]
 
   const transitions = countOutOfRangeTransitions(records, mockThresholds)
-  expect(transitions).toBe(2)
+  expect(transitions).toBe(3) // start out -> in -> out -> in -> out
 })
 
 test('countOutOfRangeTransitions handles multiple consecutive out-of-range values', () => {
