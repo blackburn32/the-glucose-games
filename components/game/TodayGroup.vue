@@ -7,7 +7,7 @@
         </div>
         <div
           v-if="mostRecentResult"
-          class="flex flex-col md:flex-row space-x-1items-start md:items-center mt-[10px]"
+          class="flex flex-col md:flex-row space-x-1 items-start md:items-center mt-[10px]"
         >
           <div class="text-sm  opacity-70">
             Current blood glucose: {{ mostRecentResult.value }} {{ unit }}
