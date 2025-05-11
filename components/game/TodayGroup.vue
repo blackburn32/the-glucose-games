@@ -7,10 +7,10 @@
         </div>
         <div
           v-if="mostRecentResult"
-          class="flex flex-row space-x-1 items-center mt-[10px]"
+          class="flex flex-col md:flex-row space-x-1items-start md:items-center mt-[10px]"
         >
           <div class="text-sm  opacity-70">
-            Current blood glucose: {{ mostRecentResult.value }}
+            Current blood glucose: {{ mostRecentResult.value }} {{ unit }}
           </div>
           <div class="text-sm opacity-70">
             ({{ timeSinceMostRecentResult }})
@@ -50,6 +50,7 @@ import { FullDayTiming } from '~/types/timing'
 
 const timeOfDay = ref(FullDayTiming.id)
 const { mostRecentResult } = useGlucoseValues()
+const { unit } = useDisplaySettings()
 
 const mostRecentResultDate = computed(() => mostRecentResult.value?.created)
 const timeSinceMostRecentResult = useTimeSince(mostRecentResultDate, {
