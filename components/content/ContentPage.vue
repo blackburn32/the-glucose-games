@@ -4,12 +4,15 @@
     :title="title"
   >
     <UPage v-if="page">
-      <UPageHeader :title="page.title" />
+      <UPageHeader
+        :title="page.title"
+        class="px-[24px]"
+      />
       <UPageBody>
         <ContentRenderer
           v-if="page.body"
           :value="page"
-          class="md:max-w-4xl"
+          class="md:max-w-4xl px-[24px]"
         />
       </UPageBody>
       <template
