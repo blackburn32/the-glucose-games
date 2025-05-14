@@ -12,7 +12,7 @@
       <StatTotalAverage />
       <StatTotalOutOfRangeTransitions />
     </div>
-    <GraphsAllTime />
+    <ViewerHourlyProportions />
   </div>
 </template>
 
