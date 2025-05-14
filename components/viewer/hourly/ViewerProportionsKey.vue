@@ -18,6 +18,12 @@
         Out of Range
       </div>
     </div>
+    <div class="flex flex-row space-x-1 items-center">
+      <div class="bg-base-300 rounded-full w-4 h-4" />
+      <div class="text-xs text-neutral-content">
+        Missing
+      </div>
+    </div>
   </div>
 </template>
 

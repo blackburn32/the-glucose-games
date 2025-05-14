@@ -12,30 +12,17 @@
         :key="timeKey"
         class="flex flex-col h-full"
       >
-        <div class="h-[200px] w-full flex flex-col-reverse">
+        <div class="h-[200px] w-full flex flex-col space-y-1">
           <UTooltip
-            :text="`${timeKey}: ${percentageHeights[timeKey]?.pass || 0}% in range`"
+            :text="`${timeKey}: ${percentageHeights[timeKey]?.missing || 0}% missing data`"
             :delay-duration="0"
             :ui="{
               content: 'bg-base-300',
             }"
           >
             <div
-              class="w-full bg-success rounded-xl mb-1"
-              :style="{ height: `${percentageHeights[timeKey]?.pass || 0}%` }"
-            />
-          </UTooltip>
-
-          <UTooltip
-            :text="`${timeKey}: ${percentageHeights[timeKey]?.almost || 0}% almost in range`"
-            :delay-duration="0"
-            :ui="{
-              content: 'bg-base-300',
-            }"
-          >
-            <div
-              class="w-full bg-warning rounded-xl mb-1"
-              :style="{ height: `${percentageHeights[timeKey]?.almost || 0}%` }"
+              class="w-full bg-base-300 rounded-xl"
+              :style="{ height: `${percentageHeights[timeKey]?.missing || 0}%` }"
             />
           </UTooltip>
 
@@ -47,8 +34,34 @@
             }"
           >
             <div
-              class="w-full bg-error rounded-xl mb-1"
+              class="w-full bg-error rounded-xl"
               :style="{ height: `${percentageHeights[timeKey]?.fail || 0}%` }"
+            />
+          </UTooltip>
+
+          <UTooltip
+            :text="`${timeKey}: ${percentageHeights[timeKey]?.almost || 0}% almost in range`"
+            :delay-duration="0"
+            :ui="{
+              content: 'bg-base-300',
+            }"
+          >
+            <div
+              class="w-full bg-warning rounded-xl"
+              :style="{ height: `${percentageHeights[timeKey]?.almost || 0}%` }"
+            />
+          </UTooltip>
+
+          <UTooltip
+            :text="`${timeKey}: ${percentageHeights[timeKey]?.pass || 0}% in range`"
+            :delay-duration="0"
+            :ui="{
+              content: 'bg-base-300',
+            }"
+          >
+            <div
+              class="w-full bg-success rounded-xl"
+              :style="{ height: `${percentageHeights[timeKey]?.pass || 0}%` }"
             />
           </UTooltip>
         </div>
@@ -75,6 +88,7 @@ interface HeightPercentages {
     pass: number
     almost: number
     fail: number
+    missing: number
   }
 }
 
@@ -84,18 +98,20 @@ const percentageHeights = computed((): HeightPercentages => {
   everyFourHourPeriod.value.forEach(([timeKey, stats]) => {
     const totalDays = stats.scoredDays.length
     if (totalDays === 0) {
-      result[timeKey] = { pass: 0, almost: 0, fail: 0 }
+      result[timeKey] = { pass: 0, almost: 0, fail: 0, missing: 100 }
       return
     }
 
     const passCount = stats.scoredDays.filter(day => day.scoreResult === ScoreCheckResult.Pass).length
     const almostCount = stats.scoredDays.filter(day => day.scoreResult === ScoreCheckResult.Almost).length
     const failCount = stats.scoredDays.filter(day => day.scoreResult === ScoreCheckResult.Fail).length
+    const missingCount = stats.scoredDays.filter(day => day.scoreResult === ScoreCheckResult.Missing).length
 
     result[timeKey] = {
       pass: Math.round((passCount / totalDays) * 100),
       almost: Math.round((almostCount / totalDays) * 100),
       fail: Math.round((failCount / totalDays) * 100),
+      missing: Math.round((missingCount / totalDays) * 100),
     }
   })
 
