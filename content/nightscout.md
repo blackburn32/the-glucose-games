@@ -32,7 +32,7 @@ You can generate a new Access Token by following these steps:
 
 ## Providing your Nightscout information
 
-Once you have your Nightscout Base URL and Access Token, you can provide them to the games by navigating to the [connections](/connect) page and entering them in the appropriate fields.
+Once you have your Nightscout Base URL and Access Token, you can provide them to the games by navigating to the [settings page](/account) page and entering them in the appropriate fields.
 
 Once you have saved your Nightscout information, you should see a notice about the connection status.
 If you see "Connected" you're ready to play!
@@ -40,7 +40,7 @@ Otherwise, check to make sure the information you entered was correct, and that 
 
 ## Disconnecting from Nightscout
 
-If you'd like to disconnect from Nightscout for any reason, you can do so by navigating to the [connections](/connect) page and clicking the trash can icon.
+If you'd like to disconnect from Nightscout for any reason, you can do so by navigating to the [settings page](/account) and clicking the trash can icon.
 
 Note that The Glucose Games does not store your Nightscout data, so disconnecting will prevent the games from accessing any of your blood glucose data from Nightscout.
 
