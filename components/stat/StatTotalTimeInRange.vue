@@ -14,7 +14,7 @@ import { getStreakDuration } from '~/utils/formatting/getStreakDurationString'
 import { useTimeSince } from '~/composables/useTimeSince'
 
 const nuxtApp = useNuxtApp()
-const scoredGames = nuxtApp.$scoredGames
+const scoredGames = nuxtApp.$filteredScoredGames
 const contiguousStreakStats: Ref<ContiguousStreakStats> = computed(() => scoredGames.value.contiguousStreakStats.noHighsOrLowsStreaks)
 
 const streakDurations = computed(() => {

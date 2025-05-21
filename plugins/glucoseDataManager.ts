@@ -16,9 +16,10 @@ export default defineNuxtPlugin(() => {
     return useDemoDataOverride.value || !user.value || !hasNightscoutData.value
   })
   const durationOfData = ref(THREE_MONTHS)
-  const fetchRecordsSince = computed(() => {
+  const filteredDurationOfData = ref(THREE_MONTHS)
+  const includeRecordsSince = computed(() => {
     const now = new Date()
-    return new Date(now.getTime() - durationOfData.value)
+    return new Date(now.getTime() - filteredDurationOfData.value)
   })
 
   const { hasNightscout, nightscoutSettings } = useNightscout()
@@ -78,11 +79,14 @@ export default defineNuxtPlugin(() => {
   })
 
   const glucoseValues: Ref<GlucoseRecord[]> = computed(() => {
-    const start = fetchRecordsSince.value
     if (useDemoData.value) {
-      return demoData.value.filter(record => record.created >= start)
+      return demoData.value
     }
-    return realData.value.filter(record => record.created >= start)
+    return realData.value
+  })
+
+  const filteredGlucoseValues = computed(() => {
+    return glucoseValues.value.filter(record => record.created >= includeRecordsSince.value)
   })
 
   const refreshData = async () => {
@@ -93,7 +97,7 @@ export default defineNuxtPlugin(() => {
   }
 
   const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value))
-  const demoScoredGames = computed(() => getScoredGames(demoData.value, thresholds.value))
+  const filteredScoredGames = computed(() => getScoredGames(filteredGlucoseValues.value, thresholds.value))
 
   const isGlucoseDataLoading = computed(() => {
     if (useDemoData.value) return false
@@ -139,8 +143,10 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       demoData,
-      demoScoredGames,
       durationOfData,
+      filteredDurationOfData,
+      filteredGlucoseValues,
+      filteredScoredGames,
       glucoseValues,
       hasGlucoseData,
       hasNightscoutData,

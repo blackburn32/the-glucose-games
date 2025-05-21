@@ -78,7 +78,7 @@ import { ScoreCheckResult } from '~/types/scoreCheckResult'
 import ViewerProportionsKey from '~/components/viewer/hourly/ViewerProportionsKey.vue'
 
 const nuxtApp = useNuxtApp()
-const scoredGames = nuxtApp.$scoredGames
+const scoredGames = nuxtApp.$filteredScoredGames
 const everyFourHourPeriod = computed(() => {
   return Object.entries(scoredGames.value.dailyStreakStats.percentTimeInRangeEveryFourHourPeriod)
 })

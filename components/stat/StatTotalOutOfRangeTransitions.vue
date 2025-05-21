@@ -11,7 +11,7 @@
 import { countOutOfRangeTransitions } from '~/utils/games/tally/outOfRange/outOfRangeGames'
 
 const nuxtApp = useNuxtApp()
-const glucoseValues = nuxtApp.$glucoseValues
+const glucoseValues = nuxtApp.$filteredGlucoseValues
 const thresholds = nuxtApp.$thresholds
 
 const value = computed(() => {

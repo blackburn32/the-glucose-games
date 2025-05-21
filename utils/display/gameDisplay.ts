@@ -1,3 +1,5 @@
+import { getLocalTimeZone, type DateValue } from '@internationalized/date'
+import { differenceInDays } from 'date-fns'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 import type { GameDisplayStats } from '~/types/gameDisplayStats'
 import type { ScoredDay } from '~/types/scoredDay'
@@ -14,18 +16,22 @@ export const getGlucoseValueToDisplay = (glucoseValue: string | undefined, unit:
   return glucoseValue ? `${glucoseValue} ${unit ?? 'mg/dL'}` : 'Unknown'
 }
 
-export const getDailyStreakGameDisplayStats = (title: string, streak: DailyStreakStats, scoreHandler: (score: string | undefined) => string): GameDisplayStats => {
+export const getDailyStreakGameDisplayStats = (title: string, streak: DailyStreakStats, scoreHandler: (score: string | undefined) => string, date: DateValue): GameDisplayStats => {
+  const dayToUse = streak.scoredDays.find((day) => {
+    const difference = differenceInDays(day.date, date.toDate(getLocalTimeZone()))
+    return difference === 0
+  }) ?? streak.currentScoredDayWithFallback
   return {
     title,
-    data: streak.currentScoredDayWithFallback?.glucoseRecords ?? [],
-    description: scoreHandler(streak.currentScoredDayWithFallback?.scoreForDisplay),
+    data: dayToUse?.glucoseRecords ?? [],
+    description: scoreHandler(dayToUse?.scoreForDisplay),
     best: scoreHandler(streak.bestDay?.scoreForDisplay),
   }
 }
 
-export const getDailyStreakGameDisplayStatsForSemanticPeriod = (semanticPeriod: Timing, streaks: TimeBasedDailyStreaks, scoreHandler: (score: string | undefined) => string): GameDisplayStats => {
+export const getDailyStreakGameDisplayStatsForSemanticPeriod = (semanticPeriod: Timing, streaks: TimeBasedDailyStreaks, scoreHandler: (score: string | undefined) => string, date: DateValue): GameDisplayStats => {
   const streak = streaks[semanticPeriod.id]
-  return getDailyStreakGameDisplayStats(semanticPeriod.badgeTitle, streak, scoreHandler)
+  return getDailyStreakGameDisplayStats(semanticPeriod.badgeTitle, streak, scoreHandler, date)
 }
 
 export const scoredDayIsPending = (scoredDay: ScoredDay): boolean => {

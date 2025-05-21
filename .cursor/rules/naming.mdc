@@ -1,0 +1,12 @@
+---
+description: For naming files, functions, utilities and functions
+globs: 
+alwaysApply: false
+---
+Naming Conventions:
+- Utilize composables, naming them as use <MyComposable>.
+- Use **PascalCase** for component file names (e.g., components/MyComponent.vue).
+- Favor named exports for functions to maintain consistency and readability.
+- Use **lowerCamelCase** for new pages file names, typescript files, typescript functions
+
+- Use **SNAKE_CASE** for constants

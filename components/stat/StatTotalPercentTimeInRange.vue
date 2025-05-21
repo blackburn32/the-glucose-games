@@ -13,7 +13,7 @@ import { scoreRecordsByPercentTimeInRange } from '~/utils/scoring/percentTimeInR
 import { cleanPercentForDisplay } from '~/utils/formatting/percentFormatting'
 
 const nuxtApp = useNuxtApp()
-const glucoseValues = nuxtApp.$glucoseValues
+const glucoseValues = nuxtApp.$filteredGlucoseValues
 const thresholds = nuxtApp.$thresholds
 
 const value = computed(() => {

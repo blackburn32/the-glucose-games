@@ -1,4 +1,5 @@
 import { expect, test } from 'vitest'
+import { getLocalTimeZone, today } from '@internationalized/date'
 import { getDailyStreakGameDisplayStats, getGlucoseValueToDisplay, getIconAndColorForScoredDay, getPercentToDisplay, scoredDayIsPending } from './gameDisplay'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
@@ -69,7 +70,7 @@ test('getDailyStreakGameDisplayStats returns correct stats with valid data', () 
 
   const mockScoreHandler = (score: string | undefined) => score ? `Score: ${score}` : 'No score'
 
-  const result = getDailyStreakGameDisplayStats('Test Game', mockStreak, mockScoreHandler)
+  const result = getDailyStreakGameDisplayStats('Test Game', mockStreak, mockScoreHandler, today(getLocalTimeZone()))
 
   expect(result.title).toBe('Test Game')
   expect(result.data).toBe(mockRecords)
@@ -95,7 +96,7 @@ test('getDailyStreakGameDisplayStats handles missing data', () => {
 
   const mockScoreHandler = (score: string | undefined) => score ? `Score: ${score}` : 'No score'
 
-  const result = getDailyStreakGameDisplayStats('Test Game', mockStreak, mockScoreHandler)
+  const result = getDailyStreakGameDisplayStats('Test Game', mockStreak, mockScoreHandler, today(getLocalTimeZone()))
 
   expect(result.title).toBe('Test Game')
   expect(result.data).toEqual([])
@@ -137,7 +138,7 @@ test('getDailyStreakGameDisplayStats uses custom score handler', () => {
 
   const customScoreHandler = (score: string | undefined) => score ? `Custom: ${score}!` : 'None'
 
-  const result = getDailyStreakGameDisplayStats('Test Game', mockStreak, customScoreHandler)
+  const result = getDailyStreakGameDisplayStats('Test Game', mockStreak, customScoreHandler, today(getLocalTimeZone()))
 
   expect(result.description).toBe('Custom: 75!')
   expect(result.best).toBe('Custom: 90!')

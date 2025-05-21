@@ -1,0 +1,13 @@
+---
+description: 
+globs: *.vue
+alwaysApply: false
+---
+Tailwind CSS and daisyUI usage examples:
+- bg-primary
+- text-accent
+- text-error-foreground
+- bg-input-border
+
+
+Colors and other theme defaults are managed in [main.css](mdc:assets/css/main.css)

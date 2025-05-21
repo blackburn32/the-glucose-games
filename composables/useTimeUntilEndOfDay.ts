@@ -11,8 +11,11 @@ export function useTimeUntilEndOfDay(options: { secondsDecimalDigits?: number, c
   })
 }
 
-export function useTimeUntilEndOfSemanticPeriod(semanticPeriod: Ref<Timing>, options: { secondsDecimalDigits?: number, compact?: boolean } = { secondsDecimalDigits: 0, compact: true }) {
+export function useTimeUntilEndOfSemanticPeriod(semanticPeriod: Ref<Timing>, isToday: Ref<boolean>, options: { secondsDecimalDigits?: number, compact?: boolean } = { secondsDecimalDigits: 0, compact: true }) {
   return computed(() => {
+    if (!isToday.value) {
+      return 'for the day'
+    }
     const now = new Date()
 
     const startOfSemanticPeriod = new Date(now)
