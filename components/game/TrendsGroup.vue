@@ -21,5 +21,5 @@ import { useNuxtApp } from '#app'
 import DurationDropdown from '~/components/global/DurationDropdown.vue'
 
 const nuxtApp = useNuxtApp()
-const durationOfData = nuxtApp.$durationOfData
+const durationOfData = nuxtApp.$filteredDurationOfData
 </script>

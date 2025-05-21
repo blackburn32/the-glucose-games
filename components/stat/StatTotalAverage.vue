@@ -11,7 +11,7 @@
 import { scoreRecordsByAverageGlucose } from '~/utils/scoring/averageGlucoseValue/averageGlucoseValue'
 
 const nuxtApp = useNuxtApp()
-const glucoseValues = nuxtApp.$glucoseValues
+const glucoseValues = nuxtApp.$filteredGlucoseValues
 const { getGlucoseValueWithUnit } = useDisplaySettings()
 
 const value = computed(() => {

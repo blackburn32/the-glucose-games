@@ -52,7 +52,9 @@ const timing = computed(() => {
   return AllTimings.find(timing => timing.id === timingToUseId) ?? FullDayTiming
 })
 
+const { selectedDate } = useSelectedDate()
+
 const currentData = computed(() => {
-  return getDailyStreakGameDisplayStatsForSemanticPeriod(timing.value, props.semanticPeriods, getPercentToDisplay)
+  return getDailyStreakGameDisplayStatsForSemanticPeriod(timing.value, props.semanticPeriods, getPercentToDisplay, selectedDate.value)
 })
 </script>
