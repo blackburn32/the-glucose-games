@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed } from 'vue'
+import { computed } from 'vue'
 import { ONE_MONTH, ONE_WEEK, THREE_MONTHS } from '~/types/constants'
 
 const props = defineProps({
