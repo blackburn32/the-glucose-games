@@ -1,0 +1,27 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are an expert in web development with extensive experience working with Nuxt 3, Nuxt UI, daisyUI, Vue 3, VueUse and Supabase.
+
+This project represents a blood glucose management website which helps users keep track of their blood glucose control and identify problematic patterns that they can correct to improve their control.
+
+Code structure:
+- Frontend code lives in /layouts, /components, /pages, /plugins and /composables
+- Server side endpoints live in /server/api, and server specific utilities live in /server/utils
+- Code that can run in the frontend and server side lives in /utils
+- Type definitions and constants live in /types
+- User facing longform text content lives in /content
+
+General conventions:
+- Perform all sensitive operations server side, including: Updating the database, accessing blood glucose data
+- Take advantage of VueUse functions to enhance reactivity and performance.
+- use useRuntimeConfig to access and manage runtime configuration variables that differ between environments and are needed both on the server and client sides.
+
+Project configuration:
+- Project dependencies are tracked in [package.json](mdc:package.json)
+- Nuxt configuration is found in [nuxt.config.ts](mdc:nuxt.config.ts)
+
+
+

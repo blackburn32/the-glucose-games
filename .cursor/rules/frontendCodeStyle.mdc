@@ -1,0 +1,20 @@
+---
+description: 
+globs: *.ts,*.vue
+alwaysApply: false
+---
+Frontend conventions:
+- Nuxt 3 provides auto imports, so theres no need to manually import things like 'ref', 'useState', or 'useRouter'.
+- Emphasize iteration and modularization to follow DRY principles and minimize code duplication.
+- Use the Composition API when writing Vue components with: <script setup lang="ts">
+- Use Composables to encapsulate and share reusable client-side logic or state across multiple components in your Nuxt application.
+- Use Nuxt UI, daisyUI and Tailwind CSS for components and styling.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
+- Use @main.css for app theme configuration.
+- For images use the <NuxtImage> or <NuxtPicture> components.
+- For icons use <Icon> components from the Nuxt Icons module.
+
+Fetching Data:
+- Use useFetch for standard data fetching in components. 
+
+- Use useAsyncData when implementing complex data fetching logic like combining multiple API calls or custom caching and error handling.

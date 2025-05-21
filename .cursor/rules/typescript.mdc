@@ -1,0 +1,11 @@
+---
+description: 
+globs: *.vue,*.ts
+alwaysApply: false
+---
+Typescript conventions:
+- Use TypeScript throughout the project
+- Prioritize functional and declarative programming patterns; avoid using classes.
+- Prefer interfaces over types for better extendability and merging.
+
+- Avoid enums, opting for maps for improved type safety and flexibility.

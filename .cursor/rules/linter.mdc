@@ -1,6 +1,7 @@
 ---
-description: 
+description: For code formatting and linting
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
-To fix lint issues, run: npm run lint:fix
+To fix lint issues for multiple files at once: npm run lint:fix
+To fix lint issues for a specific file: eslint path/to/file --fix
