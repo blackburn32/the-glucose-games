@@ -21,9 +21,24 @@
         >
           {{ value }}
         </div>
-        <div class="stat-desc text-xs text-base-content opacity-70 mt-[2px]">
+        <div
+          v-if="description"
+          class="stat-desc text-xs text-base-content opacity-70 mt-[2px]"
+        >
           {{ description }}
         </div>
+        <UTooltip :text="trendStats?.trendTooltip ?? `Compared to ${trendStats?.trendScoreString} the period before`">
+          <div
+            v-if="trendStats"
+            class="text-base-content mt-[4px] border px-2 py-1 w-fit rounded-md"
+            :class="{
+              'text-success bg-success/10': trendStats.trendDifference > 0,
+              'text-error bg-error/10': trendStats.trendDifference < 0,
+            }"
+          >
+            {{ trendStats.trendString }}
+          </div>
+        </UTooltip>
         <template #fallback>
           <div class="stat-value text-lg">
             Loading...
@@ -40,6 +55,7 @@
 
 <script setup lang="ts">
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
+import type { TrendStats } from '~/types/trendStats'
 
 defineProps<{
   title: string
@@ -54,5 +70,6 @@ defineProps<{
   isPercentage?: boolean
   backgroundOverride?: string | undefined
   hideDecorations?: boolean | undefined
+  trendStats?: TrendStats | undefined
 }>()
 </script>

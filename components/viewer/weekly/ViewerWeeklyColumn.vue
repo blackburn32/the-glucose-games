@@ -5,9 +5,6 @@
       :key="scoredDay.date.toString()"
       :text="getDayTooltip(scoredDay)"
       :delay-duration="0"
-      :ui="{
-        content: 'bg-base-300',
-      }"
     >
       <div
         class="flex h-[40px] w-full rounded-xl items-center justify-center"

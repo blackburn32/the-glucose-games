@@ -16,9 +16,6 @@
           <UTooltip
             :text="`${timeKey}: ${percentageHeights[timeKey]?.missing || 0}% missing data`"
             :delay-duration="0"
-            :ui="{
-              content: 'bg-base-300',
-            }"
           >
             <div
               class="w-full bg-base-300 rounded-xl"
@@ -29,9 +26,6 @@
           <UTooltip
             :text="`${timeKey}: ${percentageHeights[timeKey]?.fail || 0}% out of range`"
             :delay-duration="0"
-            :ui="{
-              content: 'bg-base-300',
-            }"
           >
             <div
               class="w-full bg-error rounded-xl"
@@ -42,9 +36,6 @@
           <UTooltip
             :text="`${timeKey}: ${percentageHeights[timeKey]?.almost || 0}% almost in range`"
             :delay-duration="0"
-            :ui="{
-              content: 'bg-base-300',
-            }"
           >
             <div
               class="w-full bg-warning rounded-xl"
@@ -55,9 +46,6 @@
           <UTooltip
             :text="`${timeKey}: ${percentageHeights[timeKey]?.pass || 0}% in range`"
             :delay-duration="0"
-            :ui="{
-              content: 'bg-base-300',
-            }"
           >
             <div
               class="w-full bg-success rounded-xl"

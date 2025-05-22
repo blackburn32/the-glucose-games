@@ -6,9 +6,6 @@
         :key="`indicator-${index}`"
         :text="getDayTooltip(day)"
         :delay-duration="0"
-        :ui="{
-          content: 'z-30 b-0 bg-base-300',
-        }"
       >
         <div
           class="rounded-full w-full flex items-center justify-center text-xs font-semibold"

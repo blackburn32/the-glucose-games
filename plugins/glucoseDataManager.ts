@@ -1,7 +1,7 @@
 import parser from 'any-date-parser'
 import type { FetchError } from 'ofetch'
 import { useInterval } from '@vueuse/shared'
-import { FIVE_MINUTES, NIGHTSCOUT_PROVIDER_NAME, ONE_MONTH, THIRTY_SECONDS, THREE_MONTHS } from '~/types/constants'
+import { FIVE_MINUTES, NIGHTSCOUT_PROVIDER_NAME, ONE_MONTH, SIX_MONTHS, THIRTY_SECONDS, THREE_MONTHS } from '~/types/constants'
 import { generateRandomWalk } from '~/utils/generators/randomWalkGenerator/randomWalkGenerator'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { getScoredGames } from '~/utils/games/scoredGames'
@@ -15,11 +15,14 @@ export default defineNuxtPlugin(() => {
   const useDemoData = computed(() => {
     return useDemoDataOverride.value || !user.value || !hasNightscoutData.value
   })
-  const durationOfData = ref(THREE_MONTHS)
+  const durationOfData = ref(SIX_MONTHS)
   const filteredDurationOfData = ref(THREE_MONTHS)
   const includeRecordsSince = computed(() => {
     const now = new Date()
     return new Date(now.getTime() - filteredDurationOfData.value)
+  })
+  const includeRecordsForTrendsSince = computed(() => {
+    return new Date(includeRecordsSince.value.getTime() - filteredDurationOfData.value)
   })
 
   const { hasNightscout, nightscoutSettings } = useNightscout()
@@ -54,7 +57,7 @@ export default defineNuxtPlugin(() => {
     return allData
   })
 
-  const rawDemoData = ref(generateRandomWalk())
+  const rawDemoData = ref(generateRandomWalk(undefined, 4000, 60))
 
   const finalizeGlucoseData = (data: GlucoseRecord[], timezoneOffset = 0) => {
     return data.map((record) => {
@@ -89,6 +92,10 @@ export default defineNuxtPlugin(() => {
     return glucoseValues.value.filter(record => record.created >= includeRecordsSince.value)
   })
 
+  const recordsForTrends = computed(() => {
+    return glucoseValues.value.filter(record => record.created >= includeRecordsForTrendsSince.value && record.created <= includeRecordsSince.value)
+  })
+
   const refreshData = async () => {
     await Promise.all(fetches.value.map(fetch => fetch.refresh()))
   }
@@ -98,6 +105,7 @@ export default defineNuxtPlugin(() => {
 
   const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value))
   const filteredScoredGames = computed(() => getScoredGames(filteredGlucoseValues.value, thresholds.value))
+  const scoredGamesForTrends = computed(() => getScoredGames(recordsForTrends.value, thresholds.value))
 
   const isGlucoseDataLoading = computed(() => {
     if (useDemoData.value) return false
@@ -113,7 +121,7 @@ export default defineNuxtPlugin(() => {
   })
 
   const randomizeDemoData = () => {
-    rawDemoData.value = generateRandomWalk()
+    rawDemoData.value = generateRandomWalk(undefined, 4000, 60)
   }
 
   watch([() => user, () => hasNightscout, () => nightscoutSettings], () => {
@@ -152,8 +160,10 @@ export default defineNuxtPlugin(() => {
       hasNightscoutData,
       isGlucoseDataLoading,
       randomizeDemoData,
+      recordsForTrends,
       refreshData,
       scoredGames,
+      scoredGamesForTrends,
       thresholds,
       useDemoData,
       useDemoDataOverride,
