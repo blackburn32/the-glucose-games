@@ -10,7 +10,8 @@ export const FIVE_MINUTES = 5 * 60 * 1000
 export const ONE_DAY = 24 * 60 * 60 * 1000
 export const ONE_WEEK = 7 * ONE_DAY
 export const ONE_MONTH = 30 * ONE_DAY
-export const THREE_MONTHS = 100 * ONE_DAY
+export const THREE_MONTHS = 90 * ONE_DAY
+export const SIX_MONTHS = 180 * ONE_DAY
 export const ONE_YEAR = 365 * ONE_DAY
 export const SEVENTY_DAYS = 70 * ONE_DAY
 
