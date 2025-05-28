@@ -109,14 +109,14 @@ const aboutLinks = [
 const links = [{
   label: 'Dashboard',
   icon: 'i-ph-house-fill',
-  to: '/current',
+  to: '/dashboard',
   onSelect: () => {
     open.value = false
   },
 }, {
   label: 'Records',
   icon: 'i-ph-user-fill',
-  to: '/history',
+  to: '/records',
   onSelect: () => {
     open.value = false
   },
@@ -129,7 +129,7 @@ const links = [{
   },
 }, {
   label: 'Settings',
-  to: '/account',
+  to: '/settings',
   icon: 'i-ph-gear-fill',
 }]
 

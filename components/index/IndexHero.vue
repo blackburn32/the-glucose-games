@@ -11,13 +11,13 @@
           </div>
           <div class="flex flex-row space-x-4 mt-4">
             <NuxtLink
-              to="/login"
+              to="/signUp"
               class="btn btn-primary"
             >
               Get started
             </NuxtLink>
             <NuxtLink
-              to="/current"
+              to="/dashboard"
               class="btn"
             >
               Check out the games

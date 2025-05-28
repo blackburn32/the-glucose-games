@@ -68,4 +68,11 @@ const deleteAccount = async () => {
   await supabase.auth.signOut()
   navigateTo('/')
 }
+
+useHead({
+  title: 'Settings',
+})
+useSeoMeta({
+  description: 'Customize your Glucose Games experience - adjust thresholds, glucose units, and manage your Nightscout connection.',
+})
 </script>
