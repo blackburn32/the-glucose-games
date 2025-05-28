@@ -31,7 +31,7 @@
             <li>
               <NuxtLink
                 class="hover:brightness-125 transition"
-                to="/current"
+                to="/dashboard"
                 @click="errorIfNotSignedIn"
               >
                 Current Games
@@ -40,7 +40,7 @@
             <li>
               <NuxtLink
                 class="hover:brightness-125 transition"
-                to="/history"
+                to="/records"
                 @click="errorIfNotSignedIn"
               >
                 Gaming Records
@@ -65,7 +65,7 @@
             <li>
               <NuxtLink
                 class="hover:brightness-125 transition"
-                to="/login"
+                to="/signUp"
               >
                 Sign In
               </NuxtLink>
@@ -73,7 +73,7 @@
             <li>
               <NuxtLink
                 class="hover:brightness-125 transition"
-                to="/account"
+                to="/settings"
                 @click="errorIfNotSignedIn"
               >
                 Account

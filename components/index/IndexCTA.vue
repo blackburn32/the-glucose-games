@@ -13,11 +13,11 @@
         <div class="flex flex-row items-center justify-center space-x-4">
           <NuxtLink
             class="btn btn-primary shadow-sm"
-            to="/login"
+            to="/signUp"
           >Get started</NuxtLink>
           <NuxtLink
             class="btn shadow-sm group"
-            to="/current"
+            to="/dashboard"
           >
             Check out the games
           </NuxtLink>
@@ -26,6 +26,3 @@
     </div>
   </section>
 </template>
-
-<script setup lang="ts">
-</script>

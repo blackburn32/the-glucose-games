@@ -50,7 +50,7 @@
         class="text-xs mt-2"
       >
         <NuxtLink
-          to="/login"
+          to="/signUp"
           class="underline"
         >Sign up</NuxtLink> and connect to <NuxtLink
           to="/about/nightscout"

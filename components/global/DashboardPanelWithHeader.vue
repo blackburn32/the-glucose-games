@@ -18,7 +18,7 @@
         >
           <NuxtLink
             v-if="user"
-            to="/account"
+            to="/settings"
           >
             <Icon
               name="ph-user-circle"
@@ -35,7 +35,7 @@
           <NuxtLink
             v-if="!user"
             class="btn btn-sm btn-primary"
-            to="/login"
+            to="/signUp"
           >
             Sign up
           </NuxtLink>

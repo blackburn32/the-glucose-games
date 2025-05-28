@@ -207,4 +207,11 @@ const signUpWithGoogle = async () => {
     toast.add({ title: error.message, color: 'error' })
   }
 }
+
+useHead({
+  title: 'Sign Up',
+})
+useSeoMeta({
+  description: 'Create your account or login to start playing The Glucose Games!',
+})
 </script>

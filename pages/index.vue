@@ -8,6 +8,12 @@
 
 <script setup lang="ts">
 definePageMeta({
+  title: 'The Glucose Games',
   layout: 'marketing',
+})
+useSeoMeta({
+  title: 'The Glucose Games',
+  titleTemplate: '%s',
+  description: 'The games you play with your blood glucose!',
 })
 </script>

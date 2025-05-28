@@ -1,12 +1,24 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-  modules: ['@morev/vue-transitions/nuxt', '@nuxt/test-utils/module', '@nuxtjs/supabase', '@nuxt/ui-pro', '@nuxt/eslint', '@nuxthub/core', '@nuxt/content', '@nuxt/image', '@samk-dev/nuxt-vcalendar', '@sentry/nuxt/module'],
+  modules: [
+    '@morev/vue-transitions/nuxt',
+    '@nuxt/test-utils/module',
+    '@nuxtjs/supabase',
+    '@nuxt/ui-pro',
+    '@nuxt/eslint',
+    '@nuxthub/core',
+    '@nuxt/image',
+    '@samk-dev/nuxt-vcalendar',
+    '@sentry/nuxt/module',
+    '@nuxtjs/seo',
+    '@nuxt/content',
+  ],
 
   $production: {
     runtimeConfig: {
       public: {
-        authCallbackUrl: 'https://glucose.games/current',
+        authCallbackUrl: 'https://glucose.games/dashboard',
         supabase: {
           url: 'https://robpsmulkkgavocpifbg.supabase.co',
           key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvYnBzbXVsa2tnYXZvY3BpZmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5Nzg5NjYsImV4cCI6MjA1MjU1NDk2Nn0.EMfcKeCxgwVdTqDDt67BNADc82ZMNKLpaJRVK_uo-mA',
@@ -49,6 +61,13 @@ export default defineNuxtConfig({
     },
   },
 
+  site: {
+    url: 'https://glucose.games',
+    name: 'The Glucose Games',
+    description: 'The games you play with your blood glucose',
+    image: 'https://glucose.games/favicon.png',
+  },
+
   content: {
     preview: {
       api: 'https://api.nuxt.studio',
@@ -57,7 +76,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      authCallbackUrl: 'http://localhost:3000/current',
+      authCallbackUrl: 'http://localhost:3000/dashboard',
     },
   },
 
@@ -97,6 +116,21 @@ export default defineNuxtConfig({
     },
   },
 
+  ogImage: {
+    enabled: false,
+  },
+
+  schemaOrg: {
+    identity: {
+      '@type': 'Organization',
+      'name': 'The Glucose Games',
+      'description': 'The games you play with your blood glucose!',
+      'url': 'https://glucose.games',
+      'logo': 'https://glucose.games/favicon.png',
+      'email': 'support@glucose.games',
+    },
+  },
+
   sentry: {
     sourceMapsUploadOptions: {
       org: 'the-glucose-games',
@@ -106,15 +140,15 @@ export default defineNuxtConfig({
 
   supabase: {
     redirectOptions: {
-      login: '/login',
-      callback: '/current',
+      login: '/signUp',
+      callback: '/dashboard',
       exclude: [
         '/about/*',
-        '/account',
-        '/current',
-        '/history',
+        '/settings',
+        '/dashboard',
+        '/records',
         '/achievements',
-        '/login',
+        '/signUp',
         '/',
       ],
       saveRedirectToCookie: true,

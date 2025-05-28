@@ -25,14 +25,14 @@
         </NuxtLink>
         <NuxtLink
           v-if="!user"
-          to="/login"
+          to="/signUp"
           class="btn btn-sm btn-primary"
         >
           Sign up
         </NuxtLink>
         <NuxtLink
           v-if="user"
-          to="/current"
+          to="/dashboard"
           class="btn btn-sm btn-primary"
         >
           Dashboard
