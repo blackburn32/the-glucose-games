@@ -2,6 +2,7 @@ import { test, expect } from 'vitest'
 import { countOutOfRangeTransitions, outOfRangeTransitionsForSemanticPeriods } from './outOfRangeGames'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { DEFAULT_THRESHOLDS, SemanticPeriods } from '~/types/constants'
+import { groupRecordsByDay } from '~/utils/records/groupRecords'
 
 const mockThresholds = DEFAULT_THRESHOLDS
 
@@ -79,7 +80,9 @@ test('outOfRangeGameForSemanticPeriods returns correct structure', () => {
     createMockRecord(85, 0),
   ]
 
-  const result = outOfRangeTransitionsForSemanticPeriods(records, mockThresholds)
+  const recordsGroupedByDay = groupRecordsByDay(records)
+
+  const result = outOfRangeTransitionsForSemanticPeriods(records, recordsGroupedByDay, mockThresholds)
 
   // Check that we have results for all semantic periods
   SemanticPeriods.forEach((period) => {
@@ -98,7 +101,7 @@ test('outOfRangeGameForSemanticPeriods returns correct structure', () => {
 
 test('outOfRangeGameForSemanticPeriods handles empty record list', () => {
   const emptyRecords: GlucoseRecord[] = []
-  const result = outOfRangeTransitionsForSemanticPeriods(emptyRecords, mockThresholds)
+  const result = outOfRangeTransitionsForSemanticPeriods(emptyRecords, {}, mockThresholds)
 
   // Check that we still have results for all periods
   SemanticPeriods.forEach((period) => {

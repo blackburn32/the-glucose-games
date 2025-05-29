@@ -11,6 +11,7 @@ import type { TimeBasedDailyStreaks } from '~/types/timeBasedDailyStreaks'
 
 export const percentTimeInRangeGame = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   thresholds: Thresholds,
   startHour: number,
   startMinutes: number,
@@ -46,6 +47,7 @@ export const percentTimeInRangeGame = (
 
   return calculateDailyStreakStats(
     records,
+    recordsGroupedByDay,
     filterFunction,
     dailyScoringFunction,
     scoreResultCheck,
@@ -56,11 +58,13 @@ export const percentTimeInRangeGame = (
 
 export const percentTimeInRangeForEveryFourHourPeriod = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   thresholds: Thresholds,
 ): TimeBasedDailyStreaks => {
   return Object.fromEntries(WeeklyTimePeriods.map((period) => {
     return [period.name, percentTimeInRangeGame(
       records,
+      recordsGroupedByDay,
       thresholds,
       period.startHour,
       period.startMinutes,
@@ -72,11 +76,13 @@ export const percentTimeInRangeForEveryFourHourPeriod = (
 
 export const percentTimeInRangeForSemanticPeriods = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   thresholds: Thresholds,
 ): TimeBasedDailyStreaks => {
   return Object.fromEntries(SemanticPeriods.map((period) => {
     return [period.id, percentTimeInRangeGame(
       records,
+      recordsGroupedByDay,
       thresholds,
       period.startHour,
       period.startMinutes,

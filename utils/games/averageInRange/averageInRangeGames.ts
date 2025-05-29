@@ -10,6 +10,7 @@ import { ScoreCheckResult } from '~/types/scoreCheckResult'
 
 export const averageInRangeGame = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   thresholds: Thresholds,
   startHour: number,
   startMinutes: number,
@@ -52,6 +53,7 @@ export const averageInRangeGame = (
 
   return calculateDailyStreakStats(
     records,
+    recordsGroupedByDay,
     filterFunction,
     dailyScoringFunction,
     scoreResultCheck,
@@ -63,9 +65,10 @@ export const averageInRangeGame = (
 
 export const averageInRangeForSemanticPeriods = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   thresholds: Thresholds,
 ) => {
   return Object.fromEntries(SemanticPeriods.map((period) => {
-    return [period.id, averageInRangeGame(records, thresholds, period.startHour, period.startMinutes, period.endHour, period.endMinutes)]
+    return [period.id, averageInRangeGame(records, recordsGroupedByDay, thresholds, period.startHour, period.startMinutes, period.endHour, period.endMinutes)]
   }))
 }

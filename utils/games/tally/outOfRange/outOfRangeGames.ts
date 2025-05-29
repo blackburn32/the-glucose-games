@@ -27,10 +27,12 @@ const isInRange = (value: number, thresholds: Thresholds): boolean => {
 
 export const outOfRangeTransitionsForSemanticPeriods = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   thresholds: Thresholds,
 ) => {
   return tallyGameForSemanticPeriods(
     records,
+    recordsGroupedByDay,
     thresholds,
     countOutOfRangeTransitions,
     0, // target is 0 transitions

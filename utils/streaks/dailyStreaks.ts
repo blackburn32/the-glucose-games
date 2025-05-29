@@ -3,7 +3,6 @@ import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { ScoredDay } from '~/types/scoredDay'
 import type { DailyStreakStats } from '~/types/dailyStreakStats'
 import { CurrentDayStatus, ONE_DAY } from '~/types/constants'
-import { groupRecordsByDay } from '~/utils/records/groupRecords'
 import { ScoreCheckResult } from '~/types/scoreCheckResult'
 
 const getStreaks = (
@@ -126,6 +125,7 @@ const addEmptyScoredDaysForMissingDays = (
 
 export const calculateDailyStreakStats: (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   filterFunction: (records: GlucoseRecord[]) => GlucoseRecord[],
   dailyScoringFunction: (records: GlucoseRecord[]) => number,
   scoreResultCheck: (score: number) => ScoreCheckResult,
@@ -134,6 +134,7 @@ export const calculateDailyStreakStats: (
   bestDayComparisonFunction?: (a: ScoredDay, b: ScoredDay) => ScoredDay
 ) => DailyStreakStats = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   filterFunction: (records: GlucoseRecord[]) => GlucoseRecord[],
   dailyScoringFunction: (records: GlucoseRecord[]) => number,
   scoreResultCheck: (score: number) => ScoreCheckResult,
@@ -141,9 +142,9 @@ export const calculateDailyStreakStats: (
   scoreDisplayFunction?: (score: number) => string,
   bestDayComparisonFunction?: (a: ScoredDay, b: ScoredDay) => ScoredDay,
 ) => {
-  const filteredRecords = filterFunction(records)
+  const filteredRecordsByDay = Object.entries(recordsGroupedByDay).map(([day, records]) => [day, filterFunction(records)])
 
-  const recordsByDay = groupRecordsByDay(filteredRecords)
+  const recordsByDay = Object.fromEntries(filteredRecordsByDay)
   const dateStrings = Object.keys(recordsByDay)
   const startDate = parser.fromAny(dateStrings[0])
   const endDate = new Date()

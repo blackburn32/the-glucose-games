@@ -11,7 +11,7 @@ export const useNightscout = () => {
       .eq('user_id', supabaseUser.value.id)
       .maybeSingle()
     return data
-  }, { immediate: true })
+  }, { immediate: true, default: () => null })
 
   const nightscoutSettings = computed(() => nightscoutSettingsRequest.data.value)
 
