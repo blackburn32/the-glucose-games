@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { groupRecordsByDay } from '../records/groupRecords'
 import { calculateDailyStreakStats } from './dailyStreaks'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import { CurrentDayStatus } from '~/types/constants'
@@ -42,8 +43,11 @@ describe('calculateDailyStreakStats', () => {
       createRecord(130, today),
     ]
 
+    const recordsGroupedByDay = groupRecordsByDay(records)
+
     const result = calculateDailyStreakStats(
       records,
+      recordsGroupedByDay,
       mockFilterFunction,
       mockScoringFunction,
       mockScorePassesCheck,
@@ -61,6 +65,7 @@ describe('calculateDailyStreakStats', () => {
 
     const result = calculateDailyStreakStats(
       records,
+      {},
       mockFilterFunction,
       mockScoringFunction,
       mockScorePassesCheck,
@@ -86,8 +91,11 @@ describe('calculateDailyStreakStats', () => {
       createRecord(110, today), // Pass
     ]
 
+    const recordsGroupedByDay = groupRecordsByDay(records)
+
     const result = calculateDailyStreakStats(
       records,
+      recordsGroupedByDay,
       mockFilterFunction,
       mockScoringFunction,
       mockScorePassesCheck,
@@ -113,8 +121,11 @@ describe('calculateDailyStreakStats', () => {
       return aDiff < bDiff ? a : b
     }
 
+    const recordsGroupedByDay = groupRecordsByDay(records)
+
     const result = calculateDailyStreakStats(
       records,
+      recordsGroupedByDay,
       mockFilterFunction,
       mockScoringFunction,
       mockScorePassesCheck,

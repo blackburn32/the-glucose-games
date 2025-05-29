@@ -6,13 +6,16 @@
       </div>
       <DurationDropdown v-model="durationOfData" />
     </div>
-    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 overflow-x-auto">
+    <div
+      v-if="!loading"
+      class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 overflow-x-auto"
+    >
       <StatTotalTimeInRange />
       <StatTotalPercentTimeInRange />
       <StatTotalAverage />
       <StatTotalOutOfRangeTransitions />
     </div>
-    <ViewerHourlyProportions />
+    <ViewerHourlyProportions v-if="!loading" />
   </div>
 </template>
 
@@ -22,4 +25,12 @@ import DurationDropdown from '~/components/global/DurationDropdown.vue'
 
 const nuxtApp = useNuxtApp()
 const durationOfData = nuxtApp.$filteredDurationOfData
+
+const loading = ref(true)
+
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false
+  }, 500)
+})
 </script>

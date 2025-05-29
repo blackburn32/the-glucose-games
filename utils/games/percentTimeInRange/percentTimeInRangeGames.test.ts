@@ -9,6 +9,7 @@ import { CurrentDayStatus, DEFAULT_THRESHOLDS } from '~/types/constants'
 import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValue/singleValueGenerator'
 import type { ScoredDay } from '~/types/scoredDay'
 import { FullDayTiming, NightTiming, MorningTiming, AfternoonTiming, EveningTiming } from '~/types/timing'
+import { groupRecordsByDay } from '~/utils/records/groupRecords'
 
 const mockThresholds: Thresholds = DEFAULT_THRESHOLDS
 
@@ -68,7 +69,8 @@ const testPercentTimeInRangeStreak = (
   expectedCurrentDayStatus: CurrentDayStatus,
 ) => {
   test(testName, () => {
-    const result = percentTimeInRangeForSemanticPeriods(records, thresholds)[periodId]
+    const recordsGroupedByDay = groupRecordsByDay(records)
+    const result = percentTimeInRangeForSemanticPeriods(records, recordsGroupedByDay, thresholds)[periodId]
     const customDay = result.scoredDays.find((day: ScoredDay) => day.date.toDateString() === midnight.toDateString())
     expect(customDay?.score).toBe(expectedPercentForCustomDay)
     if (result.bestStreak.length > 0) {
@@ -142,7 +144,7 @@ testPercentTimeInRangeStreak(
 )
 
 test('percentTimeInRangeGame handles empty record list', () => {
-  const result = percentTimeInRangeForSemanticPeriods([], mockThresholds)[FullDayTiming.id]
+  const result = percentTimeInRangeForSemanticPeriods([], {}, mockThresholds)[FullDayTiming.id]
   expect(result.scoredDays).toHaveLength(0)
   expect(result.bestStreak).toHaveLength(0)
   expect(result.currentStreak.scoredDays).toHaveLength(0)
@@ -150,7 +152,8 @@ test('percentTimeInRangeGame handles empty record list', () => {
 
 test('percentTimeInRangeGame handles single record', () => {
   const singleRecord = [getMockGlucoseRecord(midnight, 100)]
-  const result = percentTimeInRangeForSemanticPeriods(singleRecord, mockThresholds)[FullDayTiming.id]
+  const recordsGroupedByDay = groupRecordsByDay(singleRecord)
+  const result = percentTimeInRangeForSemanticPeriods(singleRecord, recordsGroupedByDay, mockThresholds)[FullDayTiming.id]
   expect(result.scoredDays).toHaveLength(1)
   expect(result.scoredDays[0].score).toBe(100)
   expect(result.currentStreak.scoredDays).toHaveLength(0)
@@ -161,6 +164,7 @@ test('percentTimeInRangeGame handles boundary values', () => {
     getMockGlucoseRecord(midnight, mockThresholds.low),
     getMockGlucoseRecord(oneAm, mockThresholds.high),
   ]
-  const result = percentTimeInRangeForSemanticPeriods(boundaryRecords, mockThresholds)[FullDayTiming.id]
+  const recordsGroupedByDay = groupRecordsByDay(boundaryRecords)
+  const result = percentTimeInRangeForSemanticPeriods(boundaryRecords, recordsGroupedByDay, mockThresholds)[FullDayTiming.id]
   expect(result.scoredDays[0].score).toBe(100)
 })

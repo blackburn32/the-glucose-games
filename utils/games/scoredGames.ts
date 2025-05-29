@@ -6,12 +6,12 @@ import { contiguousStreakWithNoHighs, contiguousStreakWithNoLows, contiguousStre
 import { averageInRangeForSemanticPeriods } from '~/utils/games/averageInRange/averageInRangeGames'
 import { outOfRangeTransitionsForSemanticPeriods } from '~/utils/games/tally/outOfRange/outOfRangeGames'
 
-export const getScoredGames = (allRecords: GlucoseRecord[], thresholds: Thresholds): ScoredGlucoseGames => {
+export const getScoredGames = (allRecords: GlucoseRecord[], thresholds: Thresholds, recordsGroupedByDay: Record<string, GlucoseRecord[]>): ScoredGlucoseGames => {
   const dailyStreakStats = {
-    averageInRangeForSemanticPeriods: averageInRangeForSemanticPeriods(allRecords, thresholds),
-    percentTimeInRangeForSemanticPeriods: percentTimeInRangeForSemanticPeriods(allRecords, thresholds),
-    percentTimeInRangeEveryFourHourPeriod: percentTimeInRangeForEveryFourHourPeriod(allRecords, thresholds),
-    outOfRangeTransitionsForSemanticPeriods: outOfRangeTransitionsForSemanticPeriods(allRecords, thresholds),
+    averageInRangeForSemanticPeriods: averageInRangeForSemanticPeriods(allRecords, recordsGroupedByDay, thresholds),
+    percentTimeInRangeForSemanticPeriods: percentTimeInRangeForSemanticPeriods(allRecords, recordsGroupedByDay, thresholds),
+    percentTimeInRangeEveryFourHourPeriod: percentTimeInRangeForEveryFourHourPeriod(allRecords, recordsGroupedByDay, thresholds),
+    outOfRangeTransitionsForSemanticPeriods: outOfRangeTransitionsForSemanticPeriods(allRecords, recordsGroupedByDay, thresholds),
   }
   const contiguousStreakStats = {
     noHighsStreaks: contiguousStreakWithNoHighs(allRecords, thresholds),

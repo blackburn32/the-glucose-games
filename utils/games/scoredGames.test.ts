@@ -1,4 +1,5 @@
 import { test, expect, vi, beforeAll } from 'vitest'
+import { groupRecordsByDay } from '../records/groupRecords'
 import { getScoredGames } from './scoredGames'
 import type { GlucoseRecord } from '~/types/glucoseRecord'
 import type { Thresholds } from '~/types/thresholds'
@@ -52,13 +53,14 @@ const mockRecordsForOutOfRangeDay: GlucoseRecord[] = [
 ]
 
 const allRecords = [...mockRecordsForSingleDay, ...mockRecordsForInRangeDay, ...mockRecordsForOutOfRangeDay]
+const recordsGroupedByDay = groupRecordsByDay(allRecords)
 
 beforeAll(() => {
   vi.setSystemTime(elevenFiftyEightPm)
 })
 
 test('getScoredGames returns correctly structured results', () => {
-  const result = getScoredGames(allRecords, mockThresholds)
+  const result = getScoredGames(allRecords, mockThresholds, recordsGroupedByDay)
 
   // Check that all expected properties exist
   expect(result).toHaveProperty('dailyStreakStats')
@@ -83,7 +85,7 @@ test('getScoredGames returns correctly structured results', () => {
 })
 
 test('getScoredGames calculates daily streak stats correctly', () => {
-  const result = getScoredGames(allRecords, mockThresholds)
+  const result = getScoredGames(allRecords, mockThresholds, recordsGroupedByDay)
 
   // Test full day stats
   expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[FullDayTiming.id].currentStreak.currentDayStatus).toBe(CurrentDayStatus.Pending)
@@ -117,7 +119,7 @@ test('getScoredGames calculates daily streak stats correctly', () => {
 })
 
 test('getScoredGames calculates contiguous streak stats correctly', () => {
-  const result = getScoredGames(allRecords, mockThresholds)
+  const result = getScoredGames(allRecords, mockThresholds, recordsGroupedByDay)
 
   // Test no highs streaks
   expect(result.contiguousStreakStats.noHighsStreaks.currentlyInStreak).toBe(false)
@@ -136,7 +138,7 @@ test('getScoredGames calculates contiguous streak stats correctly', () => {
 })
 
 test('getScoredGames handles empty record list', () => {
-  const result = getScoredGames([], mockThresholds)
+  const result = getScoredGames([], mockThresholds, recordsGroupedByDay)
 
   // Check contiguous streak stats
   Object.values(result.contiguousStreakStats).forEach((stats) => {
@@ -148,7 +150,8 @@ test('getScoredGames handles empty record list', () => {
 
 test('getScoredGames handles single record', () => {
   const singleRecord = [getMockGlucoseRecord(midnight, 100)]
-  const result = getScoredGames(singleRecord, mockThresholds)
+  const recordsGroupedByDay = groupRecordsByDay(singleRecord)
+  const result = getScoredGames(singleRecord, mockThresholds, recordsGroupedByDay)
 
   // Check daily streak stats for the time period containing the record (night)
   expect(result.dailyStreakStats.averageInRangeForSemanticPeriods[NightTiming.id].scoredDays).toHaveLength(1)

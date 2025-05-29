@@ -40,5 +40,8 @@ const props = defineProps<{
   title: string
   path: string
 }>()
-const { data: page } = await useAsyncData(() => queryCollection('content').path(props.path).first())
+const { data: page } = await useAsyncData(() => queryCollection('content').path(props.path).first(), {
+  immediate: true,
+  lazy: true,
+})
 </script>

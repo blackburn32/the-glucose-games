@@ -8,6 +8,7 @@ import { getScoredGames } from '~/utils/games/scoredGames'
 import { compareGlucoseDates } from '~/utils/data/compareGlucoseDates'
 import { getTimestampsBetweenDatesUsingDuration } from '~/utils/timing/timeSlicers'
 import type { AsyncData } from '#app'
+import { groupRecordsByDay } from '~/utils/records/groupRecords'
 
 export default defineNuxtPlugin(() => {
   const user = useSupabaseUser()
@@ -103,9 +104,13 @@ export default defineNuxtPlugin(() => {
     await fetches.value.at(-1)?.refresh()
   }
 
-  const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value))
-  const filteredScoredGames = computed(() => getScoredGames(filteredGlucoseValues.value, thresholds.value))
-  const scoredGamesForTrends = computed(() => getScoredGames(recordsForTrends.value, thresholds.value))
+  const recordsGroupedByDay = computed(() => groupRecordsByDay(glucoseValues.value))
+  const filteredRecordsGroupedByDay = computed(() => groupRecordsByDay(filteredGlucoseValues.value))
+  const recordsForTrendsGroupedByDay = computed(() => groupRecordsByDay(recordsForTrends.value))
+
+  const scoredGames = computed(() => getScoredGames(glucoseValues.value, thresholds.value, recordsGroupedByDay.value))
+  const filteredScoredGames = computed(() => getScoredGames(filteredGlucoseValues.value, thresholds.value, filteredRecordsGroupedByDay.value))
+  const scoredGamesForTrends = computed(() => getScoredGames(recordsForTrends.value, thresholds.value, recordsForTrendsGroupedByDay.value))
 
   const isGlucoseDataLoading = computed(() => {
     if (useDemoData.value) return false

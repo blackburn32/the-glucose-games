@@ -8,6 +8,7 @@ import { calculateDailyStreakStats } from '~/utils/streaks/dailyStreaks'
 
 export const tallyGame = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   thresholds: Thresholds,
   startHour: number,
   startMinutes: number,
@@ -70,6 +71,7 @@ export const tallyGame = (
 
   return calculateDailyStreakStats(
     records,
+    recordsGroupedByDay,
     filterFunction,
     dailyScoringFunction,
     scoreResultCheck,
@@ -81,12 +83,13 @@ export const tallyGame = (
 
 export const tallyGameForSemanticPeriods = (
   records: GlucoseRecord[],
+  recordsGroupedByDay: Record<string, GlucoseRecord[]>,
   thresholds: Thresholds,
   tallyFunction: (recordsForPeriod: GlucoseRecord[], thresholds: Thresholds) => number,
   target: number,
   targetAbove: boolean,
 ) => {
   return Object.fromEntries(SemanticPeriods.map((period) => {
-    return [period.id, tallyGame(records, thresholds, period.startHour, period.startMinutes, period.endHour, period.endMinutes, tallyFunction, target, targetAbove)]
+    return [period.id, tallyGame(records, recordsGroupedByDay, thresholds, period.startHour, period.startMinutes, period.endHour, period.endMinutes, tallyFunction, target, targetAbove)]
   }))
 }

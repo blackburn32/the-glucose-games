@@ -6,6 +6,7 @@ import { createDate, getDayBefore, getMockGlucoseRecord } from '~/utils/test/tes
 import { CurrentDayStatus, DEFAULT_THRESHOLDS } from '~/types/constants'
 import { generateSingleValueGlucoseRecords } from '~/utils/generators/singleValue/singleValueGenerator'
 import { FullDayTiming, NightTiming, MorningTiming, AfternoonTiming, EveningTiming } from '~/types/timing'
+import { groupRecordsByDay } from '~/utils/records/groupRecords'
 
 const mockThresholds = DEFAULT_THRESHOLDS
 
@@ -66,7 +67,8 @@ const testAverageInRangeStreak = (
   expectedCurrentDayStatus: CurrentDayStatus,
 ) => {
   test(testName, () => {
-    const result = averageInRangeForSemanticPeriods(records, thresholds)[periodId]
+    const recordsGroupedByDay = groupRecordsByDay(records)
+    const result = averageInRangeForSemanticPeriods(records, recordsGroupedByDay, thresholds)[periodId]
     const customDay = result.scoredDays.find(day => day.date.toDateString() === midnight.toDateString())
     expect(customDay?.score).toBe(expectedAverageForCustomDay)
     if (result.bestStreak.length > 0) {
