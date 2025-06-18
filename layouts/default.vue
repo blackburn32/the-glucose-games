@@ -5,11 +5,15 @@
       v-model:open="open"
       class="bg-(--ui-bg-elevated)/25"
       collapsible
+      :menu="{
+        title: 'Glucose Games',
+        description: 'The Glucose Games navigation menu',
+      }"
       :ui="{ footer: 'lg:border-t lg:border-(--ui-border)', root: 'w-fit max-w-[280px]' }"
     >
       <template #header="{ collapsed }">
         <div
-          class="flex items-center justify-center"
+          class="flex items-center justify-center pr-4"
           :class="{
             'space-x-2': !collapsed,
           }"
