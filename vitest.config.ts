@@ -2,16 +2,21 @@ import { defineVitestConfig } from '@nuxt/test-utils/config'
 
 export default defineVitestConfig({
   test: {
+    include: ['**/*.{test,spec}.{js,ts,vue}'],
     coverage: {
       reporter: ['text', 'json', 'json-summary'],
       reportOnFailure: true,
       enabled: true,
+      include: ['**/*.{js,ts,vue}'],
       exclude: [
         '.data/**',
         '.idea/**',
         '.nuxt/**',
         '.output/**',
         '.wrangler/**',
+        'android/**',
+        'assets/**',
+        'content/**',
         'cloudflare-pages/**',
         'content/**',
         'coverage/**',
