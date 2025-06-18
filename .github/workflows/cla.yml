@@ -27,7 +27,7 @@ jobs:
           custom-pr-sign-comment: 'I have read the CLA Document and I hereby sign the CLA'
           # branch should not be protected
           branch: 'master'
-          allowlist: nuxthub-admin[bot]
+          allowlist: nuxthub-admin[bot], dependabot[bot]
 
           # the followings are the optional inputs - If the optional inputs are not given, then default values will be taken
           #remote-organization-name: enter the remote organization name where the signatures should be stored (Default is storing the signatures in the same repository)
