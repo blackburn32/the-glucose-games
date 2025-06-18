@@ -8,6 +8,8 @@ updates:
       dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "happy-dom"
 
   - package-ecosystem: "github-actions"
     directory: "/"
