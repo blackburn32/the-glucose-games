@@ -34,7 +34,6 @@
     "@unovis/ts": "^1.5.0",
     "@unovis/vue": "^1.5.0",
     "any-date-parser": "^2.0.3",
-    "better-sqlite3": "^11.10.0",
     "chart.js": "^4.4.9",
     "chartjs-adapter-date-fns": "^3.0.0",
     "eslint": "^9.17.0",
