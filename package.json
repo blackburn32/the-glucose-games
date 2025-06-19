@@ -23,7 +23,7 @@
     "@nuxthub/core": "^0.9.0",
     "@nuxtjs/seo": "^3.0.3",
     "@nuxtjs/sitemap": "^7.3.0",
-    "@nuxtjs/supabase": "^1.5.0",
+    "@nuxtjs/supabase": "^1.5.2",
     "@samk-dev/nuxt-vcalendar": "^1.0.4",
     "@sentry/cloudflare": "^9.2.0",
     "@sentry/core": "^9.15.0",
@@ -56,5 +56,10 @@
     "sentry-testkit": "^6.1.0",
     "typescript": "^5.8.3",
     "wrangler": "^4.10.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@supabase/supabase-js": "2.50.1-next.5"
+    }
   }
 }
