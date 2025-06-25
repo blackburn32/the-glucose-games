@@ -135,6 +135,7 @@ export default defineNuxtConfig({
     sourceMapsUploadOptions: {
       org: 'the-glucose-games',
       project: 'the-glucose-games',
+      authToken: process.env.SENTRY_AUTH_TOKEN,
     },
   },
 
