@@ -30,6 +30,7 @@
     "@sentry/nuxt": "^9.15.0",
     "@sentry/profiling-node": "^9.15.0",
     "@sentry/vite-plugin": "^3.2.1",
+    "@supabase/supabase-js": "^2.50.2",
     "@tailwindcss/vite": "^4.0.14",
     "@unovis/ts": "^1.5.0",
     "@unovis/vue": "^1.5.0",
@@ -56,10 +57,5 @@
     "sentry-testkit": "^6.1.0",
     "typescript": "^5.8.3",
     "wrangler": "^4.10.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "@supabase/supabase-js": "2.50.1-next.5"
-    }
   }
 }
