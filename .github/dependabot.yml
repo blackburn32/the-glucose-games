@@ -5,9 +5,68 @@ updates:
     schedule:
       interval: "daily"
     groups:
-      dependencies:
+      # Core framework updates - handle with care
+      nuxt-ecosystem:
         patterns:
-          - "*"
+          - "nuxt"
+          - "@nuxt/*"
+          - "@nuxthub/*"
+          - "@nuxtjs/*"
+      
+      vue-ecosystem:
+        patterns:
+          - "vue"
+          - "@morev/vue-transitions"
+      
+      build-tools:
+        patterns:
+          - "eslint"
+          - "typescript"
+          - "wrangler"
+          - "@tailwindcss/vite"
+      
+      styling:
+        patterns:
+          - "tailwindcss"
+          - "daisyui"
+      
+      testing:
+        patterns:
+          - "@nuxt/test-utils"
+          - "@vitest/*"
+          - "happy-dom"
+          - "sentry-testkit"
+      
+      frontend-components:
+        patterns:
+          - "@nuxt/ui-pro"
+          - "chart.js"
+          - "chartjs-*"
+          - "vue-chartjs"
+          - "@unovis/*"
+          - "@samk-dev/nuxt-vcalendar"
+
+      
+      supabase:
+        patterns:
+          - "@supabase/*"
+      
+      monitoring:
+        patterns:
+          - "@sentry/*"
+      
+      icons:
+        patterns:
+          - "@iconify-json/*"
+      
+      utilities:
+        patterns:
+          - "@internationalized/date"
+          - "any-date-parser"
+          - "jwt-decode"
+          - "patch-package"
+          - "pretty-ms"
+    
     ignore:
       - dependency-name: "happy-dom"
 
