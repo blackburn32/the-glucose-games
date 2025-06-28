@@ -27,13 +27,13 @@
     "@samk-dev/nuxt-vcalendar": "^1.0.4",
     "@sentry/nuxt": "9.31.0",
     "@supabase/supabase-js": "^2.50.2",
-    "@tailwindcss/vite": "^4.0.14",
+    "@tailwindcss/vite": "^4.1.11",
     "@unovis/ts": "^1.5.0",
     "@unovis/vue": "^1.5.0",
     "any-date-parser": "^2.0.3",
     "chart.js": "^4.4.9",
     "chartjs-adapter-date-fns": "^3.0.0",
-    "eslint": "^9.17.0",
+    "eslint": "^9.30.0",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.17.5",
     "patch-package": "^8.0.0",
@@ -52,6 +52,6 @@
     "happy-dom": "^17.6.3",
     "sentry-testkit": "^6.1.0",
     "typescript": "^5.8.3",
-    "wrangler": "^4.10.0"
+    "wrangler": "^4.22.0"
   }
 }
