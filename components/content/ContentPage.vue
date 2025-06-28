@@ -29,9 +29,17 @@
         </UPageAside>
       </template>
     </UPage>
-    <div v-else>
-      About not found
-    </div>
+    <UPage v-else>
+      <UPageHeader
+        title="Loading"
+        class="px-[24px]"
+      />
+      <UPageBody>
+        <div>
+          Loading...
+        </div>
+      </UPageBody>
+    </UPage>
   </DashboardPanelWithHeader>
 </template>
 
@@ -40,8 +48,7 @@ const props = defineProps<{
   title: string
   path: string
 }>()
-const { data: page } = await useAsyncData(() => queryCollection('content').path(props.path).first(), {
+const { data: page } = await useAsyncData(`content-${props.path}`, () => queryCollection('content').path(props.path).first(), {
   immediate: true,
-  lazy: true,
 })
 </script>
