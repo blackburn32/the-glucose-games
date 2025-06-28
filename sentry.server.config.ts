@@ -8,4 +8,8 @@ Sentry.init({
   tracesSampleRate: 1.0,
   debug: false,
   environment: process.env.SENTRY_ENVIRONMENT,
+  integrations: [
+    Sentry.consoleLoggingIntegration({ levels: ['log', 'error', 'warn'] }),
+  ],
+  _experiments: { enableLogs: true },
 })
