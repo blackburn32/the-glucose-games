@@ -25,7 +25,7 @@
         class="skeleton flex items-center justify-center h-[270px] w-full"
       >
         <div class="text-2xl">
-          No data available
+          Loading...
         </div>
       </div>
       <div
