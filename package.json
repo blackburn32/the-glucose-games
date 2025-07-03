@@ -52,6 +52,6 @@
     "happy-dom": "^17.6.3",
     "sentry-testkit": "^6.1.0",
     "typescript": "^5.8.3",
-    "wrangler": "^4.22.0"
+    "wrangler": "^4.23.0"
   }
 }
