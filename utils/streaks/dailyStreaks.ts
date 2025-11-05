@@ -148,6 +148,7 @@ export const calculateDailyStreakStats: (
   const dateStrings = Object.keys(recordsByDay)
   const startDate = parser.fromAny(dateStrings[0])
   const endDate = new Date()
+  endDate.setHours(23, 59, 59, 999)
 
   const scoredDaysWithPotentiallyMissingDates: ScoredDay[] = dateStrings.map((day) => {
     const date = parser.fromAny(day)
